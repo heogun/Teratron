@@ -1,0 +1,250 @@
+#VCPUv7
+
+# ======== ('DATA', 'words', code0, 0, 2)
+def code0():
+	align(2);
+	label('words');
+	words(1); # 1
+	words(2); # 2
+	words(3); # 3
+	bytes(105,102,0);
+	space(3);
+	words(4); # 4
+	words(5); # 5
+	space(2);
+	bytes(102,111);
+	bytes(114);
+	space(3);
+	words(6); # 6
+	words(7); # 7
+	words(8); # 8
+	bytes(101,108,115,101,0);
+	space(1);
+	words(9); # 9
+	words(10); # 10
+	words(11); # 11
+	bytes(119,104);
+	bytes(105,108);
+	bytes(101);
+	space(1);
+	words(0); # 0
+	space(4);
+	space(6);
+# ======== ('DATA', 'wordlist', code1, 2, 2)
+def code1():
+	align(2);
+	label('wordlist');
+	words('words');
+# ======== ('DATA', 'x', code2, 0, 2)
+def code2():
+	align(2);
+	label('x');
+	words(1); # 1
+	words(2); # 2
+	words(3); # 3
+	words(4); # 4
+	words(0); # 0
+	words(5); # 5
+	words(6); # 6
+	space(6);
+	words(7); # 7
+	space(8);
+# ======== ('DATA', 'y', code3, 0, 2)
+def code3():
+	align(2);
+	label('y');
+	words('x');
+	words(v('x')+10);
+	words(v('x')+20);
+	words(0);
+# ======== ('CODE', 'main', code4)
+def code4():
+	label('main');
+	_PROLOGUE(12,6,0xc0); # save=R6-7
+	MOVQW(0,R6);
+	_BRA('.8');
+	label('.5');
+	MOVQW(0,R7);
+	_BRA('.12');
+	label('.9');
+	LDWI('.13');STW(R8);
+	_STLW(0);
+	LDWI('y');ADDW(R6);ADDW(R6);DEEK();ADDW(R7);ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.10');
+	INCV(R7);
+	label('.12');
+	LDWI('y');ADDW(R6);ADDW(R6);DEEK();ADDW(R7);ADDW(R7);DEEK();_BNE('.9');
+	LDWI('.14');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	label('.6');
+	INCV(R6);
+	label('.8');
+	LDWI('y');ADDW(R6);ADDW(R6);DEEK();_BNE('.5');
+	CALLI('f');
+	LDWI('wordlist');DEEKA(R8);
+	LDW(R8);_STLW(0);
+	CALLI('g');
+	LDI(0);
+	label('.4');
+	_EPILOGUE(12,6,0xc0,saveAC=True);
+# ======== ('DATA', '.16', code5, 0, 2)
+def code5():
+	align(2);
+	label('.16');
+	words('.17');
+	words('.18');
+	words('.19');
+	words('.20');
+	words(0);
+# ======== ('CODE', 'f', code6)
+def code6():
+	label('f');
+	_PROLOGUE(8,4,0x80); # save=R7
+	MOVIW('.16',R7);
+	_BRA('.24');
+	label('.21');
+	LDWI('.25');STW(R8);
+	_STLW(0);
+	DEEKV(R7);STW(R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.22');
+	ADDSV(2,R7);
+	label('.24');
+	DEEKV(R7);_BNE('.21');
+	LDI(0);
+	label('.15');
+	_EPILOGUE(8,4,0x80,saveAC=True);
+# ======== ('CODE', 'g', code7)
+def code7():
+	label('g');
+	_PROLOGUE(12,6,0xc0); # save=R6-7
+	MOVW(R8,R7);
+	_BRA('.30');
+	label('.27');
+	MOVQW(0,R6);
+	_BRA('.34');
+	label('.31');
+	LDWI('.35');STW(R8);
+	_STLW(0);
+	LDW(R6);LSLW();ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.32');
+	INCV(R6);
+	label('.34');
+	LDI(3);_CMPWU(R6);_BGT('.31');
+	LDWI('.25');STW(R8);
+	_STLW(0);
+	LDI(6);ADDW(R7);STW(R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.28');
+	ADDSV(12,R7);
+	label('.30');
+	DEEKV(R7);_BNE('.27');
+	CALLI('h');
+	LDI(0);
+	label('.26');
+	_EPILOGUE(12,6,0xc0,saveAC=True);
+# ======== ('CODE', 'h', code8)
+def code8():
+	label('h');
+	_PROLOGUE(16,12,0x80); # save=R7
+	MOVQW(0,R7);
+	_BRA('.40');
+	label('.37');
+	LDWI('.41');STW(R8);
+	_STLW(0);
+	LDW(R7);_MULI(12);STW(R23);
+	LDXW(R23,'words');STW(R9);
+	LDW(R9);_STLW(2);
+	LDXW(R23,v('words')+2);STW(R10);
+	LDW(R10);_STLW(4);
+	LDXW(R23,v('words')+4);STW(R11);
+	LDW(R11);_STLW(6);
+	LDWI(v('words')+6);ADDW(R23);STW(R12);
+	LDW(R12);_STLW(8);
+	CALLI('printf');
+	label('.38');
+	INCV(R7);
+	label('.40');
+	LDI(5);_CMPWU(R7);_BGT('.37');
+	LDI(0);
+	label('.36');
+	_EPILOGUE(16,12,0x80,saveAC=True);
+# ======== ('DATA', '.41', code9, 0, 1)
+def code9():
+	label('.41');
+	bytes(37,100,32,37,100,32,37,100);
+	bytes(32,37,115,10,0);
+# ======== ('DATA', '.35', code10, 0, 1)
+def code10():
+	label('.35');
+	bytes(37,100,32,0);
+# ======== ('DATA', '.25', code11, 0, 1)
+def code11():
+	label('.25');
+	bytes(37,115,10,0);
+# ======== ('DATA', '.20', code12, 0, 1)
+def code12():
+	label('.20');
+	bytes(119,104,105,108,101,0);
+# ======== ('DATA', '.19', code13, 0, 1)
+def code13():
+	label('.19');
+	bytes(101,108,115,101,0);
+# ======== ('DATA', '.18', code14, 0, 1)
+def code14():
+	label('.18');
+	bytes(102,111,114,0);
+# ======== ('DATA', '.17', code15, 0, 1)
+def code15():
+	label('.17');
+	bytes(105,102,0);
+# ======== ('DATA', '.14', code16, 0, 1)
+def code16():
+	label('.14');
+	bytes(10,0);
+# ======== ('DATA', '.13', code17, 0, 1)
+def code17():
+	label('.13');
+	bytes(32,37,100,0);
+# ======== (epilog)
+code=[
+	('EXPORT', 'words'),
+	('DATA', 'words', code0, 0, 2),
+	('EXPORT', 'wordlist'),
+	('DATA', 'wordlist', code1, 2, 2),
+	('EXPORT', 'x'),
+	('DATA', 'x', code2, 0, 2),
+	('EXPORT', 'y'),
+	('DATA', 'y', code3, 0, 2),
+	('EXPORT', 'main'),
+	('CODE', 'main', code4),
+	('DATA', '.16', code5, 0, 2),
+	('EXPORT', 'f'),
+	('CODE', 'f', code6),
+	('EXPORT', 'g'),
+	('CODE', 'g', code7),
+	('EXPORT', 'h'),
+	('CODE', 'h', code8),
+	('IMPORT', 'printf'),
+	('DATA', '.41', code9, 0, 1),
+	('DATA', '.35', code10, 0, 1),
+	('DATA', '.25', code11, 0, 1),
+	('DATA', '.20', code12, 0, 1),
+	('DATA', '.19', code13, 0, 1),
+	('DATA', '.18', code14, 0, 1),
+	('DATA', '.17', code15, 0, 1),
+	('DATA', '.14', code16, 0, 1),
+	('DATA', '.13', code17, 0, 1) ]
+module(code=code, name='tst/init.c', cpu=7);
+
+# Local Variables:
+# mode: python
+# indent-tabs-mode: t
+# End:

@@ -1,0 +1,13 @@
+gcl0x
+
+zpReset=$36                     {Relocate variables because vIRQ uses $30..$35}
+
+\vIRQ_v5 p=
+[def                            {Interrupt handler}
+  $901 p= peek 1+ p.            {Flash second pixel}
+  226 \frameCount.              {256-30: next interrupt after .5 second}
+  \vIRQ_Return 0??              {vRTI sequence}
+] p:
+
+$800 q=                         {Main loop}
+[do 1+ q. loop]                 {Flash first pixel}

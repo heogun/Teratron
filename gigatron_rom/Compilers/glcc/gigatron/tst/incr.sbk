@@ -1,0 +1,107 @@
+#VCPUv7
+
+# ======== ('CODE', 'main', code0)
+def code0():
+	label('main');
+	PUSH();
+	LDI(0);
+	label('.1');
+	tryhop(2);POP();RET()
+# ======== ('CODE', 'memchar', code1)
+def code1():
+	label('memchar');
+	_PROLOGUE(8,0,0x0); # save=None
+	_LDLW(-4+8);STW(R23);
+	ADDI(1);_STLW(-4+8);
+	_SP(-1+8);STW(R22);
+	PEEKV(R23);POKE(R22);
+	_LDLW(-4+8);ADDI(1);_STLW(-4+8);
+	STW(R23);
+	_SP(-1+8);STW(R22);
+	PEEKV(R23);POKE(R22);
+	_LDLW(-4+8);STW(R23);
+	SUBI(-v(-1));_STLW(-4+8);
+	_SP(-1+8);STW(R22);
+	PEEKV(R23);POKE(R22);
+	_LDLW(-4+8);SUBI(-v(-1));_STLW(-4+8);
+	STW(R23);
+	_SP(-1+8);STW(R22);
+	PEEKV(R23);POKE(R22);
+	LDI(0);
+	label('.2');
+	_EPILOGUE(8,0,0x0,saveAC=True);
+# ======== ('CODE', 'memint', code2)
+def code2():
+	label('memint');
+	_PROLOGUE(8,0,0x0); # save=None
+	_LDLW(-4+8);STW(R23);
+	ADDI(2);_STLW(-4+8);
+	DEEKV(R23);_STLW(-2+8);
+	_LDLW(-4+8);ADDI(2);_STLW(-4+8);
+	
+	DEEK();_STLW(-2+8);
+	_LDLW(-4+8);STW(R23);
+	SUBI(-v(-2));_STLW(-4+8);
+	DEEKV(R23);_STLW(-2+8);
+	_LDLW(-4+8);SUBI(-v(-2));_STLW(-4+8);
+	
+	DEEK();_STLW(-2+8);
+	LDI(0);
+	label('.3');
+	_EPILOGUE(8,0,0x0,saveAC=True);
+# ======== ('CODE', 'regchar', code3)
+def code3():
+	label('regchar');
+	PUSH();
+	LDW(R18);
+	INCV(R18);
+	PEEK();STW(R19);
+	INCV(R18);
+	LDW(R18);
+	PEEK();STW(R19);
+	LDW(R18);
+	ADDSV(-1,R18);
+	PEEK();STW(R19);
+	ADDSV(-1,R18);
+	LDW(R18);
+	PEEK();STW(R19);
+	LDI(0);
+	label('.4');
+	tryhop(2);POP();RET()
+# ======== ('CODE', 'regint', code4)
+def code4():
+	label('regint');
+	PUSH();
+	LDW(R18);
+	ADDSV(2,R18);
+	DEEK();STW(R19);
+	ADDSV(2,R18);
+	LDW(R18);
+	DEEK();STW(R19);
+	LDW(R18);
+	ADDSV(-2,R18);
+	DEEK();STW(R19);
+	ADDSV(-2,R18);
+	LDW(R18);
+	DEEK();STW(R19);
+	LDI(0);
+	label('.5');
+	tryhop(2);POP();RET()
+# ======== (epilog)
+code=[
+	('EXPORT', 'main'),
+	('CODE', 'main', code0),
+	('EXPORT', 'memchar'),
+	('CODE', 'memchar', code1),
+	('EXPORT', 'memint'),
+	('CODE', 'memint', code2),
+	('EXPORT', 'regchar'),
+	('CODE', 'regchar', code3),
+	('EXPORT', 'regint'),
+	('CODE', 'regint', code4) ]
+module(code=code, name='tst/incr.c', cpu=7);
+
+# Local Variables:
+# mode: python
+# indent-tabs-mode: t
+# End:

@@ -1,0 +1,18 @@
+# OS and Python caches
+.DS_Store
+._*
+__pycache__/
+*.pyc
+build/
+build-*/
+
+# Editor / CAD temporary backups
+*~
+*.kicad_pcb-bak
+*.sch-bak
+
+# Local credentials (example environment files may be committed)
+.env
+.env.*
+!.env.example
+!.env.sample

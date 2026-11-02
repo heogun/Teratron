@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>TTL FORTH — Native CPU</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10151d;color:#dce8ef;font:15px system-ui,sans-serif}main{max-width:1200px;margin:auto;padding:24px}h1{font-size:25px;margin:0 0 6px}.hint{color:#9eafbf;font-size:13px}nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}button,label.file{border:1px solid #445567;background:#233143;border-radius:5px;padding:8px 12px;color:#e4eef5;cursor:pointer}button:hover,label.file:hover{background:#354c65}.grid{display:grid;grid-template-columns:minmax(320px,2fr) minmax(280px,1fr);gap:18px}section{background:#18212c;padding:16px;border-radius:8px;min-width:0}h2{font-size:15px;margin:0 0 12px}canvas{width:100%;image-rendering:pixelated;background:#000;aspect-ratio:4/3;border:1px solid #384857}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px ui-monospace,monospace}#terminal{height:260px;overflow:auto;background:#0d131b;padding:12px;color:#8ee8b5}form{display:flex;gap:8px}input[type=text]{flex:1;min-width:0;padding:9px;background:#101923;color:white;border:1px solid #445567;border-radius:5px;font:14px monospace}#error{color:#ffb5a7;min-height:20px}#state{line-height:1.8}footer{margin-top:18px;color:#9eafbf;font-size:13px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+</style>
+<main>
+<h1>TTL FORTH <span class="hint">6.25 MHz · 64 KiB unbanked RAM · 512 KiB I-RAM / Flash</span></h1>
+<div class="hint">실제 네이티브 CPU 펌웨어 실행 · 호스트 FORTH 해석기 없음</div>
+<nav>
+<button data-action="run">실행</button><button data-action="pause">일시정지</button>
+<button data-action="step">명령 1개</button><button data-action="reset">전원 재인가</button>
+<button id="save">펌웨어 SAVE</button><button data-action="power">전원 이상 신호</button>
+<button id="export">플래시 내보내기</button>
+<label class="file">플래시 열기<input id="load" type="file" hidden></label>
+</nav>
+<div id="error" role="alert"></div>
+<div class="grid"><section><h2>VGA 출력 — OUT 신호로 생성한 실제 프레임버퍼</h2>
+<canvas id="screen" width="160" height="120"></canvas>
+<p class="hint">협력형 화면 갱신: FORTH 계산·플래시 저장 중에는 영상 갱신이 잠시 멈춥니다.</p>
+<h2>입출력 기록 — 펌웨어 RAM 디버그 뷰</h2><pre id="terminal"></pre>
+<form id="command"><input id="input" type="text" maxlength="126" autocomplete="off" spellcheck="false" placeholder=": SQUARE DUP * ;" aria-label="FORTH command"><button>입력 ↵</button></form>
+<p class="hint">명령은 PS/2 set-2 프레임으로 전달됩니다. 영문 대소문자는 구분하지 않습니다.</p>
+</section><section><h2>CPU / 펌웨어 상태</h2><pre id="state"></pre>
+<h2>데이터 스택 (아래 → 위)</h2><pre id="stack"></pre>
+<h2>예제</h2><nav><button class="sample">123 456 + .</button><button class="sample">: SQUARE DUP * ;</button><button class="sample">12 SQUARE .</button><button class="sample">WORDS</button></nav>
+<h2>RAM $0000–$00FF</h2><pre id="memory"></pre></section></div>
+<footer>SAVE는 CPU가 SST39SF040 명령으로 I-RAM만 저장합니다. 내보내기는 현재 플래시 다운로드이며 SAVE를 대신하지 않습니다. 데이터 RAM은 전원 재인가 시 사라집니다. 완전한 ANS FORTH가 아닌 최소 16비트 FORTH입니다.</footer>
+</main>
+<script>
+const token='SESSION_TOKEN', headers={'Content-Type':'application/json','X-TTL-Session':token};
+const $=id=>document.getElementById(id), context=$('screen').getContext('2d');
+async function request(path,options={}){const r=await fetch(path,{headers,...options});if(!r.ok){let e=await r.json();throw Error(e.error||r.status)}return r}
+function error(e){$('error').textContent=e.message}
+async function action(action,extra={}){try{await request('/api/action',{method:'POST',body:JSON.stringify({action,...extra})});$('error').textContent=''}catch(e){error(e)}}
+document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>action(b.dataset.action));
+document.querySelectorAll('.sample').forEach(b=>b.onclick=()=>{$('input').value=b.textContent;$('input').focus()});
+$('command').onsubmit=e=>{e.preventDefault();let text=$('input').value;if(text){action('input',{text});$('input').value=''}};
+$('save').onclick=()=>action('input',{text:'SAVE'});
+$('export').onclick=async()=>{try{const r=await request('/api/flash');const url=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=url;a.download='forth.flash';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}catch(e){error(e)}};
+$('load').onchange=async()=>{try{const f=$('load').files[0];if(!f)return;if(f.size!==524288)throw Error('플래시는 정확히 512 KiB여야 합니다.');const bytes=new Uint8Array(await f.arrayBuffer());let raw='';for(let i=0;i<bytes.length;i+=16384)raw+=String.fromCharCode(...bytes.subarray(i,i+16384));await action('load',{image:btoa(raw)})}catch(e){error(e)}finally{$('load').value=''}};
+async function update(){try{const s=await(await request('/api/state')).json();$('state').textContent=`${s.running?'RUNNING':'PAUSED'}\nPC  $${s.pc.toString(16).padStart(4,'0')}    AC $${s.ac.toString(16).padStart(2,'0')}\nCPU cycles ${s.cycles.toLocaleString()}\nStatus ${s.status}   Error ${s.error}\nCompile mode ${s.mode}\nDiagnostics $${s.diag.toString(16)}\nPower-fail save ${s.saved?'done':'not triggered'}\nQueued PS/2 frames ${s.queued}`;$('stack').textContent=s.stack.map(x=>`${x} ($${x.toString(16).padStart(4,'0')})`).join('\n')||'(empty)';const t=$('terminal');if(t.textContent!==s.text){t.textContent=s.text;t.scrollTop=t.scrollHeight}const raw=atob(s.pixels),rgba=new Uint8ClampedArray(raw.length);for(let i=0;i<raw.length;i++)rgba[i]=raw.charCodeAt(i);context.putImageData(new ImageData(rgba,160,120),0,0);let memory='';for(let i=0;i<256;i+=16)memory+=i.toString(16).padStart(4,'0')+'  '+s.memory.slice(i*2,(i+16)*2).match(/../g).join(' ')+'\n';$('memory').textContent=memory}catch(e){error(e)}finally{setTimeout(update,100)}}
+update();
+</script></html>

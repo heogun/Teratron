@@ -1,0 +1,121 @@
+
+- Adapted for dev7 backward incompatible changes
+- Added gigatron/idioms.h
+- Support for opcodes FILL and BLIT
+- Redesigned binary to ascii routines 
+- Improved fp and shift routines
+- Fixed minor stdio console bug
+- Better runtime for ROMv4.
+
+GLCC_RELEASE_2.5
+
+- Bug fixes
+- Slightly faster runtime
+
+GLCC_RELEASE_2.4
+
+- Subtle optimization improvements.
+- Dev7 no longer use runtime code to save/restore registers.
+- Added support for vsave/vrestore/exch and thread demo
+- Eliminated B0/B1 scratch registers (abi change)
+- Faster long multiplication
+- Added support for addhi and cpu flags
+- Fixed memswp
+
+GLCC_RELEASE_2.3
+
+- Faster fp
+- Better use of MOV instructions on dev7
+- Support for MOVW instruction on dev7
+- Better handling of source code with CRLF line termination
+- New <conio.h> interface.
+- Choice of low level input routines via <gigatron/kbget.h>
+- Choice of low level input routines via <gigatron/print.h>
+- New linker option --option=STRING (see above include files)
+- Decoupled stdio implementation takes less space in typical cases.
+- Attribute syntax is closer to gcc's
+- Pragmas glcc option and glcc lib
+
+GLCC_RELEASE_2.2
+
+- Stdio no longer buffers (like avr libc)
+- Avoid zero page variables used by the loader
+- More compact console code
+- Added include file sys/pragma.h with attributes
+- Added __attribute keyword with nohop, place, org
+- Added SYS_Sprite
+- Added _memswp
+- Improved lburg with nonconstant cost in nonterminal closures
+- Support for code that runs on dev/vx0/dev7 (-rom=v6--)
+- faster ldiv and fp
+
+GLCC_RELEASE_2.1
+
+- updated dev7 support
+- glink --onload=xxx arranges for xxx to be called early
+
+GLCC_RELEASE_2.0
+
+- Improved profiler
+- Added map128k for dev128k7.rom
+- Best effort support for vx0 instruction set (-cpu=6)
+- Support for dev7 instruction set (-cpu=7)
+- New state-based peephole optimizer
+- Support for __near variable in page zero
+- Support for __near and __far keywords
+- Added placement overrides in map files
+- Runtime: faster long addition and subtraction
+- Library: slightly simplified stdio (less buffering)
+- Library: added clock() function using vIRQ
+- Library: redirected SIGVIRQ through clock vIRQ
+- Library: no SIGVIRQ overhead unless used
+
+GLCC_RELEASE_1.5
+
+- Option -mapdir
+- New codespec options ORG and PLACE
+- Speed up linker relaxation
+- Configurable register addresses
+- Longs are not aligned on four-byte boundaries
+- Updated cpu6 support for new snapshot of ROMvX0.
+- Added support for ROMvX0 native longs
+- Added map 512k supporting the Gigatron 512k
+- Runtime: Simplified floating point addition
+- Library: added minimal printf function mincprintf
+- Library: SYS_ScanMemoryExt, SYS_OsCall
+- Library: Fixed printf corner cases
+
+GLCC_RELEASE_1.4
+
+- Added option -V to report glcc version from git tags
+- Added option --frags to repor final memory map
+- Added macro _GLCC_VER
+- Library: Fixed fopen with "r+" argument
+- Library: folded _exitm into _start
+- Library: setjmp also saves vSP
+- Library: SYS_SetMode, SYS_ReadRomDir, SYS_Exec
+- Library: Added missing memcmp
+- Library: More compact printf and console.
+- Library: Added cprintf
+
+GLCC_RELEASE_1.3
+
+- Added support for compilation with CMake on Unix and Windows
+- Deprecated cmd directory for Windows install. Instead we install cmd files in bin.
+- More aggressive allocation of function arguments to registers.
+- More freedom to allocate long and float vars to registers.
+- Imported popular lcc changes: cpp improvements
+- Imported popular lcc changes: multiplication simplification, error diagnosis.
+- Fixed LCC allocator alignment constraint.
+- Added support for SYS_ScanMemory from dev.rom
+- Doc improvements
+
+GLCC_RELEASE_1.2
+
+- Reenginered exception handling for lower footprint
+- Improved preralloc to optimize cross-subtrees leading to better and safer code
+- Fixed preralloc bug identified by axelb
+
+GLCC_RELEASE_1.1
+
+- ...

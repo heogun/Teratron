@@ -1,0 +1,195 @@
+%include ../include/gigatron.i
+
+rand_colour         EQU     0x06
+        
+x1                  EQU     0x30
+y1                  EQU     x1+2
+x2                  EQU     x1+4
+y2                  EQU     x1+6
+xy1    				EQU     x1+8
+xy2    				EQU     x1+10
+dxy1   				EQU     x1+12
+dxy2   				EQU     x1+14
+dx1                 EQU     x1+16
+dy1                 EQU     x1+18
+dx2                 EQU     x1+20
+dy2                 EQU     x1+22
+sx     				EQU     x1+24
+sy     				EQU     x1+26
+h      				EQU     x1+28
+num    				EQU     x1+30
+count  				EQU     x1+32
+tmp    				EQU     x1+34
+
+_singleStepWatch_   EQU     count       ; the single step debugger watches this variable location to decide when to step,
+                                        ; choose a variable that is updated often
+
+lineStart	EQU		0x0200
+lineExt		EQU		0x0300
+
+
+lineStart	LDWI    0x0000      
+            STW     x1
+            STW     y1
+            STW     x2 
+            STW     y2
+
+line_random LDWI    SYS_Random_34
+            STW     giga_sysFn
+
+			SYS     34                  ; x1 = (rnd AND &h7F) + (rnd AND &h1F)
+            ANDI    0x7F        
+            STW     x1
+            SYS     34
+            ANDI    0x1F
+            ADDW    x1
+            STW     x1
+            
+            SYS     34                  ; y1 = (rnd AND &h3F) + (rnd AND &h3F)
+            ANDI    0x3F        
+            STW     y1
+            SYS     34
+            ANDI    0x3F
+            ADDW    y1
+            ORI     0x08
+            STW     y1
+            
+            SYS     34                  ; x2 = (rnd AND &h7F) + (rnd AND &h1F)
+            ANDI    0x7F        
+            STW     x2
+            SYS     34
+            ANDI    0x1F
+            ADDW    x2
+            STW     x2
+
+            SYS     34                  ; y2 = (rnd AND &h3F) + (rnd AND &h3F)
+            ANDI    0x3F        
+            STW     y2
+            SYS     34
+            ANDI    0x3F
+            ADDW    y2
+            ORI     0x08
+            STW     y2
+      
+            LDI     1
+            STW     dx1
+            STW     dx2
+            STW     dy1
+            LDI     0
+            STW     dy2                
+
+            LDWI    0x8000
+            STW     tmp
+            
+            LDW     x2         			; sx = x2 - x1
+            SUBW    x1
+            STW     sx
+            ANDW    tmp        
+            BEQ     line_dy
+            LDWI    -1
+            STW     dx1        
+            STW     dx2        			; dx1 = dx2 = (sx & 0x8000) ? -1 : 1
+            LDI     0                   ; sx = (sx & 0x8000) ? 0 - sx : sx
+            SUBW    sx
+            STW     sx                
+                
+line_dy     LDW     y2
+            SUBW    y1
+            STW     sy
+            STW     h          			; h = sy
+            ANDW    tmp
+            BEQ     line_ext
+            
+            LDWI    -1
+            STW     dy1        			; dy1 = (sy & 0x8000) ? -1 : 1
+            LDI     0                   
+            SUBW    sy
+            STW     sy         			; sy = (sy & 0x8000) ? 0 - sy : sy
+            SUBW    sx
+            BLE     line_ext           
+            LDW     dy1
+            STW     dy2        			; if(sx < sy) dy2 = -1
+			
+line_ext    LDWI    lineExt
+            CALL    giga_vAC
+			
+lineExt		LD      x1	
+            ST      xy1	
+            LD      y1	
+            ST      xy1 + 1    			; xy1 = x1 | (y1<<8)
+				
+            LD      x2	
+            ST      xy2	
+            LD      y2	
+            ST      xy2 + 1    			; xy2 = x2 | (y2<<8)
+                
+			LDW     sy
+            SUBW    sx
+            BLE     line_num
+            LDI     0
+            STW     dx2        			; if(sx < sy) dx2 = 0
+            LDW     sy       
+            STW     tmp
+            LDW     sx
+            STW     sy
+            LDW     tmp
+            STW     sx         			; swap sx with sy
+            LDW     h
+            BLE     line_num
+            LDI     1
+            STW     dy2        			; if(h > 0) dy2 = 1
+
+line_num    LDWI    SYS_LSRW1_48
+            STW     giga_sysFn          
+            LDW     sx
+            SYS     48
+            STW     num        			; numerator = sx>>1
+            STW     count
+            INC     count      			; for(count=sx>>1; counti>=0; --i)
+            
+			LDWI    SYS_LSLW8_24	
+            STW     giga_sysFn      	    
+            LDW     dy1	
+            SYS     28
+            ADDW    dx1	
+            STW     dxy1       			; dxy1 = dx1 + (dy1<<8)
+	
+            LDW     dy2	
+            SYS     28
+            ADDW    dx2	
+            STW     dxy2       			; dxy2 = dx2 + (dy2<<8)
+			
+line_loop   LD      rand_colour
+            POKE    xy1        			; plot start pixel
+            POKE    xy2        			; plot end pixel, (meet in middle)      
+            
+            LDW     num        			; numerator += sy
+            ADDW    sy
+            STW     num
+            SUBW    sx
+            BLE     line_flip           ; if(numerator <= sx) goto flip
+                
+            STW     num        			; numerator -= sx
+			LDW     xy1
+            ADDW    dxy1
+            STW     xy1        			; xy1 += dxy1
+				
+            LDW     xy2	
+            SUBW    dxy1	
+            STW     xy2        			; xy2 -= dxy1
+            BRA     line_count	
+					
+line_flip   LDW     xy1        	
+            ADDW    dxy2	
+            STW     xy1        			; xy1 += dxy2
+				
+            LDW     xy2        	
+            SUBW    dxy2	
+            STW     xy2        			; xy2 -= dxy2
+					
+line_count  LDW     count	
+            SUBI    0x01	
+            STW     count	
+            BGT     line_loop	
+			LDWI    line_random
+            CALL    giga_vAC

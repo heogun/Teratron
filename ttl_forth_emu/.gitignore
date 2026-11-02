@@ -1,0 +1,5 @@
+/build*/
+*.flash
+*.ppm
+__pycache__/
+*.pyc

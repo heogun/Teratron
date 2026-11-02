@@ -1,0 +1,57 @@
+%include include\gigatron.i
+%include include\macros.i
+
+
+ii              EQU     0x30
+jj              EQU     0x31
+kk              EQU     0x32
+ll              EQU     0x33
+xx              EQU     0x34
+yy              EQU     0x35
+
+
+                ; clears the viewable screen
+clearScreen     LDWI    SYS_Draw4_30        ; setup 4 pixel SYS routine
+                STW     giga_sysFn  
+                LDWI    0x0000              ; 4 pixels of colour
+                STW     giga_sysArg0    
+                STW     giga_sysArg2    
+    
+                LDI     giga_yres / 2       ; counters
+                ST      jj  
+                LDI     giga_xres / 4   
+                ST      ii  
+    
+                LDWI    0x0800              ; top line
+                STW     xx  
+                LDWI    0x7F00              ; bottom line
+                STW     kk  
+
+clearS_loop     LDW     xx  
+                STW     giga_sysArg4        ; top line
+                SYS     30
+    
+                LDW     kk  
+                STW     giga_sysArg4        ; bottom line
+                SYS     30
+    
+                LD      xx                  ; 4 horizontal pixels
+                ADDI    0x04    
+                ST      xx  
+                LD      kk                  ; 4 horizontal pixels
+                ADDI    0x04
+                ST      kk
+                LoopCounterTo1 ii clearS_loop
+    
+                INC     yy                  ; next top line
+                LD      ll                  ; next bottom line
+                SUBI    0x01    
+                ST      ll  
+    
+                LDI     0x00                ; reset xx, kk and ii
+                ST      xx
+                ST      kk
+                LDI     giga_xres / 4
+                ST      ii
+                LoopCounterTo1 jj clearS_loop
+loop            BRA     loop

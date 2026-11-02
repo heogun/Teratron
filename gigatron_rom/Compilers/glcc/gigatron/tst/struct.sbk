@@ -1,0 +1,260 @@
+#VCPUv7
+
+# ======== ('CODE', 'addpoint', code0)
+def code0():
+	label('addpoint');
+	PUSH();
+	_LDLW(6+2);STW(R23);
+	_LDLW(2+2);ADDW(R23);_STLW(2+2);
+	_LDLW(8+2);STW(R23);
+	_LDLW(4+2);ADDW(R23);_STLW(4+2);
+	LDW(R8);STW(T2);_MOVM([SP,2+2],[T2],4,2);
+	label('.1');
+	tryhop(2);POP();RET()
+# ======== ('CODE', 'canonrect', code1)
+def code1():
+	label('canonrect');
+	_PROLOGUE(12,0,0x0); # save=None
+	_LDLW(6+12);STW(R23);
+	_LDLW(2+12);_CMPWS(R23);_BGE('.10');
+	_LDLW(2+12);STW(R19);
+	_BRA('.11');
+	label('.10');
+	_LDLW(6+12);STW(R19);
+	label('.11');
+	LDW(R19);_STLW(-8+12);
+	_LDLW(8+12);STW(R23);
+	_LDLW(4+12);_CMPWS(R23);_BGE('.20');
+	_LDLW(4+12);STW(R18);
+	_BRA('.21');
+	label('.20');
+	_LDLW(8+12);STW(R18);
+	label('.21');
+	LDW(R18);_STLW(-6+12);
+	_LDLW(6+12);STW(R23);
+	_LDLW(2+12);_CMPWS(R23);_BLE('.26');
+	_LDLW(2+12);STW(R17);
+	_BRA('.27');
+	label('.26');
+	_LDLW(6+12);STW(R17);
+	label('.27');
+	LDW(R17);_STLW(-4+12);
+	_LDLW(8+12);STW(R23);
+	_LDLW(4+12);_CMPWS(R23);_BLE('.37');
+	_LDLW(4+12);STW(R16);
+	_BRA('.38');
+	label('.37');
+	_LDLW(8+12);STW(R16);
+	label('.38');
+	LDW(R16);_STLW(-2+12);
+	LDW(R8);STW(T2);_MOVM([SP,-8+12],[T2],8,2);
+	label('.5');
+	_EPILOGUE(12,0,0x0);
+# ======== ('CODE', 'makepoint', code2)
+def code2():
+	label('makepoint');
+	_PROLOGUE(8,0,0x0); # save=None
+	LDW(R9);_STLW(-4+8);
+	LDW(R10);_STLW(-2+8);
+	LDW(R8);STW(T2);_MOVM([SP,-4+8],[T2],4,2);
+	label('.39');
+	_EPILOGUE(8,0,0x0);
+# ======== ('CODE', 'makerect', code3)
+def code3():
+	label('makerect');
+	_PROLOGUE(24,12,0x80); # save=R7
+	MOVW(R8,R7);
+	_SP(-8+24);STW(T2);_MOVM([SP,2+24],[T2],4,2);
+	_SP(-4+24);STW(T2);_MOVM([SP,6+24],[T2],4,2);
+	MOVW(R7,R8);
+	_SP(2);STW(T2);_MOVM([SP,-8+24],[T2],8,2);
+	CALLI('canonrect');
+	label('.42');
+	_EPILOGUE(24,12,0x80);
+# ======== ('CODE', 'ptinrect', code4)
+def code4():
+	label('ptinrect');
+	PUSH();
+	_LDLW(0+2);STW(R23);
+	_LDLW(4+2);_CMPWS(R23);_BGT('.53');
+	_LDLW(8+2);_CMPWS(R23);_BLE('.53');
+	_LDLW(6+2);STW(R23);
+	_LDLW(2+2);_CMPWS(R23);_BLT('.53');
+	_LDLW(10+2);STW(R23);
+	_LDLW(2+2);_CMPWS(R23);_BGE('.53');
+	MOVQW(1,R19);
+	_BRA('.54');
+	label('.53');
+	MOVQW(0,R19);
+	label('.54');
+	LDW(R19);
+	label('.45');
+	tryhop(2);POP();RET()
+# ======== ('DATA', 'y', code5, 3, 1)
+def code5():
+	label('y');
+	bytes(97,98);
+	bytes(0);
+# ======== ('CODE', 'odd', code6)
+def code6():
+	label('odd');
+	_PROLOGUE(12,6,0x0); # save=None
+	_SP(-3+12);STW(T2);_MOVM([SP,0+12],[T2],3,1);
+	LDWI('.56');STW(R8);
+	_STLW(0);
+	_SP(-3+12);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	LDI(0);
+	label('.55');
+	_EPILOGUE(12,6,0x0,saveAC=True);
+# ======== ('DATA', '.58', code7, 0, 2)
+def code7():
+	align(2);
+	label('.58');
+	words(0); # 0
+	words(0); # 0
+# ======== ('DATA', '.59', code8, 0, 2)
+def code8():
+	align(2);
+	label('.59');
+	words(320); # 320
+	words(320); # 320
+# ======== ('DATA', '.60', code9, 0, 2)
+def code9():
+	align(2);
+	label('.60');
+	words(65535); # -1
+	words(65535); # -1
+	words(1); # 1
+	words(1); # 1
+	words(20); # 20
+	words(300); # 300
+	words(500); # 500
+	words(400); # 400
+# ======== ('CODE', 'main', code10)
+def code10():
+	label('main');
+	_PROLOGUE(68,12,0x80); # save=R7
+	_MOVM('.58',[SP,-32+68],4,2);
+	_MOVM('.59',[SP,-36+68],4,2);
+	_MOVM('.60',[SP,-16+68],16,2);
+	_SP(-40+68);STW(R8);
+	LDWI(-10);STW(R9);
+	STW(R10);
+	CALLI('makepoint');
+	_SP(-44+68);STW(R8);
+	_SP(2);STW(T2);_MOVM([SP,-36+68],[T2],4,2);
+	_SP(6);STW(T2);_MOVM([SP,-40+68],[T2],4,2);
+	CALLI('addpoint');
+	_SP(-48+68);STW(R8);
+	LDI(10);STW(R9);
+	STW(R10);
+	CALLI('makepoint');
+	_SP(-52+68);STW(R8);
+	_SP(2);STW(T2);_MOVM([SP,-32+68],[T2],4,2);
+	_SP(6);STW(T2);_MOVM([SP,-48+68],[T2],4,2);
+	CALLI('addpoint');
+	_SP(-24+68);STW(R8);
+	_SP(2);STW(T2);_MOVM([SP,-44+68],[T2],4,2);
+	_SP(6);STW(T2);_MOVM([SP,-52+68],[T2],4,2);
+	CALLI('makerect');
+	MOVQW(0,R7);
+	_BRA('.64');
+	label('.61');
+	_SP(-28+68);STW(R8);
+	LDW(R7);_SHLI(2);STW(R23);
+	_SP(-16+68);ADDW(R23);DEEKA(R9);
+	_SP(-14+68);ADDW(R23);DEEKA(R10);
+	CALLI('makepoint');
+	LDWI('.65');STW(R8);
+	_STLW(0);
+	_SP(-16+68);STW(R23);
+	LDW(R7);_SHLI(2);ADDW(R23);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	_LDLW(-26+68);STW(R10);
+	LDW(R10);_STLW(4);
+	CALLI('printf');
+	_SP(0);STW(T2);_MOVM([SP,-28+68],[T2],4,2);
+	_SP(4);STW(T2);_MOVM([SP,-24+68],[T2],8,2);
+	CALLI('ptinrect');
+	_BNE('.68');
+	LDWI('.70');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	label('.68');
+	LDWI('.71');STW(R8);
+	_STLW(0);
+	_LDLW(-24+68);STW(R9);
+	LDW(R9);_STLW(2);
+	_LDLW(-22+68);STW(R10);
+	LDW(R10);_STLW(4);
+	_LDLW(-20+68);STW(R11);
+	LDW(R11);_STLW(6);
+	_LDLW(-18+68);STW(R12);
+	LDW(R12);_STLW(8);
+	CALLI('printf');
+	label('.62');
+	INCV(R7);
+	label('.64');
+	LDI(4);_CMPWU(R7);_BGT('.61');
+	_SP(0);STW(T2);_MOVM('y',[T2],3,1);
+	CALLI('odd');
+	LDI(0);STW(R8);
+	_STLW(0);
+	CALLI('exit');
+	LDI(0);
+	label('.57');
+	_EPILOGUE(68,12,0x80,saveAC=True);
+# ======== ('DATA', '.71', code11, 0, 1)
+def code11():
+	label('.71');
+	bytes(119,105,116,104,105,110,32,91);
+	bytes(37,100,44,37,100,59,32,37);
+	bytes(100,44,37,100,93,10,0);
+# ======== ('DATA', '.70', code12, 0, 1)
+def code12():
+	label('.70');
+	bytes(110,111,116,32,0);
+# ======== ('DATA', '.65', code13, 0, 1)
+def code13():
+	label('.65');
+	bytes(40,37,100,44,37,100,41,32);
+	bytes(105,115,32,0);
+# ======== ('DATA', '.56', code14, 0, 1)
+def code14():
+	label('.56');
+	bytes(37,115,10,0);
+# ======== (epilog)
+code=[
+	('EXPORT', 'addpoint'),
+	('CODE', 'addpoint', code0),
+	('EXPORT', 'canonrect'),
+	('CODE', 'canonrect', code1),
+	('EXPORT', 'makepoint'),
+	('CODE', 'makepoint', code2),
+	('EXPORT', 'makerect'),
+	('CODE', 'makerect', code3),
+	('EXPORT', 'ptinrect'),
+	('CODE', 'ptinrect', code4),
+	('EXPORT', 'y'),
+	('DATA', 'y', code5, 3, 1),
+	('EXPORT', 'odd'),
+	('CODE', 'odd', code6),
+	('DATA', '.58', code7, 0, 2),
+	('DATA', '.59', code8, 0, 2),
+	('DATA', '.60', code9, 0, 2),
+	('EXPORT', 'main'),
+	('CODE', 'main', code10),
+	('IMPORT', 'exit'),
+	('IMPORT', 'printf'),
+	('DATA', '.71', code11, 0, 1),
+	('DATA', '.70', code12, 0, 1),
+	('DATA', '.65', code13, 0, 1),
+	('DATA', '.56', code14, 0, 1) ]
+module(code=code, name='tst/struct.c', cpu=7);
+
+# Local Variables:
+# mode: python
+# indent-tabs-mode: t
+# End:

@@ -1,0 +1,5240 @@
+#VCPUv7
+
+# ======== ('DATA', '.2', code0, 0, 2)
+def code0():
+	align(2);
+	label('.2');
+	words('s22');
+	words('s241');
+	words('s243');
+	words('s244');
+	words('s25');
+	words('s26');
+	words('s4');
+	words('s61');
+	words('s626');
+	words('s71');
+	words('s715');
+	words('s72');
+	words('s757');
+	words('s7813');
+	words('s81');
+	words('s84');
+	words('s85');
+	words('s86');
+	words('s88');
+	words('s9');
+# ======== ('BSS', '.3', code1, 44, 2)
+def code1():
+	align(2);
+	label('.3');
+	space(44);
+# ======== ('BSS', '.4', code2, 2, 2)
+def code2():
+	align(2);
+	label('.4');
+	space(2);
+# ======== ('CODE', 'main', code3)
+def code3():
+	label('main');
+	_PROLOGUE(12,8,0x80); # save=R7
+	LDWI(v('.3')+24);DOKEQ(1);
+	LDWI(v('.3')+26);DOKEQ(1);
+	LDWI(v('.3')+28);DOKEQ(1);
+	LDWI(v('.3')+30);DOKEQ(1);
+	LDWI('.4');DOKEI('.3');
+	MOVQW(0,R7);
+	_BRA('.12');
+	label('.9');
+	LDWI('.4');DEEKA(R8);
+	LDW(R8);_STLW(0);
+	LDWI('.2');ADDW(R7);ADDW(R7);DEEK();CALL(vAC);STW(R23);
+	LDWI(v('.3')+32);DOKEA(R23);
+	MOVIW(v('.3')+34,R23);
+	LDWI(v('.3')+32);DEEKA(R22);
+	LDWI(v('.3')+34);DEEK();ADDW(R22);DOKE(R23);
+	LDWI(v('.3')+24);DEEK();_BEQ('.17');
+	LDWI('.20');STW(R8);
+	_STLW(0);
+	LDWI(v('.3')+36);STW(R9);
+	_STLW(2);
+	LDWI(v('.3')+32);DEEKA(R10);
+	LDW(R10);_STLW(4);
+	CALLI('printf');
+	label('.17');
+	label('.10');
+	INCV(R7);
+	label('.12');
+	LDI(20);_CMPWU(R7);_BGT('.9');
+	LDWI(v('.3')+34);DEEK();_BNE('.23');
+	LDWI('.26');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	_BRA('.24');
+	label('.23');
+	LDWI('.27');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	label('.24');
+	LDI(0);
+	label('.1');
+	_EPILOGUE(12,8,0x80,saveAC=True);
+# ======== ('DATA', '.29', code4, 0, 1)
+def code4():
+	label('.29');
+	bytes(115,50,50,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.30', code5, 8, 1)
+def code5():
+	label('.30');
+	bytes(115,50,50,32,32,32,32,0);
+# ======== ('CODE', 's22', code6)
+def code6():
+	label('s22');
+	_PROLOGUE(24,4,0xf8); # save=R3-7
+	MOVW(R8,R7);
+	MOVQW(0,R4);
+	MOVIW('.30',R6);
+	LDI(36);ADDW(R7);STW(R5);
+	label('.31');
+	label('.32');
+	MOVW(R5,R23);
+	INCV(R5);
+	LDW(R6);
+	INCV(R6);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.31');
+	MOVQW(1,R3);
+	LDI(2);_STLW(-4+24);
+	LDI(3);_STLW(-6+24);
+	LDI(4);_STLW(-2+24);
+	_LDLW(-6+24);STW(R23);
+	_LDLW(-2+24);STW(R22);
+	_LDLW(-4+24);ADDW(R3);ADDW(R23);ADDW(R22);XORI(10);_BEQ('.34');
+	INCV(R4);
+	LDXW(R7,28);_BEQ('.36');
+	LDWI('.29');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.36');
+	label('.34');
+	LDI(2);_STLW(-8+24);
+	XORW(R3);_BNE('.38');
+	ADDSV(4,R4);
+	LDXW(R7,28);_BEQ('.40');
+	LDWI('.29');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.40');
+	label('.38');
+	LDW(R4);
+	label('.28');
+	_EPILOGUE(24,4,0xf8,saveAC=True);
+# ======== ('DATA', '.43', code7, 0, 1)
+def code7():
+	label('.43');
+	bytes(115,50,52,49,44,101,114,37);
+	bytes(100,10,0);
+# ======== ('DATA', '.44', code8, 8, 1)
+def code8():
+	label('.44');
+	bytes(115,50,52,49,32,32,32,0);
+# ======== ('DATA', '.45', code9, 156, 4)
+def code9():
+	align(4);
+	label('.45');
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(0,0); # 0
+	words(6,0); # 6
+	words(0,0); # 0
+	words(8,0); # 8
+	words(0,0); # 0
+	words(12,0); # 12
+	words(0,0); # 0
+	words(16,0); # 16
+	words(0,0); # 0
+	words(18,0); # 18
+	words(0,0); # 0
+	words(20,0); # 20
+	words(0,0); # 0
+	words(24,0); # 24
+	words(0,0); # 0
+	words(28,0); # 28
+	words(0,0); # 0
+	words(30,0); # 30
+	words(0,0); # 0
+	words(32,0); # 32
+	words(0,0); # 0
+	words(36,0); # 36
+# ======== ('CODE', 's241', code10)
+def code10():
+	label('s241');
+	_PROLOGUE(488,4,0xf8); # save=R3-7
+	MOVW(R8,R7);
+	LDI(0);STW(R3);
+	_STLW(-470+488);
+	MOVIW('.44',R5);
+	LDI(36);ADDW(R7);STW(R4);
+	label('.46');
+	label('.47');
+	MOVW(R4,R23);
+	INCV(R4);
+	LDW(R5);
+	INCV(R5);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.46');
+	_BRA('.49');
+	INCV(R3);
+	LDXW(R7,28);_BEQ('.51');
+	LDWI('.43');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.51');
+	label('.49');
+	_BRA('.53');
+	ADDSV(2,R3);
+	LDXW(R7,28);_BEQ('.55');
+	LDWI('.43');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.55');
+	label('.53');
+	_BRA('.57');
+	ADDSV(4,R3);
+	LDXW(R7,28);_BEQ('.59');
+	LDWI('.43');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.59');
+	label('.57');
+	_BRA('.61');
+	ADDSV(8,R3);
+	LDXW(R7,28);_BEQ('.63');
+	LDWI('.43');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.63');
+	label('.61');
+	MOVQW(0,R6);
+	label('.65');
+	LDW(R6);_STLS(LAC);LDW(R6);_SHLI(2);ADDWI('.45');_MOVL(LAC,[vAC]);
+	label('.66');
+	INCV(R6);
+	LDI(17);_CMPWS(R6);_BGT('.65');
+	MOVQW(18,R6);
+	label('.69');
+	LDW(R6);_SHLI(2);ADDWI('.45');STW(R23);
+	STW(T0);_STLW(-472+488,src=R23);LDW(T0)  #genspill
+	_MOVL([vAC],L8);
+	_MOVL(L8,[SP,0]);
+	CALLI('pow2');
+	_LDLW(-472+488);_MOVL(LAC,[vAC]);
+	LDW(R6);_SHLI(2);STW(R23);
+	LDWI('.45');ADDW(R23);_MOVL([vAC],LAC);LDWI('.74');_LSUB();LDWI(v('.45')-4);ADDW(R23);_MOVL(LAC,[vAC]);
+	ADDSV(2,R6);
+	label('.70');
+	LDI(39);_CMPWS(R6);_BGT('.69');
+	_MOVL('.75',LAC);
+	_MOVL(LAC,[SP,-156+488]);
+	_MOVL(LAC,[SP,-312+488]);
+	_MOVL(LAC,[SP,-468+488]);
+	_MOVL('.74',[SP,-152+488]);
+	_MOVL('.74',[SP,-308+488]);
+	_MOVL('.74',[SP,-464+488]);
+	_MOVL('.80',[SP,-148+488]);
+	_MOVL('.80',[SP,-304+488]);
+	_MOVL('.80',[SP,-460+488]);
+	_MOVL('.84',[SP,-144+488]);
+	_MOVL('.84',[SP,-300+488]);
+	_MOVL('.84',[SP,-456+488]);
+	_MOVL('.88',[SP,-140+488]);
+	_MOVL('.88',[SP,-296+488]);
+	_MOVL('.88',[SP,-452+488]);
+	_MOVL('.92',[SP,-136+488]);
+	_MOVL('.92',[SP,-292+488]);
+	_MOVL('.92',[SP,-448+488]);
+	_MOVL('.96',[SP,-132+488]);
+	_MOVL('.96',[SP,-288+488]);
+	_MOVL('.96',[SP,-444+488]);
+	_MOVL('.100',[SP,-128+488]);
+	_MOVL('.100',[SP,-284+488]);
+	_MOVL('.100',[SP,-440+488]);
+	_MOVL('.104',[SP,-124+488]);
+	_MOVL('.104',[SP,-280+488]);
+	_MOVL('.104',[SP,-436+488]);
+	_MOVL('.108',[SP,-120+488]);
+	_MOVL('.108',[SP,-276+488]);
+	_MOVL('.108',[SP,-432+488]);
+	_MOVL('.112',[SP,-116+488]);
+	_MOVL('.112',[SP,-272+488]);
+	_MOVL('.112',[SP,-428+488]);
+	_MOVL('.116',[SP,-112+488]);
+	_MOVL('.116',[SP,-268+488]);
+	_MOVL('.116',[SP,-424+488]);
+	_MOVL('.120',[SP,-108+488]);
+	_MOVL('.120',[SP,-264+488]);
+	_MOVL('.120',[SP,-420+488]);
+	_MOVL('.124',[SP,-104+488]);
+	_MOVL('.124',[SP,-260+488]);
+	_MOVL('.124',[SP,-416+488]);
+	_MOVL('.128',[SP,-100+488]);
+	_MOVL('.128',[SP,-256+488]);
+	_MOVL('.128',[SP,-412+488]);
+	_MOVL('.132',[SP,-96+488]);
+	_MOVL('.132',[SP,-252+488]);
+	_MOVL('.132',[SP,-408+488]);
+	_MOVL('.136',[SP,-92+488]);
+	_MOVL('.136',[SP,-248+488]);
+	_MOVL('.136',[SP,-404+488]);
+	_MOVL('.140',[SP,-88+488]);
+	_MOVL('.140',[SP,-244+488]);
+	_MOVL('.140',[SP,-400+488]);
+	_MOVL('.144',[SP,-84+488]);
+	_MOVL('.144',[SP,-240+488]);
+	_MOVL('.144',[SP,-396+488]);
+	_MOVL('.148',[SP,-80+488]);
+	_MOVL('.148',[SP,-236+488]);
+	_MOVL('.148',[SP,-392+488]);
+	_MOVL('.152',[SP,-76+488]);
+	_MOVL('.152',[SP,-232+488]);
+	_MOVL('.152',[SP,-388+488]);
+	_MOVL('.156',[SP,-72+488]);
+	_MOVL('.156',[SP,-228+488]);
+	_MOVL('.156',[SP,-384+488]);
+	_MOVL('.160',[SP,-68+488]);
+	_MOVL('.160',[SP,-224+488]);
+	_MOVL('.160',[SP,-380+488]);
+	_MOVL('.164',[SP,-64+488]);
+	_MOVL('.164',[SP,-220+488]);
+	_MOVL('.164',[SP,-376+488]);
+	_MOVL('.168',[SP,-60+488]);
+	_MOVL('.168',[SP,-216+488]);
+	_MOVL('.168',[SP,-372+488]);
+	_MOVL('.172',[SP,-56+488]);
+	_MOVL('.172',[SP,-212+488]);
+	_MOVL('.172',[SP,-368+488]);
+	_MOVL('.176',[SP,-52+488]);
+	_MOVL('.176',[SP,-208+488]);
+	_MOVL('.176',[SP,-364+488]);
+	_MOVL('.180',[SP,-48+488]);
+	_MOVL('.180',[SP,-204+488]);
+	_MOVL('.180',[SP,-360+488]);
+	_MOVL('.184',[SP,-44+488]);
+	_MOVL('.184',[SP,-200+488]);
+	_MOVL('.184',[SP,-356+488]);
+	_MOVL('.188',[SP,-40+488]);
+	_MOVL('.188',[SP,-196+488]);
+	_MOVL('.188',[SP,-352+488]);
+	_MOVL('.192',[SP,-36+488]);
+	_MOVL('.192',[SP,-192+488]);
+	_MOVL('.192',[SP,-348+488]);
+	_MOVL('.196',[SP,-32+488]);
+	_MOVL('.196',[SP,-188+488]);
+	_MOVL('.196',[SP,-344+488]);
+	_MOVL('.200',[SP,-28+488]);
+	_MOVL('.200',[SP,-184+488]);
+	_MOVL('.200',[SP,-340+488]);
+	_MOVL('.204',[SP,-24+488]);
+	_MOVL('.204',[SP,-180+488]);
+	_MOVL('.204',[SP,-336+488]);
+	_MOVL('.208',[SP,-20+488]);
+	_MOVL('.208',[SP,-176+488]);
+	_MOVL('.208',[SP,-332+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-16+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-172+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-328+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-12+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-168+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-324+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-8+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-164+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-320+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-4+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-160+488]);
+	_MOVL('.212',LAC);_MOVL(LAC,[SP,-316+488]);
+	MOVQW(0,R6);
+	label('.224');
+	LDW(R6);_SHLI(2);STW(R23);
+	_SP(-156+488);ADDW(R23);_MOVL([vAC],LAC);
+	LDWI('.45');ADDW(R23);_LCMPX();_BNE('.231');
+	_SP(-312+488);ADDW(R23);_MOVL([vAC],L21);
+	LDI(L21);_LCMPX();_BNE('.231');
+	_MOVL(L21,LAC);_SP(-468+488);ADDW(R23);_LCMPX();_BEQ('.228');
+	label('.231');
+	LDXW(R7,26);_BEQ('.232');
+	LDWI('.234');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	LDWI('.235');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	label('.232');
+	label('.228');
+	label('.225');
+	INCV(R6);
+	LDI(39);_CMPWS(R6);_BGT('.224');
+	_LDLW(-470+488);_BEQ('.236');
+	MOVQW(16,R3);
+	label('.236');
+	LDW(R3);
+	label('.42');
+	_EPILOGUE(488,4,0xf8,saveAC=True);
+# ======== ('CODE', 'pow2', code11)
+def code11():
+	label('pow2');
+	PUSH();
+	_MOVL('.74',L18);
+	_BRA('.240');
+	label('.239');
+	_MOVL(L18,LAC);LDI(1);_LSHL();_MOVL(LAC,L18);
+	label('.240');
+	_MOVL(L8,L22);
+	_MOVL(L22,LAC);LDWI('.74');_LSUB();_MOVL(LAC,L8);
+	_MOVL(L22,LAC);LDWI('.75');_LCMPX();_BNE('.239');
+	_MOVL(L18,LAC);
+	label('.238');
+	tryhop(2);POP();RET()
+# ======== ('DATA', '.243', code12, 0, 1)
+def code12():
+	label('.243');
+	bytes(115,50,52,51,44,101,114,37);
+	bytes(100,10,0);
+# ======== ('DATA', '.244', code13, 8, 1)
+def code13():
+	label('.244');
+	bytes(115,50,52,51,32,32,32,0);
+# ======== ('CODE', 's243', code14)
+def code14():
+	label('s243');
+	_PROLOGUE(272,6,0xf0); # save=R4-7
+	MOVW(R8,R7);
+	MOVQW(0,R4);
+	MOVIW('.244',R6);
+	LDI(36);ADDW(R7);STW(R5);
+	label('.245');
+	label('.246');
+	MOVW(R5,R23);
+	INCV(R5);
+	LDW(R6);
+	INCV(R6);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.245');
+	_SP(-256+272);STW(R8);
+	_STLW(0);
+	CALLI('zerofill');
+	_SP(-159+272);POKEQ(1);
+	_SP(-191+272);POKEQ(1);
+	_SP(-130+272);POKEQ(1);
+	_SP(-208+272);POKEQ(1);
+	_SP(-158+272);POKEQ(1);
+	_SP(-190+272);POKEQ(1);
+	_SP(-223+272);POKEQ(1);
+	_SP(-207+272);POKEQ(1);
+	_SP(-157+272);POKEQ(1);
+	_SP(-189+272);POKEQ(1);
+	_SP(-222+272);POKEQ(1);
+	_SP(-206+272);POKEQ(1);
+	_SP(-156+272);POKEQ(1);
+	_SP(-188+272);POKEQ(1);
+	_SP(-221+272);POKEQ(1);
+	_SP(-205+272);POKEQ(1);
+	_SP(-155+272);POKEQ(1);
+	_SP(-187+272);POKEQ(1);
+	_SP(-219+272);POKEQ(1);
+	_SP(-204+272);POKEQ(1);
+	_SP(-154+272);POKEQ(1);
+	_SP(-186+272);POKEQ(1);
+	_SP(-218+272);POKEQ(1);
+	_SP(-203+272);POKEQ(1);
+	_SP(-153+272);POKEQ(1);
+	_SP(-185+272);POKEQ(1);
+	_SP(-216+272);POKEQ(1);
+	_SP(-202+272);POKEQ(1);
+	_SP(-152+272);POKEQ(1);
+	_SP(-184+272);POKEQ(1);
+	_SP(-215+272);POKEQ(1);
+	_SP(-201+272);POKEQ(1);
+	_SP(-151+272);POKEQ(1);
+	_SP(-183+272);POKEQ(1);
+	_SP(-161+272);POKEQ(1);
+	_SP(-200+272);POKEQ(1);
+	_SP(-150+272);POKEQ(1);
+	_SP(-182+272);POKEQ(1);
+	_SP(-195+272);POKEQ(1);
+	_SP(-199+272);POKEQ(1);
+	_SP(-149+272);POKEQ(1);
+	_SP(-181+272);POKEQ(1);
+	_SP(-211+272);POKEQ(1);
+	_SP(-148+272);POKEQ(1);
+	_SP(-180+272);POKEQ(1);
+	_SP(-162+272);POKEQ(1);
+	_SP(-147+272);POKEQ(1);
+	_SP(-179+272);POKEQ(1);
+	_SP(-132+272);POKEQ(1);
+	_SP(-246+272);POKEQ(1);
+	_SP(-146+272);POKEQ(1);
+	_SP(-178+272);POKEQ(1);
+	_SP(-247+272);POKEQ(1);
+	_SP(-145+272);POKEQ(1);
+	_SP(-177+272);POKEQ(1);
+	_SP(-133+272);POKEQ(1);
+	_SP(-248+272);POKEQ(1);
+	_SP(-144+272);POKEQ(1);
+	_SP(-176+272);POKEQ(1);
+	_SP(-131+272);POKEQ(1);
+	_SP(-243+272);POKEQ(1);
+	_SP(-143+272);POKEQ(1);
+	_SP(-175+272);POKEQ(1);
+	_SP(-165+272);POKEQ(1);
+	_SP(-244+272);POKEQ(1);
+	_SP(-142+272);POKEQ(1);
+	_SP(-174+272);POKEQ(1);
+	_SP(-163+272);POKEQ(1);
+	_SP(-141+272);POKEQ(1);
+	_SP(-173+272);POKEQ(1);
+	_SP(-213+272);POKEQ(1);
+	_SP(-164+272);POKEQ(1);
+	_SP(-140+272);POKEQ(1);
+	_SP(-172+272);POKEQ(1);
+	_SP(-197+272);POKEQ(1);
+	_SP(-217+272);POKEQ(1);
+	_SP(-139+272);POKEQ(1);
+	_SP(-171+272);POKEQ(1);
+	_SP(-214+272);POKEQ(1);
+	_SP(-138+272);POKEQ(1);
+	_SP(-170+272);POKEQ(1);
+	_SP(-198+272);POKEQ(1);
+	_SP(-256+272);POKEQ(1);
+	_SP(-137+272);POKEQ(1);
+	_SP(-169+272);POKEQ(1);
+	_SP(-196+272);POKEQ(1);
+	_SP(-224+272);POKEQ(1);
+	_SP(-136+272);POKEQ(1);
+	_SP(-168+272);POKEQ(1);
+	_SP(-194+272);POKEQ(1);
+	_SP(-135+272);POKEQ(1);
+	_SP(-167+272);POKEQ(1);
+	_SP(-212+272);POKEQ(1);
+	_SP(-134+272);POKEQ(1);
+	_SP(-166+272);POKEQ(1);
+	_SP(-210+272);POKEQ(1);
+	_SP(-193+272);POKEQ(1);
+	_SP(-209+272);POKEQ(1);
+	_SP(-256+272);STW(R8);
+	_STLW(0);
+	CALLI('sumof');
+	XORI(98);_BEQ('.345');
+	INCV(R4);
+	LDXW(R7,28);_BEQ('.347');
+	LDWI('.243');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.347');
+	label('.345');
+	_BRA('.349');
+	ADDSV(8,R4);
+	LDXW(R7,28);_BEQ('.351');
+	LDWI('.243');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.351');
+	label('.349');
+	LDW(R4);
+	label('.242');
+	_EPILOGUE(272,6,0xf0,saveAC=True);
+# ======== ('CODE', 'zerofill', code15)
+def code15():
+	label('zerofill');
+	PUSH();
+	MOVQW(0,R19);
+	label('.354');
+	LDW(R8);
+	INCV(R8);
+	POKEQ(0);
+	label('.355');
+	INCV(R19);
+	LDWI(256);_CMPWS(R19);_BGT('.354');
+	LDI(0);
+	label('.353');
+	tryhop(2);POP();RET()
+# ======== ('CODE', 'sumof', code16)
+def code16():
+	label('sumof');
+	PUSH();
+	MOVW(R8,R17);
+	LDI(0);STW(R19);
+	STW(R18);
+	label('.359');
+	LDW(R17);
+	INCV(R17);
+	PEEK();ADDV(R19);
+	label('.360');
+	INCV(R18);
+	LDWI(256);_CMPWS(R18);_BGT('.359');
+	LDW(R19);
+	label('.358');
+	tryhop(2);POP();RET()
+# ======== ('DATA', '.364', code17, 0, 1)
+def code17():
+	label('.364');
+	bytes(115,50,52,52,44,101,114,37);
+	bytes(100,10,0);
+# ======== ('DATA', '.365', code18, 8, 1)
+def code18():
+	label('.365');
+	bytes(115,50,52,52,32,32,32,0);
+# ======== ('CODE', 's244', code19)
+def code19():
+	label('s244');
+	_PROLOGUE(60,6,0xfc); # save=R2-7
+	MOVW(R8,R7);
+	MOVIW('.365',R5);
+	LDI(36);ADDW(R7);STW(R4);
+	label('.366');
+	label('.367');
+	MOVW(R4,R23);
+	INCV(R4);
+	LDW(R5);
+	INCV(R5);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.366');
+	LDI(0);STW(R2);
+	STW(R3);
+	_MOVF('.369',FAC);
+	_MOVF(FAC,[SP,-40+60]);
+	_MOVF(FAC,[SP,-35+60]);
+	_MOVF('.369',[SP,-30+60]);
+	_MOVF('.369',[SP,-25+60]);
+	_MOVF('.369',[SP,-20+60]);
+	_MOVF('.369',[SP,-15+60]);
+	_MOVF('.369',[SP,-10+60]);
+	_MOVF('.369',[SP,-5+60]);
+	LDI(0);STW(R3);
+	STW(R6);
+	label('.377');
+	LDW(R6);_MULI(5);STW(R23);
+	_SP(-40+60);ADDW(R23);_MOVF([vAC],FAC);_SP(-35+60);ADDW(R23);_FCMP();_BEQ('.381');
+	MOVQW(1,R3);
+	label('.381');
+	label('.378');
+	INCV(R6);
+	LDI(7);_CMPWS(R6);_BGT('.377');
+	LDW(R3);_BEQ('.384');
+	LDXW(R7,28);_BEQ('.386');
+	LDWI('.364');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.386');
+	INCV(R2);
+	label('.384');
+	_BRA('.388');
+	LDXW(R7,28);_BEQ('.390');
+	LDWI('.364');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.390');
+	ADDSV(2,R2);
+	label('.388');
+	LDW(R2);
+	label('.363');
+	_EPILOGUE(60,6,0xfc,saveAC=True);
+# ======== ('DATA', '.393', code20, 0, 1)
+def code20():
+	label('.393');
+	bytes(115,50,53,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.394', code21, 8, 1)
+def code21():
+	label('.394');
+	bytes(115,50,53,32,32,32,32,0);
+# ======== ('CODE', 's25', code22)
+def code22():
+	label('s25');
+	_PROLOGUE(24,6,0xff); # save=R0-7
+	MOVW(R8,R7);
+	MOVIW('.394',R3);
+	LDI(36);ADDW(R7);STW(R2);
+	label('.395');
+	label('.396');
+	MOVW(R2,R23);
+	INCV(R2);
+	LDW(R3);
+	INCV(R3);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.395');
+	MOVQW(0,R1);
+	LDWI('.398');STW(R5);
+	LDI(1);ADDW(R5);PEEK();STW(R23);
+	PEEKV(R5);XORW(R23);_BNE('.402');
+	LDI(2);ADDW(R5);PEEK();STW(R22);
+	LDW(R23);XORW(R22);_BNE('.402');
+	LDW(R22);XORI(46);_BEQ('.399');
+	label('.402');
+	INCV(R1);
+	LDXW(R7,28);_BEQ('.403');
+	LDWI('.393');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.403');
+	label('.399');
+	LDI(3);ADDW(R5);PEEK();_BEQ('.405');
+	ADDSV(4,R1);
+	LDXW(R7,28);_BEQ('.407');
+	LDWI('.393');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.407');
+	label('.405');
+	LDWI(v('.411')+1);PEEK();XORI(34);_BEQ('.409');
+	ADDSV(8,R1);
+	LDXW(R7,28);_BEQ('.413');
+	LDWI('.393');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.413');
+	label('.409');
+	LDWI('.415');STW(R5);
+	PEEK();XORI(10);_BNE('.423');
+	LDI(1);ADDW(R5);PEEK();XORI(9);_BNE('.423');
+	LDI(2);ADDW(R5);PEEK();XORI(8);_BNE('.423');
+	LDI(3);ADDW(R5);PEEK();XORI(13);_BNE('.423');
+	LDI(4);ADDW(R5);PEEK();XORI(12);_BNE('.423');
+	LDI(5);ADDW(R5);PEEK();XORI(92);_BNE('.423');
+	LDI(6);ADDW(R5);PEEK();XORI(39);_BEQ('.416');
+	label('.423');
+	ADDSV(16,R1);
+	LDXW(R7,28);_BEQ('.424');
+	LDWI('.393');STW(R8);
+	_STLW(0);
+	LDI(16);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.424');
+	label('.416');
+	LDWI('.426');STW(R4);
+	STW(R5);
+	LDI(0);STW(R0);
+	STW(R6);
+	_BRA('.430');
+	label('.427');
+	LDW(R6);ADDW(R4);PEEK();STW(R23);
+	LDW(R6);ADDW(R5);PEEK();XORW(R23);_BEQ('.431');
+	MOVQW(1,R0);
+	label('.431');
+	label('.428');
+	INCV(R6);
+	label('.430');
+	LDI(7);_CMPWU(R6);_BGT('.427');
+	LDW(R0);_BEQ('.433');
+	ADDSV(32,R1);
+	LDXW(R7,28);_BEQ('.435');
+	LDWI('.393');STW(R8);
+	_STLW(0);
+	LDI(32);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.435');
+	label('.433');
+	LDW(R1);
+	label('.392');
+	_EPILOGUE(24,6,0xff,saveAC=True);
+# ======== ('DATA', '.438', code23, 8, 1)
+def code23():
+	label('.438');
+	bytes(115,50,54,32,32,32,32,0);
+# ======== ('DATA', '.439', code24, 0, 1)
+def code24():
+	label('.439');
+	bytes(37,51,100,32,98,105,116,115);
+	bytes(32,105,110,32,37,115,115,46);
+	bytes(10,0);
+# ======== ('DATA', '.440', code25, 0, 1)
+def code25():
+	label('.440');
+	bytes(37,101,32,105,115,32,116,104);
+	bytes(101,32,108,101,97,115,116,32);
+	bytes(110,117,109,98,101,114,32,116);
+	bytes(104,97,116,32,99,97,110,32);
+	bytes(98,101,32,97,100,100,101,100);
+	bytes(32,116,111,32,49,46,32,40);
+	bytes(37,115,41,46,10,0);
+# ======== ('CODE', 's26', code26)
+def code26():
+	label('s26');
+	_PROLOGUE(48,10,0xff); # save=R0-7
+	MOVW(R8,R7);
+	MOVIW('.438',R2);
+	LDI(36);ADDW(R7);STW(R1);
+	label('.441');
+	label('.442');
+	MOVW(R1,R23);
+	INCV(R1);
+	LDW(R2);
+	INCV(R2);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.441');
+	LDW(R7);DOKEQ(0);
+	MOVQB(0,R0);
+	MOVQB(1,R3);
+	_BRA('.445');
+	label('.444');
+	LD(R3);LSLW();ST(R3);
+	DEEKV(R7);ADDI(1);DOKE(R7);
+	label('.445');
+	LD(R3);STW(R23);
+	LD(R0);XORW(R23);_BNE('.444');
+	DEEKV(R7);LSLW();STXW(R7,2);
+	DEEKV(R7);LSLW();STXW(R7,4);
+	DEEKV(R7);_SHLI(2);STXW(R7,6);
+	DEEKV(R7);LSLW();STXW(R7,8);
+	DEEKV(R7);_MULI(5);STXW(R7,10);
+	DEEKV(R7);_MULI(5);STXW(R7,12);
+	_MOVF('.447',F21);
+	_MOVF(F21,[SP,-10+48]);
+	_MOVF(F21,F4);
+	_MOVF('.448',[SP,-5+48]);
+	_BRA('.450');
+	label('.449');
+	_MOVF(F4,FAC);_SP(-10+48);_FADD();_MOVF(FAC,[SP,-5+48]);
+	_MOVF(F4,FAC);LDWI('.452');_FDIV();_MOVF(FAC,F4);
+	label('.450');
+	_MOVF([SP,-5+48],FAC);_SP(-10+48);_FCMP();_BNE('.449');
+	_MOVF(F4,FAC);LDWI('.453');_FMUL();LDI(14);ADDW(R7);_MOVF(FAC,[vAC]);
+	_MOVF('.454',[SP,-20+48]);
+	_MOVF('.447',F4);
+	_MOVF('.455',[SP,-15+48]);
+	_BRA('.457');
+	label('.456');
+	_MOVF(F4,FAC);_SP(-20+48);_FADD();_MOVF(FAC,[SP,-15+48]);
+	_MOVF(F4,FAC);LDWI('.452');_FDIV();_MOVF(FAC,F4);
+	label('.457');
+	_MOVF([SP,-15+48],FAC);_SP(-20+48);_FCMP();_BNE('.456');
+	_MOVF(F4,FAC);LDWI('.453');_FMUL();LDI(19);ADDW(R7);_MOVF(FAC,[vAC]);
+	LDXW(R7,26);_BEQ('.459');
+	LDWI('.439');STW(R8);
+	_STLW(0);
+	DEEKV(R7);STW(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.461');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	LDWI('.439');STW(R8);
+	_STLW(0);
+	LDI(2);ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.462');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	LDWI('.439');STW(R8);
+	_STLW(0);
+	LDI(4);ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.463');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	LDWI('.439');STW(R8);
+	_STLW(0);
+	LDI(6);ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.464');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	LDWI('.439');STW(R8);
+	_STLW(0);
+	LDI(8);ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.465');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	LDWI('.439');STW(R8);
+	_STLW(0);
+	LDI(10);ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.466');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	LDWI('.439');STW(R8);
+	_STLW(0);
+	LDI(12);ADDW(R7);DEEKA(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.467');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	LDWI('.440');STW(R8);
+	_STLW(0);
+	LDI(14);ADDW(R7);_MOVF([vAC],F9);
+	_MOVF(F9,[SP,2]);
+	LDWI('.466');STW(R12);
+	_STLW(8);
+	CALLI('printf');
+	LDWI('.440');STW(R8);
+	_STLW(0);
+	LDI(19);ADDW(R7);_MOVF([vAC],F9);
+	_MOVF(F9,[SP,2]);
+	LDWI('.467');STW(R12);
+	_STLW(8);
+	CALLI('printf');
+	label('.459');
+	LDI(0);
+	label('.437');
+	_EPILOGUE(48,10,0xff,saveAC=True);
+# ======== ('DATA', '.469', code27, 0, 1)
+def code27():
+	label('.469');
+	bytes(115,52,44,101,114,37,100,10);
+	bytes(0);
+# ======== ('DATA', '.470', code28, 8, 1)
+def code28():
+	label('.470');
+	bytes(115,52,32,32,32,32,32,0);
+# ======== ('CODE', 's4', code29)
+def code29():
+	label('s4');
+	_PROLOGUE(32,6,0xfe); # save=R1-7
+	MOVW(R8,R7);
+	MOVQW(0,R1);
+	MOVIW('.470',R3);
+	LDI(36);ADDW(R7);STW(R2);
+	label('.471');
+	label('.472');
+	MOVW(R2,R23);
+	INCV(R2);
+	LDW(R3);
+	INCV(R3);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.471');
+	MOVQW(0,R6);
+	label('.474');
+	LDW(R6);STW(R8);
+	_STLW(0);
+	CALLI('svtest');STW(R23);
+	STW(T0);_STLW(-10+32,src=R23);LDW(T0)  #genspill
+	CALLI('zero');STW(R22);
+	_LDLW(-10+32);XORW(R22);_BEQ('.478');
+	MOVQW(1,R1);
+	LDXW(R7,28);_BEQ('.480');
+	LDWI('.469');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.480');
+	label('.478');
+	label('.475');
+	INCV(R6);
+	LDI(3);_CMPWS(R6);_BGT('.474');
+	CALLI('setev');
+	CALLI('testev');
+	_BEQ('.482');
+	ADDSV(2,R1);
+	LDXW(R7,28);_BEQ('.484');
+	LDWI('.469');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.484');
+	label('.482');
+	_BRA('.486');
+	ADDSV(4,R1);
+	LDXW(R7,28);_BEQ('.488');
+	LDWI('.469');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.488');
+	label('.486');
+	MOVIW(0xffff,R5);
+	MOVQW(1,R4);
+	MOVQW(0,R6);
+	_BRA('.493');
+	label('.490');
+	LDW(R4);ANDW(R5);STW(R4);
+	LDW(R5);_SHRIU(1);STW(R5);
+	label('.491');
+	INCV(R6);
+	label('.493');
+	DEEKV(R7);LSLW();_CMPWU(R6);_BGT('.490');
+	LDW(R4);XORI(1);_BNE('.496');
+	LDW(R5);_BEQ('.494');
+	label('.496');
+	ADDSV(8,R1);
+	LDXW(R7,28);_BEQ('.497');
+	LDWI('.469');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.497');
+	label('.494');
+	LDW(R1);
+	label('.468');
+	_EPILOGUE(32,6,0xfe,saveAC=True);
+# ======== ('BSS', '.500', code30, 2, 2)
+def code30():
+	align(2);
+	label('.500');
+	space(2);
+# ======== ('CODE', 'svtest', code31)
+def code31():
+	label('svtest');
+	_PROLOGUE(4,0,0x0); # save=None
+	LDW(R8);_BEQ('.503');
+	XORI(1);_BEQ('.504');
+	LDW(R8);XORI(2);_BEQ('.507');
+	_BRA('.501');
+	label('.503');
+	LDWI('.500');DOKEI(1978);
+	LDI(0);_STLW(-2+4);
+	_BRA('.502');
+	label('.504');
+	LDWI('.500');DEEKA(R23);
+	LDWI(1978);XORW(R23);_BEQ('.505');
+	LDI(1);_STLW(-2+4);
+	_BRA('.502');
+	label('.505');
+	LDWI('.500');DOKEI(1929);
+	LDI(0);_STLW(-2+4);
+	_BRA('.502');
+	label('.507');
+	LDWI('.500');DEEKA(R23);
+	LDWI(1929);XORW(R23);_BEQ('.508');
+	LDI(1);_STLW(-2+4);
+	_BRA('.502');
+	label('.508');
+	LDI(0);_STLW(-2+4);
+	label('.501');
+	label('.502');
+	_LDLW(-2+4);
+	label('.499');
+	_EPILOGUE(4,0,0x0,saveAC=True);
+# ======== ('BSS', '.511', code32, 2, 2)
+def code32():
+	align(2);
+	label('.511');
+	space(2);
+# ======== ('CODE', 'zero', code33)
+def code33():
+	label('zero');
+	_PROLOGUE(4,0,0x0); # save=None
+	LDWI('.511');DOKEQ(2);
+	LDI(0);_STLW(-2+4);
+	
+	label('.510');
+	_EPILOGUE(4,0,0x0,saveAC=True);
+# ======== ('CODE', 'testev', code34)
+def code34():
+	label('testev');
+	PUSH();
+	LDWI('extvar');DEEKA(R23);
+	LDWI(1066);XORW(R23);_BEQ('.513');
+	LDI(1);
+	_BRA('.512');
+	label('.513');
+	LDI(0);
+	label('.512');
+	tryhop(2);POP();RET()
+# ======== ('DATA', '.516', code35, 0, 1)
+def code35():
+	label('.516');
+	bytes(115,54,49,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.517', code36, 8, 1)
+def code36():
+	label('.517');
+	bytes(115,54,49,32,32,32,32,0);
+# ======== ('DATA', '.518', code37, 0, 1)
+def code37():
+	label('.518');
+	bytes(65,66,67,68,69,70,71,72);
+	bytes(73,74,75,76,77,78,79,80);
+	bytes(81,82,83,84,85,86,87,88);
+	bytes(89,90,0);
+# ======== ('DATA', '.519', code38, 0, 1)
+def code38():
+	label('.519');
+	bytes(97,98,99,100,101,102,103,104);
+	bytes(105,106,107,108,109,110,111,112);
+	bytes(113,114,115,116,117,118,119,120);
+	bytes(121,122,0);
+# ======== ('DATA', '.520', code39, 0, 1)
+def code39():
+	label('.520');
+	bytes(48,49,50,51,52,53,54,55);
+	bytes(56,57,0);
+# ======== ('DATA', '.521', code40, 0, 1)
+def code40():
+	label('.521');
+	bytes(126,33,34,35,37,38,40,41);
+	bytes(95,61,45,94,124,123,125,91);
+	bytes(93,43,59,42,58,60,62,44);
+	bytes(46,63,47,0);
+# ======== ('DATA', '.522', code41, 0, 1)
+def code41():
+	label('.522');
+	bytes(10,9,8,13,12,92,39,0);
+# ======== ('DATA', '.523', code42, 0, 1)
+def code42():
+	label('.523');
+	bytes(32,0,0);
+# ======== ('CODE', 's61', code43)
+def code43():
+	label('s61');
+	_PROLOGUE(48,6,0xff); # save=R0-7
+	MOVW(R8,R7);
+	MOVIW('.517',R4);
+	LDI(36);ADDW(R7);STW(R3);
+	MOVQW(0,R2);
+	label('.524');
+	label('.525');
+	MOVW(R3,R23);
+	INCV(R3);
+	LDW(R4);
+	INCV(R4);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.524');
+	LDWI(-19);_STLW(-18+48);
+	_STLS(LAC);_MOVL(LAC,[SP,-24+48]);
+	_MOVL('.529',LAC);_SP(-24+48);_LCMPX();_BEQ('.527');
+	INCV(R2);
+	LDXW(R7,28);_BEQ('.530');
+	LDWI('.516');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.530');
+	label('.527');
+	LDWI('.518');_STLW(-12+48);
+	LDWI('.519');_STLW(-10+48);
+	LDWI('.520');_STLW(-8+48);
+	LDWI('.521');_STLW(-6+48);
+	LDWI('.522');_STLW(-4+48);
+	LDWI('.523');_STLW(-2+48);
+	LDI(0);STW(R5);
+	STW(R6);
+	_BRA('.542');
+	label('.541');
+	_SP(-12+48);ADDW(R6);ADDW(R6);STW(R23);
+	DEEK();STW(R22);
+	ADDI(1);DOKE(R23);
+	PEEKV(R22);_BGE('.544');
+	MOVQW(1,R5);
+	label('.544');
+	label('.542');
+	_SP(-12+48);ADDW(R6);ADDW(R6);DEEK();PEEK();_BNE('.541');
+	label('.538');
+	INCV(R6);
+	LDI(6);_CMPWS(R6);_BGT('.542');
+	LDW(R5);_BEQ('.546');
+	ADDSV(2,R2);
+	LDXW(R7,28);_BEQ('.548');
+	LDWI('.516');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.548');
+	label('.546');
+	_MOVL('.550',[SP,-16+48]);
+	_MOVL([SP,-16+48],LAC);
+	LDW(LAC);STW(R1);
+	LDW(LAC);ST(R0);
+	LDW(R1);_STLS(LAC);_SP(-16+48);_LCMPX();_BEQ('.554');
+	LDW(R1);XORI(3);_BNE('.553');
+	label('.554');
+	LD(R0);STW(R23);
+	_STLS(LAC);_SP(-16+48);_LCMPX();_BEQ('.551');
+	LDW(R23);XORI(3);_BEQ('.551');
+	label('.553');
+	ADDSV(8,R2);
+	LDXW(R7,28);_BEQ('.555');
+	LDWI('.516');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.555');
+	label('.551');
+	LDW(R2);
+	label('.515');
+	_EPILOGUE(48,6,0xff,saveAC=True);
+# ======== ('DATA', '.558', code44, 0, 1)
+def code44():
+	label('.558');
+	bytes(115,54,50,54,44,101,114,37);
+	bytes(100,10,0);
+# ======== ('DATA', '.559', code45, 8, 1)
+def code45():
+	label('.559');
+	bytes(115,54,50,54,32,32,32,0);
+# ======== ('CODE', 's626', code46)
+def code46():
+	label('s626');
+	_PROLOGUE(104,4,0xff); # save=R0-7
+	MOVW(R8,R7);
+	MOVIW('.559',R1);
+	LDI(36);ADDW(R7);STW(R0);
+	LDI(0);_STLW(-72+104);
+	label('.560');
+	label('.561');
+	MOVW(R0,R23);
+	INCV(R0);
+	LDW(R1);
+	INCV(R1);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.560');
+	_MOVF('.447',F3);
+	_MOVL('.74',LAC);
+	_MOVL(LAC,[SP,-44+104]);
+	_MOVL(LAC,[SP,-32+104]);
+	MOVQW(0,R6);
+	_BRA('.566');
+	label('.563');
+	_MOVF(F3,FAC);LDWI('.567');_FMUL();_MOVF(FAC,F3);
+	_SP(-32+104);_MOVL([vAC],LAC);LDI(1);_LSHL();_SP(-44+104);_LOR();_MOVL(LAC,[SP,-32+104]);
+	label('.564');
+	INCV(R6);
+	label('.566');
+	LDXW(R7,6);SUBI(2);_CMPWS(R6);_BGT('.563');
+	_SP(-32+104);_MOVL([vAC],LAC);_FCVI();_MOVF(FAC,[SP,-81+104]);
+	_MOVF(F3,FAC);_SP(-81+104);_FSUB();LDI(F3);_FDIV();_MOVF(FAC,F3);
+	_MOVF('.452',FAC);LDI(14);ADDW(R7);_FMUL();LDI(F3);_FCMP();_BGE('.568');
+	_LDLW(-72+104);ADDI(2);_STLW(-72+104);
+	LDXW(R7,28);_BEQ('.570');
+	LDWI('.558');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.570');
+	label('.568');
+	_SP(-54+104);POKEQ(125);
+	LDI(125);_STLW(-56+104);
+	_STLW(-58+104);
+	LDWI(15625);_STLW(-68+104);
+	LDI(125);_STLW(-60+104);
+	LDWI(15625);_STLW(-70+104);
+	_MOVL('.572',[SP,-48+104]);
+	_MOVL('.573',[SP,-76+104]);
+	_MOVF('.574',[SP,-53+104]);
+	_MOVF('.575',[SP,-65+104]);
+	_MOVF('.576',[SP,-37+104]);
+	MOVQW(0,R6);
+	label('.577');
+	_SP(-28+104);ADDW(R6);POKEQ(0);
+	label('.578');
+	INCV(R6);
+	LDI(28);_CMPWS(R6);_BGT('.577');
+	_LDLW(-54+104);LD(vACL);STW(R23);
+	_LDLW(-68+104);STW(R22);
+	LDW(R23);_MUL(R23);XORW(R22);_BEQ('.581');
+	_SP(-28+104);POKEQ(1);
+	label('.581');
+	_LDLW(-54+104);LD(vACL);STW(R23);
+	_LDLW(-68+104);STW(R22);
+	_LDLW(-56+104);_MUL(R23);XORW(R22);_BEQ('.583');
+	_SP(-27+104);POKEQ(1);
+	label('.583');
+	_LDLW(-56+104);STW(R23);
+	_LDLW(-68+104);STW(R22);
+	LDW(R23);_MUL(R23);XORW(R22);_BEQ('.586');
+	_SP(-26+104);POKEQ(1);
+	label('.586');
+	_LDLW(-54+104);LD(vACL);STW(R23);
+	_LDLW(-68+104);STW(R22);
+	_LDLW(-58+104);_MUL(R23);XORW(R22);_BEQ('.589');
+	_SP(-25+104);POKEQ(1);
+	label('.589');
+	_LDLW(-56+104);STW(R23);
+	_LDLW(-68+104);STW(R22);
+	_LDLW(-58+104);_MUL(R23);XORW(R22);_BEQ('.592');
+	_SP(-24+104);POKEQ(1);
+	label('.592');
+	_LDLW(-58+104);STW(R23);
+	_LDLW(-68+104);STW(R22);
+	LDW(R23);_MUL(R23);XORW(R22);_BEQ('.595');
+	_SP(-23+104);POKEQ(1);
+	label('.595');
+	_LDLW(-54+104);LD(vACL);STW(R23);
+	_LDLW(-70+104);STW(R22);
+	_LDLW(-60+104);_MUL(R23);XORW(R22);_BEQ('.598');
+	_SP(-22+104);POKEQ(1);
+	label('.598');
+	_LDLW(-56+104);STW(R23);
+	_LDLW(-70+104);STW(R22);
+	_LDLW(-60+104);_MUL(R23);XORW(R22);_BEQ('.601');
+	_SP(-21+104);POKEQ(1);
+	label('.601');
+	_LDLW(-58+104);STW(R23);
+	_LDLW(-70+104);STW(R22);
+	_LDLW(-60+104);_MUL(R23);XORW(R22);_BEQ('.604');
+	_SP(-20+104);POKEQ(1);
+	label('.604');
+	_LDLW(-60+104);STW(R23);
+	_LDLW(-70+104);STW(R22);
+	LDW(R23);_MUL(R23);XORW(R22);_BEQ('.607');
+	_SP(-19+104);POKEQ(1);
+	label('.607');
+	_LDLW(-54+104);LD(vACL);_STLU(LAC);_SP(-48+104);_LMUL();_SP(-76+104);_LCMPX();_BEQ('.610');
+	_SP(-18+104);POKEQ(1);
+	label('.610');
+	_LDLW(-56+104);_STLS(LAC);_SP(-48+104);_LMUL();_SP(-76+104);_LCMPX();_BEQ('.613');
+	_SP(-17+104);POKEQ(1);
+	label('.613');
+	_LDLW(-58+104);_STLS(LAC);_SP(-48+104);_LMUL();_SP(-76+104);_LCMPX();_BEQ('.616');
+	_SP(-16+104);POKEQ(1);
+	label('.616');
+	_LDLW(-70+104);_STLU(L22);
+	_LDLW(-60+104);_STLU(LAC);_SP(-48+104);_LMUL();LDI(L22);_LCMPX();_BEQ('.619');
+	_SP(-15+104);POKEQ(1);
+	label('.619');
+	_MOVL([SP,-48+104],L22);
+	_MOVL(L22,LAC);LDI(L22);_LMUL();_SP(-76+104);_LCMPX();_BEQ('.622');
+	_SP(-14+104);POKEQ(1);
+	label('.622');
+	_LDLW(-54+104);LD(vACL);_STLU(LAC);_FCVU();_SP(-53+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.625');
+	_SP(-13+104);POKEQ(1);
+	label('.625');
+	_LDLW(-56+104);_STLS(LAC);_FCVI();_SP(-53+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.628');
+	_SP(-12+104);POKEQ(1);
+	label('.628');
+	_LDLW(-58+104);_STLS(LAC);_FCVI();_SP(-53+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.631');
+	_SP(-11+104);POKEQ(1);
+	label('.631');
+	_LDLW(-60+104);_STLU(LAC);_FCVU();_SP(-53+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.634');
+	_SP(-10+104);POKEQ(1);
+	label('.634');
+	_SP(-48+104);_MOVL([vAC],LAC);_FCVI();_SP(-53+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.637');
+	_SP(-9+104);POKEQ(1);
+	label('.637');
+	_MOVF([SP,-53+104],F21);
+	_MOVF(F21,FAC);LDI(F21);_FMUL();_SP(-37+104);_FCMP();_BEQ('.640');
+	_SP(-8+104);POKEQ(1);
+	label('.640');
+	_LDLW(-54+104);LD(vACL);_STLU(LAC);_FCVU();_SP(-65+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.643');
+	_SP(-7+104);POKEQ(1);
+	label('.643');
+	_LDLW(-56+104);_STLS(LAC);_FCVI();_SP(-65+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.646');
+	_SP(-6+104);POKEQ(1);
+	label('.646');
+	_LDLW(-58+104);_STLS(LAC);_FCVI();_SP(-65+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.649');
+	_SP(-5+104);POKEQ(1);
+	label('.649');
+	_LDLW(-60+104);_STLU(LAC);_FCVU();_SP(-65+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.652');
+	_SP(-4+104);POKEQ(1);
+	label('.652');
+	_SP(-48+104);_MOVL([vAC],LAC);_FCVI();_SP(-65+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.655');
+	_SP(-3+104);POKEQ(1);
+	label('.655');
+	_MOVF([SP,-65+104],FAC);_SP(-53+104);_FMUL();_SP(-37+104);_FCMP();_BEQ('.658');
+	_SP(-2+104);POKEQ(1);
+	label('.658');
+	_MOVF([SP,-65+104],F21);
+	_MOVF(F21,FAC);LDI(F21);_FMUL();_SP(-37+104);_FCMP();_BEQ('.661');
+	_SP(-1+104);POKEQ(1);
+	label('.661');
+	MOVQB(0,R2);
+	MOVQW(0,R6);
+	label('.664');
+	_SP(-28+104);ADDW(R6);PEEK();STW(R23);
+	LD(R2);ADDW(R23);ST(R2);
+	label('.665');
+	INCV(R6);
+	LDI(28);_CMPWS(R6);_BGT('.664');
+	LD(R2);_BEQ('.668');
+	_LDLW(-72+104);ADDI(4);_STLW(-72+104);
+	LDXW(R7,28);_BEQ('.670');
+	LDWI('.558');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	LDWI('.672');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	MOVQW(0,R6);
+	label('.673');
+	LDWI('.677');STW(R8);
+	_STLW(0);
+	_SP(-28+104);ADDW(R6);PEEK();STW(R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.674');
+	INCV(R6);
+	LDI(28);_CMPWS(R6);_BGT('.673');
+	LDWI('.678');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	label('.670');
+	label('.668');
+	_MOVL('.679',LAC);
+	_MOVL(LAC,[SP,-48+104]);
+	_SP(-48+104);_LCMPS();_BGE('.680');
+	_LDLW(-72+104);ADDI(8);_STLW(-72+104);
+	LDXW(R7,28);_BEQ('.682');
+	LDWI('.558');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.682');
+	label('.680');
+	_LDLW(-72+104);
+	label('.557');
+	_EPILOGUE(104,4,0xff,saveAC=True);
+# ======== ('DATA', '.685', code47, 0, 1)
+def code47():
+	label('.685');
+	bytes(115,55,49,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.686', code48, 8, 1)
+def code48():
+	label('.686');
+	bytes(115,55,49,32,32,32,32,0);
+# ======== ('DATA', '.687', code49, 1, 1)
+def code49():
+	label('.687');
+	bytes(113); # 113
+# ======== ('CODE', 's71', code50)
+def code50():
+	label('s71');
+	_PROLOGUE(40,4,0xf8); # save=R3-7
+	MOVW(R8,R7);
+	MOVIW('.686',R6);
+	LDI(36);ADDW(R7);STW(R5);
+	MOVQW(0,R4);
+	label('.688');
+	label('.689');
+	MOVW(R5,R23);
+	INCV(R5);
+	LDW(R6);
+	INCV(R6);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.688');
+	LDWI('.687');PEEK();STW(R23);
+	LDWI('.693');PEEK();XORW(R23);_BEQ('.691');
+	INCV(R4);
+	LDXW(R7,28);_BEQ('.694');
+	LDWI('.685');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.694');
+	label('.691');
+	_BRA('.696');
+	ADDSV(2,R4);
+	LDXW(R7,28);_BEQ('.698');
+	LDWI('.685');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.698');
+	label('.696');
+	LDWI(1942);_STLW(-10+40);
+	MOVIW(1942,R23);
+	_LDLW(-10+40);XORW(R23);_BNE('.706');
+	_LDLW(-10+40);STW(R23);
+	_LDLW(-10+40);XORW(R23);_BEQ('.701');
+	label('.706');
+	ADDSV(4,R4);
+	LDXW(R7,28);_BEQ('.707');
+	LDWI('.685');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.707');
+	label('.701');
+	LDWI(-5);STW(R8);
+	_STLW(0);
+	CALLI('McCarthy');
+	XORI(91);_BEQ('.709');
+	ADDSV(8,R4);
+	LDXW(R7,28);_BEQ('.711');
+	LDWI('.685');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.711');
+	label('.709');
+	MOVQW(2,R3);
+	LDI(3);_STLW(-22+40);
+	_SP(-22+40);_STLW(-24+40);
+	LDW(R3);STW(R8);
+	_STLW(0);
+	_LDLW(-24+40);STW(R9);
+	LDW(R9);_STLW(2);
+	CALLI('clobber');
+	LDW(R3);XORI(2);_BNE('.715');
+	_LDLW(-22+40);XORI(2);_BEQ('.713');
+	label('.715');
+	ADDSV(16,R4);
+	LDXW(R7,28);_BEQ('.716');
+	LDWI('.685');STW(R8);
+	_STLW(0);
+	LDI(16);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.716');
+	label('.713');
+	LDI(19);ADDW(R7);_MOVF([vAC],F21);
+	_MOVF(F21,FAC);LDI(F21);_FCMP();_BEQ('.718');
+	ADDSV(32,R4);
+	LDXW(R7,28);_BEQ('.720');
+	LDWI('.685');STW(R8);
+	_STLW(0);
+	LDI(32);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.720');
+	label('.718');
+	LDW(R4);
+	label('.684');
+	_EPILOGUE(40,4,0xf8,saveAC=True);
+# ======== ('CODE', 'McCarthy', code51)
+def code51():
+	label('McCarthy');
+	_PROLOGUE(8,4,0x80); # save=R7
+	LDW(R8);STW(R7);
+	LDI(100);_CMPWS(R7);_BGE('.723');
+	LDW(R7);SUBI(10);
+	_BRA('.722');
+	label('.723');
+	LDI(11);ADDW(R7);STW(R8);
+	CALLI('McCarthy');
+	STW(R8);
+	CALLI('McCarthy');
+	
+	label('.722');
+	_EPILOGUE(8,4,0x80,saveAC=True);
+# ======== ('CODE', 'clobber', code52)
+def code52():
+	label('clobber');
+	PUSH();
+	MOVQW(3,R8);
+	LDW(R9);DOKEQ(2);
+	LDI(0);
+	label('.725');
+	tryhop(2);POP();RET()
+# ======== ('DATA', '.727', code53, 0, 1)
+def code53():
+	label('.727');
+	bytes(115,55,49,53,44,101,114,37);
+	bytes(100,10,0);
+# ======== ('DATA', '.728', code54, 8, 1)
+def code54():
+	label('.728');
+	bytes(115,55,49,53,32,32,32,0);
+# ======== ('CODE', 's715', code55)
+def code55():
+	label('s715');
+	_PROLOGUE(24,6,0xf8); # save=R3-7
+	MOVW(R8,R7);
+	LDI(0);_STLW(-6+24);
+	_STLW(-2+24);
+	MOVIW('.728',R6);
+	LDI(36);ADDW(R7);STW(R5);
+	LDI(0);STW(R3);
+	label('.729');
+	label('.730');
+	MOVW(R5,R23);
+	INCV(R5);
+	LDW(R6);
+	INCV(R6);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.729');
+	LDI(1);STW(R4);
+	INCV(R4);
+	INCV(R4);
+	INCV(R4);
+	INCV(R4);
+	INCV(R4);
+	LDW(R4);
+	XORI(6);_BEQ('.732');
+	LDXW(R7,28);_BEQ('.734');
+	LDWI('.727');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.734');
+	INCV(R3);
+	label('.732');
+	_LDLW(-2+24);STW(R8);
+	LDW(R8);_STLW(0);
+	LDI(3);_STLW(-4+24);
+	ADDI(2);STW(R9);
+	LDW(R9);_STLW(2);
+	_LDLW(-6+24);STW(R10);
+	LDW(R10);_STLW(4);
+	CALLI('s715f');
+	XORI(5);_BEQ('.736');
+	LDXW(R7,28);_BEQ('.738');
+	LDWI('.727');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.738');
+	ADDSV(2,R3);
+	label('.736');
+	LDW(R3);
+	label('.726');
+	_EPILOGUE(24,6,0xf8,saveAC=True);
+# ======== ('CODE', 's715f', code56)
+def code56():
+	label('s715f');
+	PUSH();
+	LDW(R9);
+	label('.740');
+	tryhop(2);POP();RET()
+# ======== ('DATA', '.742', code57, 0, 1)
+def code57():
+	label('.742');
+	bytes(115,55,50,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.743', code58, 8, 1)
+def code58():
+	label('.743');
+	bytes(115,55,50,32,32,32,32,0);
+# ======== ('CODE', 's72', code59)
+def code59():
+	label('s72');
+	_PROLOGUE(44,6,0xff); # save=R0-7
+	MOVW(R8,R7);
+	MOVIW('.743',R5);
+	LDI(36);ADDW(R7);STW(R4);
+	MOVQW(0,R2);
+	label('.744');
+	label('.745');
+	MOVW(R4,R23);
+	INCV(R4);
+	LDW(R5);
+	INCV(R5);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.744');
+	LDI(2);_STLW(-2+44);
+	XORI(2);_BEQ('.747');
+	INCV(R2);
+	LDWI('.742');STW(R8);
+	_STLW(0);
+	MOVQW(1,R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.747');
+	_LDLW(-2+44);STW(R23);
+	NEGV(vAC);ADDW(R23);_BEQ('.749');
+	ADDSV(2,R2);
+	LDWI('.742');STW(R8);
+	_STLW(0);
+	MOVQW(2,R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.749');
+	LDI(0);_STLW(-2+44);
+	STW(R6);
+	_BRA('.754');
+	label('.751');
+	_LDLW(-2+44);LSLW();ORI(1);_STLW(-2+44);
+	label('.752');
+	INCV(R6);
+	label('.754');
+	LDXW(R7,2);_CMPWS(R6);_BGT('.751');
+	_LDLW(-2+44);STW(T3);_LDI(-1);XORW(T3);_BEQ('.755');
+	ADDSV(4,R2);
+	LDWI('.742');STW(R8);
+	_STLW(0);
+	MOVQW(4,R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.755');
+	LDI(5);_STLW(-2+44);
+	ADDI(1);_STLW(-2+44);
+	
+	XORI(6);_BNE('.762');
+	_LDLW(-2+44);SUBI(1);_STLW(-2+44);
+	
+	XORI(5);_BNE('.762');
+	_LDLW(-2+44);STW(R23);
+	ADDI(1);_STLW(-2+44);
+	LDW(R23);XORI(5);_BNE('.762');
+	_LDLW(-2+44);STW(R23);
+	SUBI(1);_STLW(-2+44);
+	LDW(R23);XORI(6);_BNE('.762');
+	_LDLW(-2+44);XORI(5);_BEQ('.757');
+	label('.762');
+	ADDSV(8,R2);
+	LDWI('.742');STW(R8);
+	_STLW(0);
+	MOVQW(8,R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.757');
+	MOVQB(26,R0);
+	_MOVL('.763',[SP,-8+44]);
+	_MOVF('.764',[SP,-15+44]);
+	LDI(26);_STLW(-4+44);
+	_STLW(-10+44);
+	STW(R1);
+	_MOVF('.765',[SP,-20+44]);
+	MOVQW(0,R3);
+	_LDLW(-4+44);LD(vACL);XORI(26);_BNE('.772');
+	LD(R1);XORI(26);_BNE('.772');
+	_MOVL([SP,-8+44],L22);
+	LDW(L22);LD(vACL);XORI(26);_BNE('.772');
+	_LDLW(-10+44);LD(vACL);XORI(26);_BNE('.772');
+	_MOVF([SP,-20+44],FAC);_FTOU();LDW(LAC);LD(vACL);XORI(26);_BNE('.772');
+	_MOVF([SP,-15+44],FAC);_FTOU();LDW(LAC);LD(vACL);XORI(26);_BEQ('.766');
+	label('.772');
+	INCV(R3);
+	label('.766');
+	LD(R0);XORI(26);_BNE('.779');
+	LDW(R1);XORI(26);_BNE('.779');
+	_MOVL([SP,-8+44],L22);
+	LDW(L22);XORI(26);_BNE('.779');
+	_LDLW(-10+44);XORI(26);_BNE('.779');
+	_MOVF([SP,-20+44],FAC);_FTOI();LDW(LAC);XORI(26);_BNE('.779');
+	_MOVF([SP,-15+44],FAC);_FTOI();LDW(LAC);XORI(26);_BEQ('.773');
+	label('.779');
+	ADDSV(2,R3);
+	label('.773');
+	LD(R0);XORI(26);_BNE('.786');
+	_LDLW(-4+44);XORI(26);_BNE('.786');
+	_MOVL([SP,-8+44],L22);
+	LDW(L22);XORI(26);_BNE('.786');
+	_LDLW(-10+44);XORI(26);_BNE('.786');
+	_MOVF([SP,-20+44],FAC);_FTOI();LDW(LAC);XORI(26);_BNE('.786');
+	_MOVF([SP,-15+44],FAC);_FTOI();LDW(LAC);XORI(26);_BEQ('.780');
+	label('.786');
+	ADDSV(4,R3);
+	label('.780');
+	_MOVL('.763',L22);
+	LD(R0);_STLU(LAC);LDI(L22);_LCMPX();_BNE('.793');
+	_LDLW(-4+44);_STLS(LAC);LDI(L22);_LCMPX();_BNE('.793');
+	LDW(R1);_STLS(LAC);LDI(L22);_LCMPX();_BNE('.793');
+	_LDLW(-10+44);_STLU(LAC);LDI(L22);_LCMPX();_BNE('.793');
+	_MOVF([SP,-20+44],FAC);_FTOI();LDI(L22);_LCMPX();_BNE('.793');
+	_MOVF([SP,-15+44],FAC);_FTOI();LDI(L22);_LCMPX();_BEQ('.787');
+	label('.793');
+	ADDSV(8,R3);
+	label('.787');
+	LD(R0);XORI(26);_BNE('.800');
+	_LDLW(-4+44);XORI(26);_BNE('.800');
+	LDW(R1);XORI(26);_BNE('.800');
+	_MOVL([SP,-8+44],L22);
+	LDW(L22);XORI(26);_BNE('.800');
+	_MOVF([SP,-20+44],FAC);_FTOU();LDW(LAC);XORI(26);_BNE('.800');
+	_MOVF([SP,-15+44],FAC);_FTOU();LDW(LAC);XORI(26);_BEQ('.794');
+	label('.800');
+	ADDSV(16,R3);
+	label('.794');
+	_MOVF('.764',F21);
+	LD(R0);_STLU(LAC);_FCVU();LDI(F21);_FCMP();_BNE('.807');
+	_LDLW(-4+44);_STLS(LAC);_FCVI();LDI(F21);_FCMP();_BNE('.807');
+	LDW(R1);_STLS(LAC);_FCVI();LDI(F21);_FCMP();_BNE('.807');
+	_SP(-8+44);_MOVL([vAC],LAC);_FCVI();LDI(F21);_FCMP();_BNE('.807');
+	_LDLW(-10+44);_STLU(LAC);_FCVU();LDI(F21);_FCMP();_BNE('.807');
+	_MOVF(F21,FAC);_SP(-15+44);_FCMP();_BEQ('.801');
+	label('.807');
+	ADDSV(32,R3);
+	label('.801');
+	_MOVF('.764',F21);
+	LD(R0);_STLU(LAC);_FCVU();LDI(F21);_FCMP();_BNE('.814');
+	_LDLW(-4+44);_STLS(LAC);_FCVI();LDI(F21);_FCMP();_BNE('.814');
+	LDW(R1);_STLS(LAC);_FCVI();LDI(F21);_FCMP();_BNE('.814');
+	_SP(-8+44);_MOVL([vAC],LAC);_FCVI();LDI(F21);_FCMP();_BNE('.814');
+	_LDLW(-10+44);_STLU(LAC);_FCVU();LDI(F21);_FCMP();_BNE('.814');
+	_MOVF(F21,FAC);_SP(-20+44);_FCMP();_BEQ('.808');
+	label('.814');
+	ADDSV(64,R3);
+	label('.808');
+	LDW(R3);_BEQ('.815');
+	ADDSV(16,R2);
+	LDWI('.742');STW(R8);
+	_STLW(0);
+	MOVQW(16,R9);
+	LDW(R9);_STLW(2);
+	CALLI('printf');
+	label('.815');
+	LDW(R2);
+	label('.741');
+	_EPILOGUE(44,6,0xff,saveAC=True);
+# ======== ('DATA', '.818', code60, 0, 1)
+def code60():
+	label('.818');
+	bytes(115,55,53,55,44,101,114,37);
+	bytes(100,10,0);
+# ======== ('DATA', '.819', code61, 8, 1)
+def code61():
+	label('.819');
+	bytes(115,55,53,55,32,32,32,0);
+# ======== ('CODE', 's757', code62)
+def code62():
+	label('s757');
+	_PROLOGUE(84,6,0xff); # save=R0-7
+	MOVW(R8,R7);
+	LDWI('.819');_STLW(-42+84);
+	LDI(36);ADDW(R7);_STLW(-44+84);
+	LDI(0);_STLW(-46+84);
+	label('.820');
+	label('.821');
+	_LDLW(-44+84);STW(R23);
+	ADDI(1);_STLW(-44+84);
+	_LDLW(-42+84);STW(R22);
+	ADDI(1);_STLW(-42+84);
+	PEEKV(R22);
+	POKE(R23);
+	LD(vAC);_BNE('.820');
+	LDI(40);_STLW(-48+84);
+	STW(R23);
+	MOVIW(1280,R22);
+	_SHLI(3);_SHLI(2);XORW(R22);_BNE('.825');
+	LDW(R23);_SHRIS(3);_SHRIS(2);XORI(1);_BEQ('.823');
+	label('.825');
+	_LDLW(-46+84);ADDI(1);_STLW(-46+84);
+	LDXW(R7,28);_BEQ('.826');
+	LDWI('.818');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.826');
+	label('.823');
+	LDI(0);STW(R2);
+	_STLW(-36+84);
+	_BRA('.831');
+	label('.828');
+	LDI(1);STW(R0);
+	LDXW(R7,8);SUBI(1);STW(R23);
+	LDW(R0);_SHL(R23);_STLW(-34+84);
+	LDI(0);_STLW(-38+84);
+	STW(T3);_LDI(-1);XORW(T3);STW(R23);
+	_LDLW(-36+84);STW(R22);
+	LDW(R23);_SHRU(R22);_STLW(-40+84);
+	LDW(R23);_SHL(R22);_STLW(-38+84);
+	MOVQW(0,R1);
+	_BRA('.835');
+	label('.832');
+	_LDLW(-36+84);_CMPWS(R1);_BLE('.843');
+	LDI(1);_STLW(-52+84);
+	_BRA('.844');
+	label('.843');
+	LDI(0);_STLW(-52+84);
+	label('.844');
+	_LDLW(-38+84);ANDW(R0);_BNE('.845');
+	LDI(1);_STLW(-54+84);
+	_BRA('.846');
+	label('.845');
+	LDI(0);_STLW(-54+84);
+	label('.846');
+	_LDLW(-54+84);STW(R23);
+	_LDLW(-52+84);XORW(R23);_BNE('.842');
+	_LDLW(-36+84);_CMPWS(R1);_BLE('.847');
+	LDI(1);_STLW(-56+84);
+	_BRA('.848');
+	label('.847');
+	LDI(0);_STLW(-56+84);
+	label('.848');
+	_LDLW(-40+84);STW(R23);
+	_LDLW(-34+84);ANDW(R23);_BNE('.849');
+	LDI(1);_STLW(-58+84);
+	_BRA('.850');
+	label('.849');
+	LDI(0);_STLW(-58+84);
+	label('.850');
+	_LDLW(-58+84);STW(R23);
+	_LDLW(-56+84);XORW(R23);_BEQ('.836');
+	label('.842');
+	MOVQW(1,R2);
+	label('.836');
+	LDW(R0);LSLW();STW(R0);
+	_LDLW(-34+84);_SHRIU(1);_STLW(-34+84);
+	label('.833');
+	INCV(R1);
+	label('.835');
+	LDXW(R7,8);_CMPWS(R1);_BGT('.832');
+	label('.829');
+	_LDLW(-36+84);ADDI(1);_STLW(-36+84);
+	label('.831');
+	LDI(8);ADDW(R7);DEEKA(R23);
+	_LDLW(-36+84);_CMPWS(R23);_BLT('.828');
+	LDW(R2);_BEQ('.851');
+	_LDLW(-46+84);ADDI(2);_STLW(-46+84);
+	LDXW(R7,28);_BEQ('.853');
+	LDWI('.818');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.853');
+	label('.851');
+	MOVQW(3,R3);
+	MOVQW(2,R4);
+	MOVQW(1,R5);
+	LDW(R3);_CMPWS(R4);_BGE('.861');
+	LDI(1);_STLW(-54+84);
+	_BRA('.862');
+	label('.861');
+	LDI(0);_STLW(-54+84);
+	label('.862');
+	_LDLW(-54+84);_CMPWS(R5);_BGE('.859');
+	LDI(1);_STLW(-52+84);
+	_BRA('.860');
+	label('.859');
+	LDI(0);_STLW(-52+84);
+	label('.860');
+	_LDLW(-52+84);XORI(1);_BEQ('.855');
+	_LDLW(-46+84);ADDI(4);_STLW(-46+84);
+	LDXW(R7,28);_BEQ('.863');
+	LDWI('.818');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.863');
+	label('.855');
+	_SP(-32+84);STW(R23);
+	_SP(-30+84);XORW(R23);_BNE('.865');
+	_LDLW(-46+84);ADDI(8);_STLW(-46+84);
+	LDXW(R7,28);_BEQ('.868');
+	LDWI('.818');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.868');
+	label('.865');
+	_SP(-32+84);STW(R23);
+	_SP(-30+84);_CMPWU(R23);_BGE('.870');
+	LDXW(R7,26);_BEQ('.873');
+	LDWI('.875');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	label('.873');
+	label('.870');
+	LDI(0);STW(R2);
+	STW(R1);
+	label('.876');
+	_SP(-32+84);ADDW(R1);ADDW(R1);DOKEQ(1);
+	label('.877');
+	INCV(R1);
+	LDI(16);_CMPWS(R1);_BGT('.876');
+	LDI(0);_STLW(-30+84);
+	_STLW(-24+84);
+	_STLW(-20+84);
+	_STLW(-18+84);
+	_STLW(-14+84);
+	_STLW(-6+84);
+	STW(R3);
+	label('.886');
+	MOVQW(0,R4);
+	label('.890');
+	MOVQW(0,R5);
+	label('.894');
+	MOVQW(0,R6);
+	label('.898');
+	LDW(R3);_CMPWS(R4);_BGE('.909');
+	LDI(1);_STLW(-58+84);
+	_BRA('.910');
+	label('.909');
+	LDI(0);_STLW(-58+84);
+	label('.910');
+	LDW(R5);_CMPWS(R6);_BGE('.911');
+	LDI(1);_STLW(-60+84);
+	_BRA('.912');
+	label('.911');
+	LDI(0);_STLW(-60+84);
+	label('.912');
+	_LDLW(-60+84);STW(R23);
+	_LDLW(-58+84);XORW(R23);_BNE('.907');
+	LDI(1);_STLW(-56+84);
+	_BRA('.908');
+	label('.907');
+	LDI(0);_STLW(-56+84);
+	label('.908');
+	LDW(R4);_SHLI(2);STW(R23);
+	LDW(R5);LSLW();STW(R22);
+	_SP(-32+84);STW(R21);
+	LDW(R3);_SHLI(3);ADDW(R23);ADDW(R22);ADDW(R6);LSLW();ADDW(R21);DEEKA(R23);
+	_LDLW(-56+84);XORW(R23);_BEQ('.902');
+	MOVQW(1,R2);
+	label('.902');
+	label('.899');
+	INCV(R6);
+	LDI(2);_CMPWS(R6);_BGT('.898');
+	label('.895');
+	INCV(R5);
+	LDI(2);_CMPWS(R5);_BGT('.894');
+	label('.891');
+	INCV(R4);
+	LDI(2);_CMPWS(R4);_BGT('.890');
+	label('.887');
+	INCV(R3);
+	LDI(2);_CMPWS(R3);_BGT('.886');
+	LDW(R2);_BEQ('.913');
+	_LDLW(-46+84);ADDI(16);_STLW(-46+84);
+	LDXW(R7,28);_BEQ('.915');
+	LDWI('.818');STW(R8);
+	_STLW(0);
+	LDI(16);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.915');
+	label('.913');
+	LDI(0);_STLW(-50+84);
+	_BEQ('.917');
+	_LDLW(-46+84);ADDI(32);_STLW(-46+84);
+	LDXW(R7,28);_BEQ('.919');
+	LDWI('.818');STW(R8);
+	_STLW(0);
+	LDI(32);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.919');
+	label('.917');
+	_LDLW(-46+84);
+	label('.817');
+	_EPILOGUE(84,6,0xff,saveAC=True);
+# ======== ('DATA', '.922', code63, 0, 1)
+def code63():
+	label('.922');
+	bytes(76,111,99,97,108,32,101,114);
+	bytes(114,111,114,32,37,100,46,10);
+	bytes(0);
+# ======== ('DATA', '.923', code64, 0, 1)
+def code64():
+	label('.923');
+	bytes(115,55,56,49,51,44,101,114);
+	bytes(37,100,10,0);
+# ======== ('DATA', '.924', code65, 8, 1)
+def code65():
+	label('.924');
+	bytes(115,55,56,49,51,32,32,0);
+# ======== ('CODE', 's7813', code66)
+def code66():
+	label('s7813');
+	_PROLOGUE(52,6,0xff); # save=R0-7
+	MOVW(R8,R7);
+	MOVIW('.924',R1);
+	LDI(36);ADDW(R7);STW(R0);
+	LDI(0);STW(R5);
+	_STLW(-2+52);
+	LDI(30);ADDW(R7);DEEKA(R6);
+	label('.925');
+	label('.926');
+	MOVW(R0,R23);
+	INCV(R0);
+	LDW(R1);
+	INCV(R1);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.925');
+	_BRA('.928');
+	MOVQW(1,R5);
+	LDW(R6);_BEQ('.930');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.930');
+	label('.928');
+	_BRA('.932');
+	MOVQW(2,R5);
+	LDW(R6);_BEQ('.934');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.934');
+	label('.932');
+	_BRA('.936');
+	MOVQW(3,R5);
+	LDW(R6);_BEQ('.938');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.938');
+	label('.936');
+	_BRA('.940');
+	MOVQW(4,R5);
+	LDW(R6);_BEQ('.942');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.942');
+	label('.940');
+	_BRA('.944');
+	MOVQW(5,R5);
+	LDW(R6);_BEQ('.946');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.946');
+	label('.944');
+	_BRA('.948');
+	MOVQW(6,R5);
+	LDW(R6);_BEQ('.950');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.950');
+	label('.948');
+	_BRA('.952');
+	MOVQW(7,R5);
+	LDW(R6);_BEQ('.954');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.954');
+	label('.952');
+	_BRA('.956');
+	MOVQW(8,R5);
+	LDW(R6);_BEQ('.958');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.958');
+	label('.956');
+	_BRA('.960');
+	MOVQW(9,R5);
+	LDW(R6);_BEQ('.962');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.962');
+	label('.960');
+	_BRA('.964');
+	MOVQW(10,R5);
+	LDW(R6);_BEQ('.966');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.966');
+	label('.964');
+	_BRA('.968');
+	MOVQW(11,R5);
+	LDW(R6);_BEQ('.970');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.970');
+	label('.968');
+	_BRA('.972');
+	MOVQW(12,R5);
+	LDW(R6);_BEQ('.974');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.974');
+	label('.972');
+	_BRA('.976');
+	MOVQW(13,R5);
+	LDW(R6);_BEQ('.978');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.978');
+	label('.976');
+	_BRA('.980');
+	MOVQW(14,R5);
+	LDW(R6);_BEQ('.982');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.982');
+	label('.980');
+	_BRA('.984');
+	MOVQW(15,R5);
+	LDW(R6);_BEQ('.986');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.986');
+	label('.984');
+	_BRA('.988');
+	MOVQW(16,R5);
+	LDW(R6);_BEQ('.990');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.990');
+	label('.988');
+	_BRA('.992');
+	MOVQW(17,R5);
+	LDW(R6);_BEQ('.994');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.994');
+	label('.992');
+	_BRA('.996');
+	MOVQW(18,R5);
+	LDW(R6);_BEQ('.998');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.998');
+	label('.996');
+	_BRA('.1000');
+	MOVQW(16,R5);
+	LDW(R6);_BEQ('.1002');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1002');
+	label('.1000');
+	_BRA('.1004');
+	MOVQW(20,R5);
+	LDW(R6);_BEQ('.1006');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1006');
+	label('.1004');
+	_BRA('.1008');
+	MOVQW(21,R5);
+	LDW(R6);_BEQ('.1010');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1010');
+	label('.1008');
+	_BRA('.1012');
+	MOVQW(22,R5);
+	LDW(R6);_BEQ('.1014');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1014');
+	label('.1012');
+	_BRA('.1016');
+	MOVQW(23,R5);
+	LDW(R6);_BEQ('.1018');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1018');
+	label('.1016');
+	_BRA('.1020');
+	MOVQW(24,R5);
+	LDW(R6);_BEQ('.1022');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1022');
+	label('.1020');
+	_BRA('.1024');
+	MOVQW(25,R5);
+	LDW(R6);_BEQ('.1026');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1026');
+	label('.1024');
+	_BRA('.1028');
+	MOVQW(26,R5);
+	LDW(R6);_BEQ('.1030');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1030');
+	label('.1028');
+	_BRA('.1032');
+	MOVQW(27,R5);
+	LDW(R6);_BEQ('.1034');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1034');
+	label('.1032');
+	_BRA('.1036');
+	MOVQW(28,R5);
+	LDW(R6);_BEQ('.1038');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1038');
+	label('.1036');
+	_BRA('.1040');
+	MOVQW(26,R5);
+	LDW(R6);_BEQ('.1042');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1042');
+	label('.1040');
+	_BRA('.1044');
+	MOVQW(30,R5);
+	LDW(R6);_BEQ('.1046');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1046');
+	label('.1044');
+	_BRA('.1048');
+	MOVQW(31,R5);
+	LDW(R6);_BEQ('.1050');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1050');
+	label('.1048');
+	_BRA('.1052');
+	MOVQW(32,R5);
+	LDW(R6);_BEQ('.1054');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1054');
+	label('.1052');
+	_BRA('.1056');
+	MOVQW(33,R5);
+	LDW(R6);_BEQ('.1058');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1058');
+	label('.1056');
+	_BRA('.1060');
+	MOVQW(34,R5);
+	LDW(R6);_BEQ('.1062');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1062');
+	label('.1060');
+	_BRA('.1064');
+	MOVQW(35,R5);
+	LDW(R6);_BEQ('.1066');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1066');
+	label('.1064');
+	_BRA('.1068');
+	MOVQW(36,R5);
+	LDW(R6);_BEQ('.1070');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1070');
+	label('.1068');
+	_BRA('.1072');
+	MOVQW(37,R5);
+	LDW(R6);_BEQ('.1074');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1074');
+	label('.1072');
+	_BRA('.1076');
+	MOVQW(38,R5);
+	LDW(R6);_BEQ('.1078');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1078');
+	label('.1076');
+	_BRA('.1080');
+	MOVQW(39,R5);
+	LDW(R6);_BEQ('.1082');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1082');
+	label('.1080');
+	_BRA('.1084');
+	MOVQW(40,R5);
+	LDW(R6);_BEQ('.1086');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1086');
+	label('.1084');
+	_BRA('.1088');
+	MOVQW(41,R5);
+	LDW(R6);_BEQ('.1090');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1090');
+	label('.1088');
+	_BRA('.1092');
+	MOVQW(42,R5);
+	LDW(R6);_BEQ('.1094');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1094');
+	label('.1092');
+	_BRA('.1096');
+	MOVQW(43,R5);
+	LDW(R6);_BEQ('.1098');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1098');
+	label('.1096');
+	_BRA('.1100');
+	MOVQW(44,R5);
+	LDW(R6);_BEQ('.1102');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1102');
+	label('.1100');
+	_BRA('.1104');
+	MOVQW(45,R5);
+	LDW(R6);_BEQ('.1106');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1106');
+	label('.1104');
+	_BRA('.1108');
+	MOVQW(46,R5);
+	LDW(R6);_BEQ('.1110');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1110');
+	label('.1108');
+	_BRA('.1112');
+	MOVQW(47,R5);
+	LDW(R6);_BEQ('.1114');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1114');
+	label('.1112');
+	_BRA('.1116');
+	MOVQW(48,R5);
+	LDW(R6);_BEQ('.1118');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1118');
+	label('.1116');
+	_BRA('.1120');
+	MOVQW(49,R5);
+	LDW(R6);_BEQ('.1122');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1122');
+	label('.1120');
+	_BRA('.1124');
+	MOVQW(50,R5);
+	LDW(R6);_BEQ('.1126');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1126');
+	label('.1124');
+	_BRA('.1128');
+	MOVQW(51,R5);
+	LDW(R6);_BEQ('.1130');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1130');
+	label('.1128');
+	_BRA('.1132');
+	MOVQW(52,R5);
+	LDW(R6);_BEQ('.1134');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1134');
+	label('.1132');
+	_BRA('.1136');
+	MOVQW(53,R5);
+	LDW(R6);_BEQ('.1138');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1138');
+	label('.1136');
+	_BRA('.1140');
+	MOVQW(54,R5);
+	LDW(R6);_BEQ('.1142');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1142');
+	label('.1140');
+	_BRA('.1144');
+	MOVQW(55,R5);
+	LDW(R6);_BEQ('.1146');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1146');
+	label('.1144');
+	_BRA('.1148');
+	MOVQW(56,R5);
+	LDW(R6);_BEQ('.1150');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1150');
+	label('.1148');
+	_BRA('.1152');
+	MOVQW(57,R5);
+	LDW(R6);_BEQ('.1154');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1154');
+	label('.1152');
+	_BRA('.1156');
+	MOVQW(58,R5);
+	LDW(R6);_BEQ('.1158');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1158');
+	label('.1156');
+	_BRA('.1160');
+	MOVQW(56,R5);
+	LDW(R6);_BEQ('.1162');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1162');
+	label('.1160');
+	_BRA('.1164');
+	MOVQW(60,R5);
+	LDW(R6);_BEQ('.1166');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1166');
+	label('.1164');
+	_BRA('.1168');
+	MOVQW(61,R5);
+	LDW(R6);_BEQ('.1170');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1170');
+	label('.1168');
+	_BRA('.1172');
+	MOVQW(62,R5);
+	LDW(R6);_BEQ('.1174');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1174');
+	label('.1172');
+	_BRA('.1176');
+	MOVQW(63,R5);
+	LDW(R6);_BEQ('.1178');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1178');
+	label('.1176');
+	_BRA('.1180');
+	MOVQW(64,R5);
+	LDW(R6);_BEQ('.1182');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1182');
+	label('.1180');
+	_BRA('.1184');
+	MOVQW(65,R5);
+	LDW(R6);_BEQ('.1186');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1186');
+	label('.1184');
+	_BRA('.1188');
+	MOVQW(66,R5);
+	LDW(R6);_BEQ('.1190');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1190');
+	label('.1188');
+	_BRA('.1192');
+	MOVQW(67,R5);
+	LDW(R6);_BEQ('.1194');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1194');
+	label('.1192');
+	_BRA('.1196');
+	MOVQW(68,R5);
+	LDW(R6);_BEQ('.1198');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1198');
+	label('.1196');
+	_BRA('.1200');
+	MOVQW(69,R5);
+	LDW(R6);_BEQ('.1202');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1202');
+	label('.1200');
+	_BRA('.1204');
+	MOVQW(70,R5);
+	LDW(R6);_BEQ('.1206');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1206');
+	label('.1204');
+	_BRA('.1208');
+	MOVQW(71,R5);
+	LDW(R6);_BEQ('.1210');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1210');
+	label('.1208');
+	_BRA('.1212');
+	MOVQW(72,R5);
+	LDW(R6);_BEQ('.1214');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1214');
+	label('.1212');
+	_BRA('.1216');
+	MOVQW(73,R5);
+	LDW(R6);_BEQ('.1218');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1218');
+	label('.1216');
+	_BRA('.1220');
+	MOVQW(74,R5);
+	LDW(R6);_BEQ('.1222');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1222');
+	label('.1220');
+	_BRA('.1224');
+	MOVQW(75,R5);
+	LDW(R6);_BEQ('.1226');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1226');
+	label('.1224');
+	LDW(R5);_BEQ('.1228');
+	LDXW(R7,28);_BEQ('.1230');
+	LDWI('.923');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1230');
+	_LDLW(-2+52);ADDI(1);_STLW(-2+52);
+	label('.1228');
+	LDI(0);STW(R5);
+	STW(R3);
+	STW(R4);
+
+	INCV(R4);
+	_BEQ('.1233');
+	LDW(R3);
+	INCV(R3);
+	_BEQ('.1233');
+	LDI(1);_STLW(-8+52);
+	_BRA('.1234');
+	label('.1233');
+	LDI(0);_STLW(-8+52);
+	label('.1234');
+	_LDLW(-8+52);STW(R2);
+	LDW(R4);XORI(1);_BEQ('.1235');
+	MOVQW(1,R5);
+	LDW(R6);_BEQ('.1237');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1237');
+	label('.1235');
+	LDW(R3);_BEQ('.1239');
+	MOVQW(2,R5);
+	LDW(R6);_BEQ('.1241');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1241');
+	label('.1239');
+	LDW(R2);_BEQ('.1243');
+	MOVQW(3,R5);
+	LDW(R6);_BEQ('.1245');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1245');
+	label('.1243');
+	LDW(R4);_BEQ('.1248');
+	LDW(R3);
+	INCV(R3);
+	_BEQ('.1248');
+	LDI(1);_STLW(-10+52);
+	_BRA('.1249');
+	label('.1248');
+	LDI(0);_STLW(-10+52);
+	label('.1249');
+	_LDLW(-10+52);STW(R2);
+	LDW(R4);XORI(1);_BEQ('.1250');
+	MOVQW(4,R5);
+	LDW(R6);_BEQ('.1252');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1252');
+	label('.1250');
+	LDW(R3);XORI(1);_BEQ('.1254');
+	MOVQW(5,R5);
+	LDW(R6);_BEQ('.1256');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1256');
+	label('.1254');
+	LDW(R2);_BEQ('.1258');
+	MOVQW(6,R5);
+	LDW(R6);_BEQ('.1260');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1260');
+	label('.1258');
+	LDW(R4);
+	ADDSV(-1,R4);
+	_BEQ('.1263');
+	LDW(R3);_BEQ('.1263');
+	LDI(1);_STLW(-12+52);
+	_BRA('.1264');
+	label('.1263');
+	LDI(0);_STLW(-12+52);
+	label('.1264');
+	_LDLW(-12+52);STW(R2);
+	LDW(R4);_BEQ('.1265');
+	MOVQW(7,R5);
+	LDW(R6);_BEQ('.1267');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1267');
+	label('.1265');
+	LDW(R3);XORI(1);_BEQ('.1269');
+	MOVQW(8,R5);
+	LDW(R6);_BEQ('.1271');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1271');
+	label('.1269');
+	LDW(R2);XORI(1);_BEQ('.1273');
+	MOVQW(9,R5);
+	LDW(R6);_BEQ('.1275');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1275');
+	label('.1273');
+	LDW(R4);_BEQ('.1278');
+	LDW(R3);
+	ADDSV(-1,R3);
+	_BEQ('.1278');
+	LDI(1);_STLW(-14+52);
+	_BRA('.1279');
+	label('.1278');
+	LDI(0);_STLW(-14+52);
+	label('.1279');
+	_LDLW(-14+52);STW(R2);
+	LDW(R4);_BEQ('.1280');
+	MOVQW(10,R5);
+	LDW(R6);_BEQ('.1282');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1282');
+	label('.1280');
+	LDW(R3);XORI(1);_BEQ('.1284');
+	MOVQW(11,R5);
+	LDW(R6);_BEQ('.1286');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1286');
+	label('.1284');
+	LDW(R2);_BEQ('.1288');
+	MOVQW(12,R5);
+	LDW(R6);_BEQ('.1290');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1290');
+	label('.1288');
+	LDW(R5);_BEQ('.1292');
+	LDXW(R7,28);_BEQ('.1294');
+	LDWI('.923');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1294');
+	_LDLW(-2+52);ADDI(2);_STLW(-2+52);
+	label('.1292');
+	LDI(0);STW(R5);
+	STW(R3);
+	STW(R4);
+
+	INCV(R4);
+	_BNE('.1299');
+	LDW(R3);_BEQ('.1297');
+	label('.1299');
+	LDI(1);_STLW(-16+52);
+	_BRA('.1298');
+	label('.1297');
+	LDI(0);_STLW(-16+52);
+	label('.1298');
+	_LDLW(-16+52);STW(R2);
+	LDW(R4);XORI(1);_BEQ('.1300');
+	MOVQW(1,R5);
+	LDW(R6);_BEQ('.1302');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1302');
+	label('.1300');
+	LDW(R3);_BEQ('.1304');
+	MOVQW(2,R5);
+	LDW(R6);_BEQ('.1306');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1306');
+	label('.1304');
+	LDW(R2);_BEQ('.1308');
+	MOVQW(3,R5);
+	LDW(R6);_BEQ('.1310');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1310');
+	label('.1308');
+	LDW(R3);
+	INCV(R3);
+	_BNE('.1315');
+	LDW(R4);_BEQ('.1313');
+	label('.1315');
+	LDI(1);_STLW(-18+52);
+	_BRA('.1314');
+	label('.1313');
+	LDI(0);_STLW(-18+52);
+	label('.1314');
+	_LDLW(-18+52);STW(R2);
+	LDW(R4);XORI(1);_BEQ('.1316');
+	MOVQW(4,R5);
+	LDW(R6);_BEQ('.1318');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1318');
+	label('.1316');
+	LDW(R3);XORI(1);_BEQ('.1320');
+	MOVQW(5,R5);
+	LDW(R6);_BEQ('.1322');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1322');
+	label('.1320');
+	LDW(R2);XORI(1);_BEQ('.1324');
+	MOVQW(6,R5);
+	LDW(R6);_BEQ('.1326');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1326');
+	label('.1324');
+	LDW(R4);
+	ADDSV(-1,R4);
+	_BNE('.1331');
+	LDW(R3);
+	ADDSV(-1,R3);
+	_BEQ('.1329');
+	label('.1331');
+	LDI(1);_STLW(-20+52);
+	_BRA('.1330');
+	label('.1329');
+	LDI(0);_STLW(-20+52);
+	label('.1330');
+	_LDLW(-20+52);STW(R2);
+	LDW(R4);_BEQ('.1332');
+	MOVQW(7,R5);
+	LDW(R6);_BEQ('.1334');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1334');
+	label('.1332');
+	LDW(R3);XORI(1);_BEQ('.1336');
+	MOVQW(8,R5);
+	LDW(R6);_BEQ('.1338');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1338');
+	label('.1336');
+	LDW(R2);XORI(1);_BEQ('.1340');
+	MOVQW(9,R5);
+	LDW(R6);_BEQ('.1342');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1342');
+	label('.1340');
+	LDW(R4);_BNE('.1347');
+	LDW(R3);
+	ADDSV(-1,R3);
+	_BEQ('.1345');
+	label('.1347');
+	LDI(1);_STLW(-22+52);
+	_BRA('.1346');
+	label('.1345');
+	LDI(0);_STLW(-22+52);
+	label('.1346');
+	_LDLW(-22+52);STW(R2);
+	LDW(R4);_BEQ('.1348');
+	MOVQW(10,R5);
+	LDW(R6);_BEQ('.1350');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1350');
+	label('.1348');
+	LDW(R3);_BEQ('.1352');
+	MOVQW(11,R5);
+	LDW(R6);_BEQ('.1354');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1354');
+	label('.1352');
+	LDW(R2);XORI(1);_BEQ('.1356');
+	MOVQW(12,R5);
+	LDW(R6);_BEQ('.1358');
+	LDWI('.922');STW(R8);
+	_STLW(0);
+	LDW(R5);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1358');
+	label('.1356');
+	LDW(R5);_BEQ('.1360');
+	LDXW(R7,28);_BEQ('.1362');
+	LDWI('.923');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1362');
+	_LDLW(-2+52);ADDI(4);_STLW(-2+52);
+	label('.1360');
+	LDI(0);STW(R3);
+	STW(R4);
+	_STLW(-4+52);
+	LDI(1);_STLW(-6+52);
+	_BEQ('.1365');
+	_LDLW(-4+52);_STLW(-24+52);
+	_BRA('.1366');
+	label('.1365');
+	_LDLW(-6+52);_BEQ('.1367');
+	LDW(R4);
+	INCV(R4);
+	_STLW(-24+52);
+	_BRA('.1368');
+	label('.1367');
+	LDW(R3);
+	INCV(R3);
+	_STLW(-24+52);
+	label('.1368');
+	_LDLW(-24+52);_STLW(-24+52);
+	label('.1366');
+	_LDLW(-24+52);STW(R2);
+	_BNE('.1372');
+	LDW(R4);_BNE('.1372');
+	LDW(R3);_BEQ('.1369');
+	label('.1372');
+	LDXW(R7,28);_BEQ('.1373');
+	LDWI('.923');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1373');
+	_LDLW(-2+52);ADDI(8);_STLW(-2+52);
+	label('.1369');
+	_LDLW(-6+52);_BEQ('.1380');
+	_LDLW(-4+52);_STLW(-26+52);
+	_BRA('.1381');
+	label('.1380');
+	LDI(1);_STLW(-26+52);
+	label('.1381');
+	_LDLW(-26+52);_BNE('.1379');
+	_LDLW(-4+52);_BEQ('.1382');
+	LDI(1);_STLW(-28+52);
+	_BRA('.1383');
+	label('.1382');
+	_LDLW(-4+52);_STLW(-28+52);
+	label('.1383');
+	_LDLW(-28+52);_BEQ('.1375');
+	label('.1379');
+	LDXW(R7,28);_BEQ('.1384');
+	LDWI('.923');STW(R8);
+	_STLW(0);
+	LDI(16);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1384');
+	_LDLW(-2+52);ADDI(16);_STLW(-2+52);
+	label('.1375');
+	_LDLW(-2+52);
+	label('.921');
+	_EPILOGUE(52,6,0xff,saveAC=True);
+# ======== ('DATA', '.1387', code67, 0, 1)
+def code67():
+	label('.1387');
+	bytes(115,56,49,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.1388', code68, 8, 1)
+def code68():
+	label('.1388');
+	bytes(115,56,49,32,32,32,32,0);
+# ======== ('DATA', '.1389', code69, 0, 1)
+def code69():
+	label('.1389');
+	bytes(82,101,103,105,115,116,101,114);
+	bytes(32,99,111,117,110,116,32,102);
+	bytes(111,114,32,37,115,32,105,115);
+	bytes(32,117,110,114,101,108,105,97);
+	bytes(98,108,101,46,10,0);
+# ======== ('DATA', '.1390', code70, 0, 1)
+def code70():
+	label('.1390');
+	bytes(37,100,32,114,101,103,105,115);
+	bytes(116,101,114,115,32,97,115,115);
+	bytes(105,103,110,101,100,32,116,111);
+	bytes(32,37,115,32,118,97,114,105);
+	bytes(97,98,108,101,115,46,10,0);
+# ======== ('CODE', 's81', code71)
+def code71():
+	label('s81');
+	_PROLOGUE(40,8,0xff); # save=R0-7
+	MOVW(R8,R7);
+	LDI(0);_STLW(-14+40);
+	_STLW(-8+40);
+	_STLW(-10+40);
+	_STLW(-12+40);
+	LDWI('.1388');_STLW(-4+40);
+	LDI(36);ADDW(R7);_STLW(-6+40);
+	label('.1391');
+	label('.1392');
+	_LDLW(-6+40);STW(R23);
+	ADDI(1);_STLW(-6+40);
+	_LDLW(-4+40);STW(R22);
+	ADDI(1);_STLW(-4+40);
+	PEEKV(R22);
+	POKE(R23);
+	LD(vAC);_BNE('.1391');
+	LDI(1);_STLW(-2+40);
+	MOVQW(0,R3);
+	label('.1394');
+	_LDLW(-2+40);STW(R23);
+	
+	ST(R6);
+	ST(R2);
+	_SP(-2+40);STW(R5);
+	STW(R1);
+	LDW(R23);STW(R4);
+	STW(R0);
+	LD(R2);STW(R23);
+	LD(R6);XORW(R23);_BEQ('.1398');
+	LDI(1);_STLW(-8+40);
+	label('.1398');
+	LDW(R5);XORW(R1);_BEQ('.1400');
+	LDI(1);_STLW(-10+40);
+	label('.1400');
+	LDW(R4);XORW(R0);_BEQ('.1402');
+	LDI(1);_STLW(-12+40);
+	label('.1402');
+	_LDLW(-2+40);LSLW();_STLW(-2+40);
+	label('.1395');
+	INCV(R3);
+	LDI(50);_CMPWS(R3);_BGT('.1394');
+	_LDLW(-8+40);_BEQ('.1404');
+	_LDLW(-14+40);ADDI(1);_STLW(-14+40);
+	LDXW(R7,28);_BEQ('.1406');
+	LDWI('.1387');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1406');
+	label('.1404');
+	_LDLW(-10+40);_BEQ('.1408');
+	_LDLW(-14+40);ADDI(2);_STLW(-14+40);
+	LDXW(R7,28);_BEQ('.1410');
+	LDWI('.1387');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1410');
+	label('.1408');
+	_LDLW(-12+40);_BEQ('.1412');
+	_LDLW(-14+40);ADDI(4);_STLW(-14+40);
+	LDXW(R7,28);_BEQ('.1414');
+	LDWI('.1387');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1414');
+	label('.1412');
+	CALLI('regc');
+	_STLW(-2+40);
+	LDXW(R7,26);_BEQ('.1416');
+	_LDLW(-2+40);_BGE('.1418');
+	LDWI('.1389');STW(R8);
+	_STLW(0);
+	LDWI('.461');STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	_BRA('.1419');
+	label('.1418');
+	LDWI('.1390');STW(R8);
+	_STLW(0);
+	_LDLW(-2+40);STW(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.461');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	label('.1419');
+	label('.1416');
+	CALLI('regp');
+	_STLW(-2+40);
+	LDXW(R7,26);_BEQ('.1420');
+	_LDLW(-2+40);_BGE('.1422');
+	LDWI('.1389');STW(R8);
+	_STLW(0);
+	LDWI('.1424');STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	_BRA('.1423');
+	label('.1422');
+	LDWI('.1390');STW(R8);
+	_STLW(0);
+	_LDLW(-2+40);STW(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.1424');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	label('.1423');
+	label('.1420');
+	CALLI('regi');
+	_STLW(-2+40);
+	LDXW(R7,26);_BEQ('.1425');
+	_LDLW(-2+40);_BGE('.1427');
+	LDWI('.1389');STW(R8);
+	_STLW(0);
+	LDWI('.462');STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	_BRA('.1428');
+	label('.1427');
+	LDWI('.1390');STW(R8);
+	_STLW(0);
+	_LDLW(-2+40);STW(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.462');STW(R10);
+	_STLW(4);
+	CALLI('printf');
+	label('.1428');
+	label('.1425');
+	_LDLW(-14+40);
+	label('.1386');
+	_EPILOGUE(40,8,0xff,saveAC=True);
+# ======== ('CODE', 'regc', code72)
+def code72():
+	label('regc');
+	_PROLOGUE(88,0,0xfe); # save=R1-7
+	_SP(-66+88);POKEQ(0);
+	_SP(-45+88);POKEQ(1);
+	_SP(-46+88);POKEQ(2);
+	_SP(-47+88);POKEQ(3);
+	MOVQB(4,R19);
+	_SP(-48+88);POKEQ(5);
+	MOVQB(6,R18);
+	_SP(-49+88);POKEQ(7);
+	MOVQB(8,R17);
+	_SP(-50+88);POKEQ(9);
+	MOVQB(10,R16);
+	_SP(-51+88);POKEQ(11);
+	MOVQB(12,R15);
+	_SP(-52+88);POKEQ(13);
+	MOVQB(14,R14);
+	_SP(-53+88);POKEQ(15);
+	MOVQB(16,R13);
+	_SP(-54+88);POKEQ(17);
+	MOVQB(18,R12);
+	_SP(-55+88);POKEQ(19);
+	MOVQB(20,R11);
+	_SP(-56+88);POKEQ(21);
+	MOVQB(22,R10);
+	_SP(-57+88);POKEQ(23);
+	MOVQB(24,R9);
+	_SP(-58+88);POKEQ(25);
+	MOVQB(26,R8);
+	_SP(-59+88);POKEQ(27);
+	MOVQB(28,R7);
+	_SP(-60+88);POKEQ(29);
+	MOVQB(30,R6);
+	_SP(-61+88);POKEQ(31);
+	MOVQB(32,R5);
+	_SP(-62+88);POKEQ(33);
+	MOVQB(34,R4);
+	_SP(-63+88);POKEQ(35);
+	_SP(-64+88);POKEQ(36);
+	_SP(-65+88);POKEQ(37);
+	_SP(-67+88);POKEQ(38);
+	_SP(-45+88);STW(R23);
+	_SP(-66+88);STW(R22);
+	LDW(R23);SUBW(R22);_STLW(-44+88);
+	_SP(-46+88);SUBW(R23);_STLW(-42+88);
+	_SP(-46+88);STW(R23);
+	_SP(-47+88);SUBW(R23);_STLW(-40+88);
+	_SP(-47+88);STW(R23);
+	_SP(-48+88);SUBW(R23);_STLW(-38+88);
+	_SP(-48+88);STW(R23);
+	_SP(-49+88);SUBW(R23);_STLW(-36+88);
+	_SP(-49+88);STW(R23);
+	_SP(-50+88);SUBW(R23);_STLW(-34+88);
+	_SP(-50+88);STW(R23);
+	_SP(-51+88);SUBW(R23);_STLW(-32+88);
+	_SP(-51+88);STW(R23);
+	_SP(-52+88);SUBW(R23);_STLW(-30+88);
+	_SP(-52+88);STW(R23);
+	_SP(-53+88);SUBW(R23);_STLW(-28+88);
+	_SP(-53+88);STW(R23);
+	_SP(-54+88);SUBW(R23);_STLW(-26+88);
+	_SP(-54+88);STW(R23);
+	_SP(-55+88);SUBW(R23);_STLW(-24+88);
+	_SP(-55+88);STW(R23);
+	_SP(-56+88);SUBW(R23);_STLW(-22+88);
+	_SP(-56+88);STW(R23);
+	_SP(-57+88);SUBW(R23);_STLW(-20+88);
+	_SP(-57+88);STW(R23);
+	_SP(-58+88);SUBW(R23);_STLW(-18+88);
+	_SP(-58+88);STW(R23);
+	_SP(-59+88);SUBW(R23);_STLW(-16+88);
+	_SP(-59+88);STW(R23);
+	_SP(-60+88);SUBW(R23);_STLW(-14+88);
+	_SP(-60+88);STW(R23);
+	_SP(-61+88);SUBW(R23);_STLW(-12+88);
+	_SP(-61+88);STW(R23);
+	_SP(-62+88);SUBW(R23);_STLW(-10+88);
+	_SP(-62+88);STW(R23);
+	_SP(-63+88);SUBW(R23);_STLW(-8+88);
+	_SP(-63+88);STW(R23);
+	_SP(-64+88);SUBW(R23);_STLW(-6+88);
+	_SP(-64+88);STW(R23);
+	_SP(-65+88);SUBW(R23);_STLW(-4+88);
+	_SP(-65+88);STW(R23);
+	_SP(-67+88);SUBW(R23);_STLW(-2+88);
+	_LDLW(-44+88);STW(R1);
+	MOVQW(1,R2);
+	MOVQW(0,R3);
+	label('.1451');
+	LDW(R2);XORI(1);_BEQ('.1457');
+	LDW(R2);XORI(2);_BEQ('.1460');
+	LDW(R2);XORI(3);_BEQ('.1465');
+	_BRA('.1455');
+	label('.1457');
+	_SP(-44+88);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BEQ('.1456');
+	_SP(-44+88);ADDW(R3);ADDW(R3);DEEK();_STLW(-72+88);
+	MOVQW(2,R2);
+	LDI(1);_STLW(-70+88);
+	_BRA('.1456');
+	label('.1460');
+	_SP(-44+88);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BNE('.1461');
+	MOVQW(3,R2);
+	_BRA('.1456');
+	label('.1461');
+	_SP(-44+88);ADDW(R3);ADDW(R3);DEEKA(R23);
+	_LDLW(-72+88);XORW(R23);_BNE('.1463');
+	_LDLW(-70+88);ADDI(1);_STLW(-70+88);
+	_BRA('.1456');
+	label('.1463');
+	MOVQW(4,R2);
+	_BRA('.1456');
+	label('.1465');
+	_SP(-44+88);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BEQ('.1456');
+	MOVQW(4,R2);
+	label('.1455');
+	label('.1456');
+	label('.1452');
+	INCV(R3);
+	LDI(22);_CMPWS(R3);_BGT('.1451');
+	LDW(R2);XORI(3);_BNE('.1468');
+	_LDLW(-70+88);STW(R23);
+	LDI(16);SUBW(R23);
+	_BRA('.1429');
+	label('.1468');
+	LDWI(-1);
+	label('.1429');
+	_EPILOGUE(88,0,0xfe,saveAC=True);
+# ======== ('CODE', 'regi', code73)
+def code73():
+	label('regi');
+	_PROLOGUE(112,0,0xfe); # save=R1-7
+	LDI(0);_STLW(-88+112);
+	LDI(1);_STLW(-46+112);
+	LDI(2);_STLW(-48+112);
+	LDI(3);_STLW(-50+112);
+	MOVQW(4,R19);
+	LDI(5);_STLW(-52+112);
+	MOVQW(6,R18);
+	LDI(7);_STLW(-54+112);
+	MOVQW(8,R17);
+	LDI(9);_STLW(-56+112);
+	MOVQW(10,R16);
+	LDI(11);_STLW(-58+112);
+	MOVQW(12,R15);
+	LDI(13);_STLW(-60+112);
+	MOVQW(14,R14);
+	LDI(15);_STLW(-62+112);
+	MOVQW(16,R13);
+	LDI(17);_STLW(-64+112);
+	MOVQW(18,R12);
+	LDI(19);_STLW(-66+112);
+	MOVQW(20,R11);
+	LDI(21);_STLW(-68+112);
+	MOVQW(22,R10);
+	LDI(23);_STLW(-70+112);
+	MOVQW(24,R9);
+	LDI(25);_STLW(-72+112);
+	MOVQW(26,R8);
+	LDI(27);_STLW(-74+112);
+	MOVQW(28,R7);
+	LDI(29);_STLW(-76+112);
+	MOVQW(30,R6);
+	LDI(31);_STLW(-78+112);
+	MOVQW(32,R5);
+	LDI(33);_STLW(-80+112);
+	MOVQW(34,R4);
+	LDI(35);_STLW(-82+112);
+	LDI(36);_STLW(-84+112);
+	LDI(37);_STLW(-86+112);
+	LDI(38);_STLW(-90+112);
+	_SP(-46+112);STW(R23);
+	_SP(-88+112);STW(R22);
+	LDW(R23);SUBW(R22);_DIVIS(2);_STLW(-44+112);
+	_SP(-48+112);SUBW(R23);_DIVIS(2);_STLW(-42+112);
+	_SP(-48+112);STW(R23);
+	_SP(-50+112);SUBW(R23);_DIVIS(2);_STLW(-40+112);
+	_SP(-50+112);STW(R23);
+	_SP(-52+112);SUBW(R23);_DIVIS(2);_STLW(-38+112);
+	_SP(-52+112);STW(R23);
+	_SP(-54+112);SUBW(R23);_DIVIS(2);_STLW(-36+112);
+	_SP(-54+112);STW(R23);
+	_SP(-56+112);SUBW(R23);_DIVIS(2);_STLW(-34+112);
+	_SP(-56+112);STW(R23);
+	_SP(-58+112);SUBW(R23);_DIVIS(2);_STLW(-32+112);
+	_SP(-58+112);STW(R23);
+	_SP(-60+112);SUBW(R23);_DIVIS(2);_STLW(-30+112);
+	_SP(-60+112);STW(R23);
+	_SP(-62+112);SUBW(R23);_DIVIS(2);_STLW(-28+112);
+	_SP(-62+112);STW(R23);
+	_SP(-64+112);SUBW(R23);_DIVIS(2);_STLW(-26+112);
+	_SP(-64+112);STW(R23);
+	_SP(-66+112);SUBW(R23);_DIVIS(2);_STLW(-24+112);
+	_SP(-66+112);STW(R23);
+	_SP(-68+112);SUBW(R23);_DIVIS(2);_STLW(-22+112);
+	_SP(-68+112);STW(R23);
+	_SP(-70+112);SUBW(R23);_DIVIS(2);_STLW(-20+112);
+	_SP(-70+112);STW(R23);
+	_SP(-72+112);SUBW(R23);_DIVIS(2);_STLW(-18+112);
+	_SP(-72+112);STW(R23);
+	_SP(-74+112);SUBW(R23);_DIVIS(2);_STLW(-16+112);
+	_SP(-74+112);STW(R23);
+	_SP(-76+112);SUBW(R23);_DIVIS(2);_STLW(-14+112);
+	_SP(-76+112);STW(R23);
+	_SP(-78+112);SUBW(R23);_DIVIS(2);_STLW(-12+112);
+	_SP(-78+112);STW(R23);
+	_SP(-80+112);SUBW(R23);_DIVIS(2);_STLW(-10+112);
+	_SP(-80+112);STW(R23);
+	_SP(-82+112);SUBW(R23);_DIVIS(2);_STLW(-8+112);
+	_SP(-82+112);STW(R23);
+	_SP(-84+112);SUBW(R23);_DIVIS(2);_STLW(-6+112);
+	_SP(-84+112);STW(R23);
+	_SP(-86+112);SUBW(R23);_DIVIS(2);_STLW(-4+112);
+	_SP(-86+112);STW(R23);
+	_SP(-90+112);SUBW(R23);_DIVIS(2);_STLW(-2+112);
+	_LDLW(-44+112);STW(R1);
+	MOVQW(1,R2);
+	MOVQW(0,R3);
+	label('.1492');
+	LDW(R2);XORI(1);_BEQ('.1498');
+	LDW(R2);XORI(2);_BEQ('.1501');
+	LDW(R2);XORI(3);_BEQ('.1506');
+	_BRA('.1496');
+	label('.1498');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BEQ('.1497');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();_STLW(-94+112);
+	MOVQW(2,R2);
+	LDI(1);_STLW(-92+112);
+	_BRA('.1497');
+	label('.1501');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BNE('.1502');
+	MOVQW(3,R2);
+	_BRA('.1497');
+	label('.1502');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEKA(R23);
+	_LDLW(-94+112);XORW(R23);_BNE('.1504');
+	_LDLW(-92+112);ADDI(1);_STLW(-92+112);
+	_BRA('.1497');
+	label('.1504');
+	MOVQW(4,R2);
+	_BRA('.1497');
+	label('.1506');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BEQ('.1497');
+	MOVQW(4,R2);
+	label('.1496');
+	label('.1497');
+	label('.1493');
+	INCV(R3);
+	LDI(22);_CMPWS(R3);_BGT('.1492');
+	LDW(R2);XORI(3);_BNE('.1509');
+	_LDLW(-92+112);STW(R23);
+	LDI(16);SUBW(R23);
+	_BRA('.1470');
+	label('.1509');
+	LDWI(-1);
+	label('.1470');
+	_EPILOGUE(112,0,0xfe,saveAC=True);
+# ======== ('CODE', 'regp', code74)
+def code74():
+	label('regp');
+	_PROLOGUE(112,0,0xfe); # save=R1-7
+	_SP(-88+112);_STLW(-88+112);
+	_SP(-78+112);_STLW(-78+112);
+	_SP(-80+112);_STLW(-80+112);
+	_SP(-82+112);_STLW(-82+112);
+	_SP(-46+112);STW(R19);
+	_STLW(-46+112);
+	_SP(-48+112);STW(R18);
+	_STLW(-48+112);
+	_SP(-50+112);STW(R17);
+	_STLW(-50+112);
+	_SP(-52+112);STW(R16);
+	_STLW(-52+112);
+	_SP(-54+112);STW(R15);
+	_STLW(-54+112);
+	_SP(-56+112);STW(R14);
+	_STLW(-56+112);
+	_SP(-58+112);STW(R13);
+	_STLW(-58+112);
+	_SP(-60+112);STW(R12);
+	_STLW(-60+112);
+	_SP(-62+112);STW(R11);
+	_STLW(-62+112);
+	_SP(-64+112);STW(R10);
+	_STLW(-64+112);
+	_SP(-66+112);STW(R9);
+	_STLW(-66+112);
+	_SP(-68+112);STW(R8);
+	_STLW(-68+112);
+	_SP(-70+112);STW(R7);
+	_STLW(-70+112);
+	_SP(-72+112);STW(R6);
+	_STLW(-72+112);
+	_SP(-74+112);STW(R5);
+	_STLW(-74+112);
+	_SP(-76+112);STW(R4);
+	_STLW(-76+112);
+	_SP(-84+112);_STLW(-84+112);
+	_SP(-86+112);_STLW(-86+112);
+	_SP(-90+112);_STLW(-90+112);
+	_SP(-78+112);STW(R23);
+	_SP(-88+112);STW(R22);
+	LDW(R23);SUBW(R22);_DIVIS(2);_STLW(-44+112);
+	_SP(-80+112);SUBW(R23);_DIVIS(2);_STLW(-42+112);
+	_SP(-80+112);STW(R23);
+	_SP(-82+112);SUBW(R23);_DIVIS(2);_STLW(-40+112);
+	_SP(-82+112);STW(R23);
+	_SP(-46+112);SUBW(R23);_DIVIS(2);_STLW(-38+112);
+	_SP(-46+112);STW(R23);
+	_SP(-48+112);SUBW(R23);_DIVIS(2);_STLW(-36+112);
+	_SP(-48+112);STW(R23);
+	_SP(-50+112);SUBW(R23);_DIVIS(2);_STLW(-34+112);
+	_SP(-50+112);STW(R23);
+	_SP(-52+112);SUBW(R23);_DIVIS(2);_STLW(-32+112);
+	_SP(-52+112);STW(R23);
+	_SP(-54+112);SUBW(R23);_DIVIS(2);_STLW(-30+112);
+	_SP(-54+112);STW(R23);
+	_SP(-56+112);SUBW(R23);_DIVIS(2);_STLW(-28+112);
+	_SP(-56+112);STW(R23);
+	_SP(-58+112);SUBW(R23);_DIVIS(2);_STLW(-26+112);
+	_SP(-58+112);STW(R23);
+	_SP(-60+112);SUBW(R23);_DIVIS(2);_STLW(-24+112);
+	_SP(-60+112);STW(R23);
+	_SP(-62+112);SUBW(R23);_DIVIS(2);_STLW(-22+112);
+	_SP(-62+112);STW(R23);
+	_SP(-64+112);SUBW(R23);_DIVIS(2);_STLW(-20+112);
+	_SP(-64+112);STW(R23);
+	_SP(-66+112);SUBW(R23);_DIVIS(2);_STLW(-18+112);
+	_SP(-66+112);STW(R23);
+	_SP(-68+112);SUBW(R23);_DIVIS(2);_STLW(-16+112);
+	_SP(-68+112);STW(R23);
+	_SP(-70+112);SUBW(R23);_DIVIS(2);_STLW(-14+112);
+	_SP(-70+112);STW(R23);
+	_SP(-72+112);SUBW(R23);_DIVIS(2);_STLW(-12+112);
+	_SP(-72+112);STW(R23);
+	_SP(-74+112);SUBW(R23);_DIVIS(2);_STLW(-10+112);
+	_SP(-74+112);STW(R23);
+	_SP(-76+112);SUBW(R23);_DIVIS(2);_STLW(-8+112);
+	_SP(-76+112);STW(R23);
+	_SP(-84+112);SUBW(R23);_DIVIS(2);_STLW(-6+112);
+	_SP(-84+112);STW(R23);
+	_SP(-86+112);SUBW(R23);_DIVIS(2);_STLW(-4+112);
+	_SP(-86+112);STW(R23);
+	_SP(-90+112);SUBW(R23);_DIVIS(2);_STLW(-2+112);
+	_LDLW(-44+112);STW(R1);
+	MOVQW(1,R2);
+	MOVQW(0,R3);
+	label('.1533');
+	LDW(R2);XORI(1);_BEQ('.1539');
+	LDW(R2);XORI(2);_BEQ('.1542');
+	LDW(R2);XORI(3);_BEQ('.1547');
+	_BRA('.1537');
+	label('.1539');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BEQ('.1538');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();_STLW(-94+112);
+	MOVQW(2,R2);
+	LDI(1);_STLW(-92+112);
+	_BRA('.1538');
+	label('.1542');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BNE('.1543');
+	MOVQW(3,R2);
+	_BRA('.1538');
+	label('.1543');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEKA(R23);
+	_LDLW(-94+112);XORW(R23);_BNE('.1545');
+	_LDLW(-92+112);ADDI(1);_STLW(-92+112);
+	_BRA('.1538');
+	label('.1545');
+	MOVQW(4,R2);
+	_BRA('.1538');
+	label('.1547');
+	_SP(-44+112);ADDW(R3);ADDW(R3);DEEK();XORW(R1);_BEQ('.1538');
+	MOVQW(4,R2);
+	label('.1537');
+	label('.1538');
+	label('.1534');
+	INCV(R3);
+	LDI(22);_CMPWS(R3);_BGT('.1533');
+	LDW(R2);XORI(3);_BNE('.1550');
+	_LDLW(-92+112);STW(R23);
+	LDI(16);SUBW(R23);
+	_BRA('.1511');
+	label('.1550');
+	LDWI(-1);
+	label('.1511');
+	_EPILOGUE(112,0,0xfe,saveAC=True);
+# ======== ('BSS', '.1553', code75, 210, 2)
+def code75():
+	align(2);
+	label('.1553');
+	space(210);
+# ======== ('DATA', '.1554', code76, 0, 1)
+def code76():
+	label('.1554');
+	bytes(115,56,52,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.1555', code77, 8, 1)
+def code77():
+	label('.1555');
+	bytes(115,56,52,32,32,32,32,0);
+# ======== ('CODE', 's84', code78)
+def code78():
+	label('s84');
+	_PROLOGUE(156,6,0xfe); # save=R1-7
+	MOVW(R8,R7);
+	MOVIW('.1555',R3);
+	LDI(36);ADDW(R7);STW(R2);
+	MOVQW(0,R1);
+	label('.1556');
+	label('.1557');
+	MOVW(R2,R23);
+	INCV(R2);
+	LDW(R3);
+	INCV(R3);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.1556');
+	LDI(3);STW(R8);
+	_STLW(0);
+	CALLI('fip');
+	_STLW(-128+156);
+	DEEK();XORI(3);_BEQ('.1559');
+	LDXW(R7,28);_BEQ('.1561');
+	LDWI('.1554');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1561');
+	INCV(R1);
+	label('.1559');
+	LDWI('glork');_STLW(-130+156);
+	LDI(4);STW(R8);
+	_STLW(0);
+	_LDLW(-130+156);CALL(vAC);
+	XORI(4);_BEQ('.1563');
+	LDXW(R7,28);_BEQ('.1565');
+	LDWI('.1554');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1565');
+	ADDSV(2,R1);
+	label('.1563');
+	MOVQW(0,R5);
+	label('.1567');
+	_SP(-85+156);STW(R23);
+	LDW(R5);_STLS(LAC);_FCVI();LDW(R5);_MULI(5);ADDW(R23);_MOVF(FAC,[vAC]);
+	_SP(-120+156);ADDW(R5);ADDW(R5);STW(R23);
+	_SP(-85+156);STW(R22);
+	LDW(R5);_MULI(5);ADDW(R22);DOKE(R23);
+	label('.1568');
+	INCV(R5);
+	LDI(17);_CMPWS(R5);_BGT('.1567');
+	_MOVF('.448',[SP,-125+156]);
+	MOVQW(0,R5);
+	label('.1571');
+	_MOVF([SP,-125+156],FAC);_SP(-120+156);ADDW(R5);ADDW(R5);DEEK();_FADD();_MOVF(FAC,[SP,-125+156]);
+	label('.1572');
+	INCV(R5);
+	LDI(17);_CMPWS(R5);_BGT('.1571');
+	_MOVF('.1577',FAC);_SP(-125+156);_FCMP();_BEQ('.1575');
+	LDXW(R7,28);_BEQ('.1578');
+	LDWI('.1554');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1578');
+	ADDSV(4,R1);
+	label('.1575');
+	MOVQW(0,R4);
+	label('.1580');
+	MOVQW(0,R5);
+	label('.1584');
+	MOVQW(0,R6);
+	label('.1588');
+	LDW(R4);_MULI(70);ADDWI('.1553');STW(R23);
+	LDW(R5);_MULI(14);ADDW(R23);ADDW(R6);ADDW(R6);STW(R23);
+	LDW(R5);_MULI(7);STW(R22);
+	LDW(R4);_MULI(35);ADDW(R22);ADDW(R6);DOKE(R23);
+	label('.1589');
+	INCV(R6);
+	LDI(7);_CMPWS(R6);_BGT('.1588');
+	label('.1585');
+	INCV(R5);
+	LDI(5);_CMPWS(R5);_BGT('.1584');
+	label('.1581');
+	INCV(R4);
+	LDI(3);_CMPWS(R4);_BGT('.1580');
+	MOVQW(1,R4);
+	MOVQW(2,R5);
+	MOVQW(3,R6);
+	LDWI('.1553');STW(R8);
+	_STLW(0);
+	LDI(105);STW(R9);
+	_STLW(2);
+	LDI(0);STW(R10);
+	_STLW(4);
+	CALLI('array');STW(R23);
+	STW(T0);_STLW(-132+156,src=R23);LDW(T0)  #genspill
+	LDW(R4);_MULI(70);ADDWI('.1553');STW(R8);
+	LDW(R8);_STLW(0);
+	LDI(35);STW(R9);
+	_STLW(2);
+	STW(R10);
+	_STLW(4);
+	CALLI('array');STW(R22);
+	STW(T0);_STLW(-134+156,src=R22);LDW(T0)  #genspill
+	LDW(R4);_MULI(70);ADDWI('.1553');STW(R23);
+	LDW(R5);_MULI(14);ADDW(R23);STW(R8);
+	LDW(R8);_STLW(0);
+	LDI(7);STW(R9);
+	_STLW(2);
+	LDI(49);STW(R10);
+	_STLW(4);
+	CALLI('array');STW(R23);
+	LDW(R4);_MULI(70);ADDWI('.1553');STW(R22);
+	LDW(R5);_MULI(14);ADDW(R22);ADDW(R6);ADDW(R6);DEEKA(R22);
+	_LDLW(-132+156);STW(T0);_LDLW(-134+156);STW(T1);LDW(T0);ADDW(T1);ADDW(R23);ADDW(R22);SUBI(52);_BEQ('.1592');
+	LDXW(R7,28);_BEQ('.1594');
+	LDWI('.1554');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1594');
+	ADDSV(8,R1);
+	label('.1592');
+	LDW(R1);
+	label('.1552');
+	_EPILOGUE(156,6,0xfe,saveAC=True);
+# ======== ('CODE', 'array', code79)
+def code79():
+	label('array');
+	PUSH();
+	MOVQW(0,R19);
+	_BRA('.1600');
+	label('.1597');
+	LDW(R19);LSLW();ADDW(R8);DEEKA(R23);
+	LDW(R19);ADDW(R10);XORW(R23);_BEQ('.1601');
+	LDI(1);
+	_BRA('.1596');
+	label('.1601');
+	label('.1598');
+	INCV(R19);
+	label('.1600');
+	LDW(R19);_CMPWS(R9);_BLT('.1597');
+	LDI(0);
+	label('.1596');
+	tryhop(2);POP();RET()
+# ======== ('BSS', '.1604', code80, 2, 2)
+def code80():
+	align(2);
+	label('.1604');
+	space(2);
+# ======== ('CODE', 'fip', code81)
+def code81():
+	label('fip');
+	PUSH();
+	LDWI('.1604');DOKEA(R8);
+	
+	label('.1603');
+	tryhop(2);POP();RET()
+# ======== ('CODE', 'glork', code82)
+def code82():
+	label('glork');
+	PUSH();
+	LDW(R8);
+	label('.1605');
+	tryhop(2);POP();RET()
+# ======== ('DATA', '.1607', code83, 0, 1)
+def code83():
+	label('.1607');
+	bytes(115,56,53,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.1608', code84, 8, 1)
+def code84():
+	label('.1608');
+	bytes(115,56,53,32,32,32,32,0);
+# ======== ('DATA', '.1616', code85, 0, 2)
+def code85():
+	align(2);
+	label('.1616');
+	words('.461');
+	words('.463');
+	words('.462');
+	words('.464');
+	words('.465');
+	words('.466');
+	words('.467');
+# ======== ('DATA', '.1617', code86, 0, 1)
+def code86():
+	label('.1617');
+	bytes(32,97,108,105,103,110,109,101);
+	bytes(110,116,58,32,0);
+# ======== ('CODE', 's85', code87)
+def code87():
+	label('s85');
+	_PROLOGUE(276,8,0xf8); # save=R3-7
+	MOVW(R8,R7);
+	MOVIW('.1608',R5);
+	LDI(36);ADDW(R7);STW(R4);
+	MOVQW(0,R3);
+	label('.1621');
+	label('.1622');
+	MOVW(R4,R23);
+	INCV(R4);
+	LDW(R5);
+	INCV(R5);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.1621');
+	_SP(-194+276);STW(R23);
+	_SP(-174+276);SUBW(R23);_BLE('.1632');
+	_SP(-174+276);STW(R23);
+	_SP(-172+276);SUBW(R23);_BLE('.1632');
+	_SP(-172+276);STW(R23);
+	_SP(-170+276);SUBW(R23);_BGT('.1624');
+	label('.1632');
+	LDXW(R7,28);_BEQ('.1633');
+	LDWI('.1607');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1633');
+	INCV(R3);
+	label('.1624');
+	_SP(-222+276);STW(R23);
+	_SP(-221+276);SUBW(R23);_STLW(-166+276);
+	_SP(-226+276);STW(R23);
+	_SP(-224+276);SUBW(R23);_STLW(-164+276);
+	_SP(-230+276);STW(R23);
+	_SP(-228+276);SUBW(R23);_STLW(-162+276);
+	_SP(-240+276);STW(R23);
+	_SP(-236+276);SUBW(R23);_STLW(-160+276);
+	_SP(-244+276);STW(R23);
+	_SP(-242+276);SUBW(R23);_STLW(-158+276);
+	_SP(-250+276);STW(R23);
+	_SP(-249+276);SUBW(R23);_STLW(-156+276);
+	_SP(-256+276);STW(R23);
+	_SP(-255+276);SUBW(R23);_STLW(-154+276);
+	LDXW(R7,26);_BEQ('.1648');
+	MOVQW(0,R6);
+	label('.1650');
+	LDWI('.1654');STW(R8);
+	_STLW(0);
+	LDW(R6);LSLW();STW(R23);
+	LDXW(R23,'.1616');STW(R9);
+	LDW(R9);_STLW(2);
+	LDWI('.1617');STW(R10);
+	_STLW(4);
+	_SP(-166+276);ADDW(R23);DEEKA(R11);
+	LDW(R11);_STLW(6);
+	CALLI('printf');
+	label('.1651');
+	INCV(R6);
+	LDI(7);_CMPWS(R6);_BGT('.1650');
+	label('.1648');
+	_LDLW(-168+276);ORI(56);_STLW(-168+276);
+	STW(R23);
+	_SHLI(10);_SHRIS(13);_SHLI(14);_SHRIS(14);ANDI(3);STW(R22);
+	LDWI(0xfffc);ANDW(R23);ORW(R22);_STLW(-168+276);
+	STW(R23);
+	_SHLI(14);_SHRIS(14);_SHLI(13);_SHRIS(13);_SHLI(3);ANDI(56);STW(R22);
+	LDWI(0xffc7);ANDW(R23);ORW(R22);_STLW(-168+276);
+	_SHLI(10);_SHRIS(13);XORI(3);_BEQ('.1655');
+	MOVIW(-1,R23);
+	_LDLW(-168+276);_SHLI(10);_SHRIS(13);XORW(R23);_BNE('.1657');
+	LDXW(R7,26);_BEQ('.1658');
+	LDWI('.1661');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	_BRA('.1658');
+	label('.1657');
+	LDXW(R7,28);_BEQ('.1662');
+	LDWI('.1607');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1662');
+	ADDSV(2,R3);
+	label('.1658');
+	label('.1655');
+	_LDLW(-168+276);ORI(64);_STLW(-168+276);
+	_SHLI(9);_SHRIS(15);XORI(1);_BEQ('.1664');
+	LDXW(R7,26);_BEQ('.1666');
+	LDWI('.1668');STW(R8);
+	_STLW(0);
+	CALLI('printf');
+	label('.1666');
+	label('.1664');
+	_SP(-152+276);STW(R23);
+	SUBW(R23);
+	_BNE('.1676');
+	_BNE('.1676');
+	_BNE('.1676');
+	_BNE('.1676');
+	_BNE('.1676');
+	_BNE('.1676');
+	_BEQ('.1669');
+	label('.1676');
+	LDXW(R7,28);_BEQ('.1677');
+	LDWI('.1607');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1677');
+	ADDSV(4,R3);
+	label('.1669');
+	_BRA('.1679');
+	LDXW(R7,28);_BEQ('.1681');
+	LDWI('.1607');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1681');
+	ADDSV(8,R3);
+	label('.1679');
+	_SP(-220+276);_STLW(-170+276);
+	POKEQ(2);
+	_LDLW(-170+276);STW(R23);
+	PEEK();ADDI(1);POKE(R23);
+	_LDLW(-220+276);LD(vACL);XORI(3);_BEQ('.1685');
+	LDXW(R7,28);_BEQ('.1687');
+	LDWI('.1607');STW(R8);
+	_STLW(0);
+	LDI(16);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1687');
+	ADDSV(16,R3);
+	label('.1685');
+	LDW(R3);
+	label('.1606');
+	_EPILOGUE(276,8,0xf8,saveAC=True);
+# ======== ('DATA', '.1690', code88, 0, 1)
+def code88():
+	label('.1690');
+	bytes(115,56,54,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.1691', code89, 8, 1)
+def code89():
+	label('.1691');
+	bytes(115,56,54,32,32,32,32,0);
+# ======== ('DATA', '.1692', code90, 0, 2)
+def code90():
+	align(2);
+	label('.1692');
+	words(1); # 1
+	words(3); # 3
+	words(5); # 5
+# ======== ('DATA', '.1693', code91, 2, 2)
+def code91():
+	align(2);
+	label('.1693');
+	words(v('.1692')+4);
+# ======== ('BSS', '.1695', code92, 20, 2)
+def code92():
+	align(2);
+	label('.1695');
+	space(20);
+# ======== ('DATA', '.1696', code93, 0, 1)
+def code93():
+	label('.1696');
+	bytes(129,0,0,0,0); # 1
+	bytes(130,64,0,0,0); # 3
+	bytes(131,32,0,0,0); # 5
+	bytes(130,0,0,0,0); # 2
+	bytes(131,0,0,0,0); # 4
+	bytes(131,64,0,0,0); # 6
+	bytes(130,64,0,0,0); # 3
+	bytes(131,32,0,0,0); # 5
+	bytes(131,96,0,0,0); # 7
+	bytes(0,0,0,0,0); # 0
+	bytes(0,0,0,0,0); # 0
+	bytes(0,0,0,0,0); # 0
+# ======== ('DATA', '.1697', code94, 60, 1)
+def code94():
+	label('.1697');
+	bytes(129,0,0,0,0); # 1
+	bytes(130,64,0,0,0); # 3
+	bytes(131,32,0,0,0); # 5
+	bytes(130,0,0,0,0); # 2
+	bytes(131,0,0,0,0); # 4
+	bytes(131,64,0,0,0); # 6
+	bytes(130,64,0,0,0); # 3
+	bytes(131,32,0,0,0); # 5
+	bytes(131,96,0,0,0); # 7
+	space(15);
+# ======== ('DATA', '.1698', code95, 60, 1)
+def code95():
+	label('.1698');
+	bytes(129,0,0,0,0); # 1
+	bytes(130,64,0,0,0); # 3
+	bytes(131,32,0,0,0); # 5
+	bytes(130,0,0,0,0); # 2
+	bytes(131,0,0,0,0); # 4
+	bytes(131,64,0,0,0); # 6
+	bytes(130,64,0,0,0); # 3
+	bytes(131,32,0,0,0); # 5
+	bytes(131,96,0,0,0); # 7
+	space(15);
+# ======== ('DATA', '.1699', code96, 60, 1)
+def code96():
+	label('.1699');
+	bytes(129,0,0,0,0); # 1
+	space(10);
+	bytes(130,0,0,0,0); # 2
+	space(10);
+	bytes(130,64,0,0,0); # 3
+	space(10);
+	bytes(131,0,0,0,0); # 4
+	space(10);
+# ======== ('CODE', 's86', code97)
+def code97():
+	label('s86');
+	_PROLOGUE(28,6,0xff); # save=R0-7
+	MOVW(R8,R7);
+	LDWI('.1693');DEEK();SUBI(-v(-2));_STLW(-4+28);
+	CALLI('one');STW(R23);
+	_LDLW(-4+28);ADDW(R23);ADDW(R23);STW(R6);
+	MOVIW('.1691',R1);
+	LDI(36);ADDW(R7);STW(R0);
+	LDI(0);_STLW(-2+28);
+	label('.1700');
+	label('.1701');
+	MOVW(R0,R23);
+	INCV(R0);
+	LDW(R1);
+	INCV(R1);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.1700');
+	LDWI('.1693');DEEK();DEEK();XORI(5);_BEQ('.1703');
+	LDXW(R7,28);_BEQ('.1705');
+	LDWI('.1690');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1705');
+	_LDLW(-2+28);ADDI(1);_STLW(-2+28);
+	label('.1703');
+	_LDLW(-4+28);DEEK();XORI(3);_BEQ('.1707');
+	LDXW(R7,28);_BEQ('.1709');
+	LDWI('.1690');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1709');
+	_LDLW(-2+28);ADDI(2);_STLW(-2+28);
+	label('.1707');
+	DEEKV(R6);XORI(5);_BEQ('.1711');
+	LDXW(R7,28);_BEQ('.1713');
+	LDWI('.1690');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1713');
+	_LDLW(-2+28);ADDI(4);_STLW(-2+28);
+	label('.1711');
+	LDI(0);STW(R2);
+	STW(R5);
+	label('.1715');
+	LDWI('.1695');ADDW(R5);ADDW(R5);DEEK();_BEQ('.1719');
+	MOVQW(1,R2);
+	label('.1719');
+	label('.1716');
+	INCV(R5);
+	LDI(10);_CMPWS(R5);_BGT('.1715');
+	LDW(R2);_BEQ('.1721');
+	LDXW(R7,28);_BEQ('.1723');
+	LDWI('.1690');STW(R8);
+	_STLW(0);
+	LDI(8);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1723');
+	_LDLW(-2+28);ADDI(8);_STLW(-2+28);
+	label('.1721');
+	LDI(0);STW(R2);
+	STW(R4);
+	label('.1725');
+	MOVQW(0,R5);
+	label('.1729');
+	LDW(R4);_MULI(3);ADDW(R5);STW(R3);
+	LDW(R5);_MULI(5);STW(R23);
+	LDW(R4);_MULI(15);STW(R22);
+	LDWI('.1697');ADDW(R22);ADDW(R23);_MOVF([vAC],FAC);
+	LDWI('.1698');ADDW(R22);ADDW(R23);_FCMP();_BNE('.1735');
+	LDW(R3);_MULI(5);ADDWI('.1696');_FCMP();_BEQ('.1733');
+	label('.1735');
+	MOVQW(1,R2);
+	label('.1733');
+	label('.1730');
+	INCV(R5);
+	LDI(3);_CMPWS(R5);_BGT('.1729');
+	label('.1726');
+	INCV(R4);
+	LDI(4);_CMPWS(R4);_BGT('.1725');
+	LDW(R2);_BEQ('.1736');
+	LDXW(R7,28);_BEQ('.1738');
+	LDWI('.1690');STW(R8);
+	_STLW(0);
+	LDI(16);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1738');
+	_LDLW(-2+28);ADDI(16);_STLW(-2+28);
+	label('.1736');
+	LDI(0);STW(R2);
+	STW(R5);
+	label('.1740');
+	LDI(1);ADDW(R5);_STLS(LAC);_FCVI();LDW(R5);_MULI(15);ADDWI('.1699');_FCMP();_BEQ('.1744');
+	MOVQW(1,R2);
+	label('.1744');
+	label('.1741');
+	INCV(R5);
+	LDI(4);_CMPWS(R5);_BGT('.1740');
+	LDW(R2);_BEQ('.1746');
+	LDXW(R7,28);_BEQ('.1748');
+	LDWI('.1690');STW(R8);
+	_STLW(0);
+	LDI(32);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1748');
+	_LDLW(-2+28);ADDI(32);_STLW(-2+28);
+	label('.1746');
+	_LDLW(-2+28);
+	label('.1689');
+	_EPILOGUE(28,6,0xff,saveAC=True);
+# ======== ('CODE', 'one', code98)
+def code98():
+	label('one');
+	PUSH();
+	LDI(1);
+	label('.1750');
+	tryhop(2);POP();RET()
+# ======== ('DATA', '.1752', code99, 0, 1)
+def code99():
+	label('.1752');
+	bytes(115,56,56,44,101,114,37,100);
+	bytes(10,0);
+# ======== ('DATA', '.1753', code100, 8, 1)
+def code100():
+	label('.1753');
+	bytes(115,56,56,32,32,32,32,0);
+# ======== ('CODE', 's88', code101)
+def code101():
+	label('s88');
+	_PROLOGUE(28,4,0xf8); # save=R3-7
+	MOVW(R8,R7);
+	MOVIW('.1753',R6);
+	LDI(36);ADDW(R7);STW(R5);
+	MOVQW(0,R4);
+	label('.1755');
+	label('.1756');
+	MOVW(R5,R23);
+	INCV(R5);
+	LDW(R6);
+	INCV(R6);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.1755');
+	_BRA('.1758');
+	LDXW(R7,28);_BEQ('.1760');
+	LDWI('.1752');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1760');
+	INCV(R4);
+	label('.1758');
+	MOVIW('metricp',R23);
+	_SP(-12+28);DOKE(R23);
+	LDI(2);_STLW(-12+28);
+	DEEKV(R23);DOKEQ(3);
+	_LDLW(-12+28);XORI(3);_BEQ('.1762');
+	LDXW(R7,28);_BEQ('.1764');
+	LDWI('.1752');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1764');
+	ADDSV(2,R4);
+	label('.1762');
+	_MOVF('.455',FAC);
+	_MOVF(FAC,[SP,-10+28]);
+	_MOVF(FAC,[SP,-5+28]);
+	_SP(-10+28);STW(R3);
+	STW(T2);_MOVF('.454',[T2]);
+	LDI(5);ADDW(R3);STW(T2);_MOVF('.454',[T2]);
+	_MOVF([SP,-10+28],FAC);_SP(-5+28);_FADD();LDWI('.452');_FCMP();_BEQ('.1767');
+	LDXW(R7,28);_BEQ('.1770');
+	LDWI('.1752');STW(R8);
+	_STLW(0);
+	LDI(4);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1770');
+	ADDSV(4,R4);
+	label('.1767');
+	LDW(R4);
+	label('.1751');
+	_EPILOGUE(28,4,0xf8,saveAC=True);
+# ======== ('DATA', '.1773', code102, 0, 1)
+def code102():
+	label('.1773');
+	bytes(115,57,44,101,114,37,100,10);
+	bytes(0);
+# ======== ('DATA', '.1774', code103, 8, 1)
+def code103():
+	label('.1774');
+	bytes(115,57,32,32,32,32,32,0);
+# ======== ('CODE', 's9', code104)
+def code104():
+	label('s9');
+	_PROLOGUE(28,6,0xff); # save=R0-7
+	MOVW(R8,R7);
+	MOVIW('.1774',R4);
+	LDI(36);ADDW(R7);STW(R3);
+	MOVQW(0,R2);
+	label('.1775');
+	label('.1776');
+	MOVW(R3,R23);
+	INCV(R3);
+	LDW(R4);
+	INCV(R4);
+	PEEK();
+	POKE(R23);
+	LD(vAC);_BNE('.1775');
+	LDI(0);STW(R5);
+	STW(R6);
+	label('.1778');
+	LDI(2);STW(R1);
+	STW(R0);
+	LDI(3);_STLW(-2+28);
+	_STLW(-4+28);
+	XORI(3);_BNE('.1784');
+	_LDLW(-2+28);XORI(3);_BEQ('.1782');
+	label('.1784');
+	MOVQW(1,R5);
+	label('.1782');
+	LDW(R0);XORI(2);_BNE('.1787');
+	LDW(R1);XORI(2);_BEQ('.1785');
+	label('.1787');
+	MOVQW(1,R5);
+	label('.1785');
+	label('.1779');
+	INCV(R6);
+	LDI(2);_CMPWS(R6);_BGT('.1778');
+	LDW(R5);_BEQ('.1792');
+	LDXW(R7,28);_BEQ('.1790');
+	LDWI('.1773');STW(R8);
+	_STLW(0);
+	LDI(1);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1790');
+	INCV(R2);
+	_BRA('.1792');
+	LDXW(R7,28);_BEQ('.1793');
+	LDWI('.1773');STW(R8);
+	_STLW(0);
+	LDI(2);STW(R9);
+	_STLW(2);
+	CALLI('printf');
+	label('.1793');
+	ADDSV(2,R2);
+	label('.1792');
+	LDW(R2);
+	label('.1772');
+	_EPILOGUE(28,6,0xff,saveAC=True);
+# ======== ('CODE', 'setev', code105)
+def code105():
+	label('setev');
+	PUSH();
+	LDWI('extvar');DOKEI(1066);
+	LDI(0);
+	label('.1795');
+	tryhop(2);POP();RET()
+# ======== ('COMMON', 'rfs', code106, 8, 1)
+def code106():
+	label('rfs');
+	space(8);
+# ======== ('COMMON', 'crc', code107, 2, 2)
+def code107():
+	align(2);
+	label('crc');
+	space(2);
+# ======== ('COMMON', 'rrc', code108, 2, 2)
+def code108():
+	align(2);
+	label('rrc');
+	space(2);
+# ======== ('COMMON', 'flgl', code109, 2, 2)
+def code109():
+	align(2);
+	label('flgl');
+	space(2);
+# ======== ('COMMON', 'flgd', code110, 2, 2)
+def code110():
+	align(2);
+	label('flgd');
+	space(2);
+# ======== ('COMMON', 'flgm', code111, 2, 2)
+def code111():
+	align(2);
+	label('flgm');
+	space(2);
+# ======== ('COMMON', 'flgs', code112, 2, 2)
+def code112():
+	align(2);
+	label('flgs');
+	space(2);
+# ======== ('COMMON', 'dprec', code113, 5, 1)
+def code113():
+	label('dprec');
+	space(5);
+# ======== ('COMMON', 'fprec', code114, 5, 1)
+def code114():
+	label('fprec');
+	space(5);
+# ======== ('COMMON', 'dbits', code115, 2, 2)
+def code115():
+	align(2);
+	label('dbits');
+	space(2);
+# ======== ('COMMON', 'fbits', code116, 2, 2)
+def code116():
+	align(2);
+	label('fbits');
+	space(2);
+# ======== ('COMMON', 'ubits', code117, 2, 2)
+def code117():
+	align(2);
+	label('ubits');
+	space(2);
+# ======== ('COMMON', 'lbits', code118, 2, 2)
+def code118():
+	align(2);
+	label('lbits');
+	space(2);
+# ======== ('COMMON', 'metricp', code119, 2, 2)
+def code119():
+	align(2);
+	label('metricp');
+	space(2);
+# ======== ('COMMON', 'extvar', code120, 2, 2)
+def code120():
+	align(2);
+	label('extvar');
+	space(2);
+# ======== ('DATA', '.1668', code121, 0, 1)
+def code121():
+	label('.1668');
+	bytes(66,101,32,101,115,112,101,99);
+	bytes(105,97,108,108,121,32,99,97);
+	bytes(114,101,102,117,108,32,119,105);
+	bytes(116,104,32,49,45,98,105,116);
+	bytes(32,102,105,101,108,100,115,33);
+	bytes(10,0);
+# ======== ('DATA', '.1661', code122, 0, 1)
+def code122():
+	label('.1661');
+	bytes(83,105,103,110,32,101,120,116);
+	bytes(101,110,115,105,111,110,32,105);
+	bytes(110,32,102,105,101,108,100,115);
+	bytes(10,0);
+# ======== ('DATA', '.1654', code123, 0, 1)
+def code123():
+	label('.1654');
+	bytes(37,115,37,115,37,100,10,0);
+# ======== ('DATA', '.1577', code124, 0, 1)
+def code124():
+	label('.1577');
+	bytes(136,8,0,0,0); # 136
+# ======== ('DATA', '.1424', code125, 0, 1)
+def code125():
+	label('.1424');
+	bytes(112,111,105,110,116,101,114,0);
+# ======== ('DATA', '.875', code126, 0, 1)
+def code126():
+	label('.875');
+	bytes(73,110,99,114,101,97,115,105);
+	bytes(110,103,32,97,114,114,97,121);
+	bytes(32,101,108,101,109,101,110,116);
+	bytes(115,32,97,115,115,105,103,110);
+	bytes(101,100,32,116,111,32,100,101);
+	bytes(99,114,101,97,115,105,110,103);
+	bytes(32,108,111,99,97,116,105,111);
+	bytes(110,115,10,0);
+# ======== ('DATA', '.765', code127, 0, 1)
+def code127():
+	label('.765');
+	bytes(133,80,0,0,0); # 26
+# ======== ('DATA', '.764', code128, 0, 1)
+def code128():
+	label('.764');
+	bytes(133,80,0,0,0); # 26
+# ======== ('DATA', '.763', code129, 0, 4)
+def code129():
+	align(4);
+	label('.763');
+	words(26,0); # 26
+# ======== ('DATA', '.693', code130, 0, 1)
+def code130():
+	label('.693');
+	bytes(113,117,101,101,112,0);
+# ======== ('DATA', '.679', code131, 0, 4)
+def code131():
+	align(4);
+	label('.679');
+	words(32768,0); # 32768
+# ======== ('DATA', '.678', code132, 0, 1)
+def code132():
+	label('.678');
+	bytes(10,0);
+# ======== ('DATA', '.677', code133, 0, 1)
+def code133():
+	label('.677');
+	bytes(37,100,0);
+# ======== ('DATA', '.672', code134, 0, 1)
+def code134():
+	label('.672');
+	bytes(32,32,32,107,101,121,61,0);
+# ======== ('DATA', '.576', code135, 0, 1)
+def code135():
+	label('.576');
+	bytes(142,116,36,0,0); # 15625
+# ======== ('DATA', '.575', code136, 0, 1)
+def code136():
+	label('.575');
+	bytes(135,122,0,0,0); # 125
+# ======== ('DATA', '.574', code137, 0, 1)
+def code137():
+	label('.574');
+	bytes(135,122,0,0,0); # 125
+# ======== ('DATA', '.573', code138, 0, 4)
+def code138():
+	align(4);
+	label('.573');
+	words(15625,0); # 15625
+# ======== ('DATA', '.572', code139, 0, 4)
+def code139():
+	align(4);
+	label('.572');
+	words(125,0); # 125
+# ======== ('DATA', '.567', code140, 0, 1)
+def code140():
+	label('.567');
+	bytes(130,0,0,0,0); # 2
+# ======== ('DATA', '.550', code141, 0, 4)
+def code141():
+	align(4);
+	label('.550');
+	words(3,16); # 1048579
+# ======== ('DATA', '.529', code142, 0, 4)
+def code142():
+	align(4);
+	label('.529');
+	words(65517,65535); # -19
+# ======== ('DATA', '.467', code143, 0, 1)
+def code143():
+	label('.467');
+	bytes(100,111,117,98,108,101,0);
+# ======== ('DATA', '.466', code144, 0, 1)
+def code144():
+	label('.466');
+	bytes(102,108,111,97,116,0);
+# ======== ('DATA', '.465', code145, 0, 1)
+def code145():
+	label('.465');
+	bytes(117,110,115,105,103,110,101,100);
+	bytes(0);
+# ======== ('DATA', '.464', code146, 0, 1)
+def code146():
+	label('.464');
+	bytes(108,111,110,103,0);
+# ======== ('DATA', '.463', code147, 0, 1)
+def code147():
+	label('.463');
+	bytes(115,104,111,114,116,0);
+# ======== ('DATA', '.462', code148, 0, 1)
+def code148():
+	label('.462');
+	bytes(105,110,116,0);
+# ======== ('DATA', '.461', code149, 0, 1)
+def code149():
+	label('.461');
+	bytes(99,104,97,114,0);
+# ======== ('DATA', '.455', code150, 0, 1)
+def code150():
+	label('.455');
+	bytes(0,0,0,0,0); # 0
+# ======== ('DATA', '.454', code151, 0, 1)
+def code151():
+	label('.454');
+	bytes(129,0,0,0,0); # 1
+# ======== ('DATA', '.453', code152, 0, 1)
+def code152():
+	label('.453');
+	bytes(131,0,0,0,0); # 4
+# ======== ('DATA', '.452', code153, 0, 1)
+def code153():
+	label('.452');
+	bytes(130,0,0,0,0); # 2
+# ======== ('DATA', '.448', code154, 0, 1)
+def code154():
+	label('.448');
+	bytes(0,0,0,0,0); # 0
+# ======== ('DATA', '.447', code155, 0, 1)
+def code155():
+	label('.447');
+	bytes(129,0,0,0,0); # 1
+# ======== ('DATA', '.426', code156, 0, 1)
+def code156():
+	label('.426');
+	bytes(113,117,101,101,112,33,0);
+# ======== ('DATA', '.415', code157, 0, 1)
+def code157():
+	label('.415');
+	bytes(10,9,8,13,12,92,39,0);
+# ======== ('DATA', '.411', code158, 0, 1)
+def code158():
+	label('.411');
+	bytes(46,34,46,0);
+# ======== ('DATA', '.398', code159, 0, 1)
+def code159():
+	label('.398');
+	bytes(46,46,46,0);
+# ======== ('DATA', '.369', code160, 0, 1)
+def code160():
+	label('.369');
+	bytes(139,28,64,0,0); # 1250
+# ======== ('DATA', '.235', code161, 0, 1)
+def code161():
+	label('.235');
+	bytes(32,32,32,100,105,102,102,101);
+	bytes(114,101,110,116,32,114,101,115);
+	bytes(117,108,116,115,32,119,104,101);
+	bytes(110,32,97,115,115,105,103,110);
+	bytes(101,100,32,116,111,32,108,111);
+	bytes(110,103,115,46,10,0);
+# ======== ('DATA', '.234', code162, 0, 1)
+def code162():
+	label('.234');
+	bytes(68,101,99,105,109,97,108,32);
+	bytes(97,110,100,32,111,99,116,97);
+	bytes(108,47,104,101,120,32,99,111);
+	bytes(110,115,116,97,110,116,115,32);
+	bytes(115,111,109,101,116,105,109,101);
+	bytes(115,32,103,105,118,101,10,0);
+# ======== ('DATA', '.212', code163, 0, 4)
+def code163():
+	align(4);
+	label('.212');
+	words(65535,65535); # 4294967295
+# ======== ('DATA', '.208', code164, 0, 4)
+def code164():
+	align(4);
+	label('.208');
+	words(0,16384); # 1073741824
+# ======== ('DATA', '.204', code165, 0, 4)
+def code165():
+	align(4);
+	label('.204');
+	words(65535,16383); # 1073741823
+# ======== ('DATA', '.200', code166, 0, 4)
+def code166():
+	align(4);
+	label('.200');
+	words(0,4096); # 268435456
+# ======== ('DATA', '.196', code167, 0, 4)
+def code167():
+	align(4);
+	label('.196');
+	words(65535,4095); # 268435455
+# ======== ('DATA', '.192', code168, 0, 4)
+def code168():
+	align(4);
+	label('.192');
+	words(0,256); # 16777216
+# ======== ('DATA', '.188', code169, 0, 4)
+def code169():
+	align(4);
+	label('.188');
+	words(65535,255); # 16777215
+# ======== ('DATA', '.184', code170, 0, 4)
+def code170():
+	align(4);
+	label('.184');
+	words(0,16); # 1048576
+# ======== ('DATA', '.180', code171, 0, 4)
+def code171():
+	align(4);
+	label('.180');
+	words(65535,15); # 1048575
+# ======== ('DATA', '.176', code172, 0, 4)
+def code172():
+	align(4);
+	label('.176');
+	words(0,4); # 262144
+# ======== ('DATA', '.172', code173, 0, 4)
+def code173():
+	align(4);
+	label('.172');
+	words(65535,3); # 262143
+# ======== ('DATA', '.168', code174, 0, 4)
+def code174():
+	align(4);
+	label('.168');
+	words(0,1); # 65536
+# ======== ('DATA', '.164', code175, 0, 4)
+def code175():
+	align(4);
+	label('.164');
+	words(65535,0); # 65535
+# ======== ('DATA', '.160', code176, 0, 4)
+def code176():
+	align(4);
+	label('.160');
+	words(4096,0); # 4096
+# ======== ('DATA', '.156', code177, 0, 4)
+def code177():
+	align(4);
+	label('.156');
+	words(4095,0); # 4095
+# ======== ('DATA', '.152', code178, 0, 4)
+def code178():
+	align(4);
+	label('.152');
+	words(256,0); # 256
+# ======== ('DATA', '.148', code179, 0, 4)
+def code179():
+	align(4);
+	label('.148');
+	words(255,0); # 255
+# ======== ('DATA', '.144', code180, 0, 4)
+def code180():
+	align(4);
+	label('.144');
+	words(64,0); # 64
+# ======== ('DATA', '.140', code181, 0, 4)
+def code181():
+	align(4);
+	label('.140');
+	words(63,0); # 63
+# ======== ('DATA', '.136', code182, 0, 4)
+def code182():
+	align(4);
+	label('.136');
+	words(16,0); # 16
+# ======== ('DATA', '.132', code183, 0, 4)
+def code183():
+	align(4);
+	label('.132');
+	words(15,0); # 15
+# ======== ('DATA', '.128', code184, 0, 4)
+def code184():
+	align(4);
+	label('.128');
+	words(14,0); # 14
+# ======== ('DATA', '.124', code185, 0, 4)
+def code185():
+	align(4);
+	label('.124');
+	words(13,0); # 13
+# ======== ('DATA', '.120', code186, 0, 4)
+def code186():
+	align(4);
+	label('.120');
+	words(12,0); # 12
+# ======== ('DATA', '.116', code187, 0, 4)
+def code187():
+	align(4);
+	label('.116');
+	words(11,0); # 11
+# ======== ('DATA', '.112', code188, 0, 4)
+def code188():
+	align(4);
+	label('.112');
+	words(10,0); # 10
+# ======== ('DATA', '.108', code189, 0, 4)
+def code189():
+	align(4);
+	label('.108');
+	words(9,0); # 9
+# ======== ('DATA', '.104', code190, 0, 4)
+def code190():
+	align(4);
+	label('.104');
+	words(8,0); # 8
+# ======== ('DATA', '.100', code191, 0, 4)
+def code191():
+	align(4);
+	label('.100');
+	words(7,0); # 7
+# ======== ('DATA', '.96', code192, 0, 4)
+def code192():
+	align(4);
+	label('.96');
+	words(6,0); # 6
+# ======== ('DATA', '.92', code193, 0, 4)
+def code193():
+	align(4);
+	label('.92');
+	words(5,0); # 5
+# ======== ('DATA', '.88', code194, 0, 4)
+def code194():
+	align(4);
+	label('.88');
+	words(4,0); # 4
+# ======== ('DATA', '.84', code195, 0, 4)
+def code195():
+	align(4);
+	label('.84');
+	words(3,0); # 3
+# ======== ('DATA', '.80', code196, 0, 4)
+def code196():
+	align(4);
+	label('.80');
+	words(2,0); # 2
+# ======== ('DATA', '.75', code197, 0, 4)
+def code197():
+	align(4);
+	label('.75');
+	words(0,0); # 0
+# ======== ('DATA', '.74', code198, 0, 4)
+def code198():
+	align(4);
+	label('.74');
+	words(1,0); # 1
+# ======== ('DATA', '.27', code199, 0, 1)
+def code199():
+	label('.27');
+	bytes(10,70,97,105,108,101,100,46);
+	bytes(10,0);
+# ======== ('DATA', '.26', code200, 0, 1)
+def code200():
+	label('.26');
+	bytes(10,78,111,32,101,114,114,111);
+	bytes(114,115,32,100,101,116,101,99);
+	bytes(116,101,100,46,10,0);
+# ======== ('DATA', '.20', code201, 0, 1)
+def code201():
+	label('.20');
+	bytes(83,101,99,116,105,111,110,32);
+	bytes(37,115,32,114,101,116,117,114);
+	bytes(110,101,100,32,37,100,46,10);
+	bytes(0);
+# ======== (epilog)
+code=[
+	('DATA', '.2', code0, 0, 2),
+	('BSS', '.3', code1, 44, 2),
+	('BSS', '.4', code2, 2, 2),
+	('EXPORT', 'main'),
+	('CODE', 'main', code3),
+	('DATA', '.29', code4, 0, 1),
+	('DATA', '.30', code5, 8, 1),
+	('EXPORT', 's22'),
+	('CODE', 's22', code6),
+	('DATA', '.43', code7, 0, 1),
+	('DATA', '.44', code8, 8, 1),
+	('DATA', '.45', code9, 156, 4),
+	('EXPORT', 's241'),
+	('CODE', 's241', code10),
+	('EXPORT', 'pow2'),
+	('CODE', 'pow2', code11),
+	('DATA', '.243', code12, 0, 1),
+	('DATA', '.244', code13, 8, 1),
+	('EXPORT', 's243'),
+	('CODE', 's243', code14),
+	('EXPORT', 'zerofill'),
+	('CODE', 'zerofill', code15),
+	('EXPORT', 'sumof'),
+	('CODE', 'sumof', code16),
+	('DATA', '.364', code17, 0, 1),
+	('DATA', '.365', code18, 8, 1),
+	('EXPORT', 's244'),
+	('CODE', 's244', code19),
+	('DATA', '.393', code20, 0, 1),
+	('DATA', '.394', code21, 8, 1),
+	('EXPORT', 's25'),
+	('CODE', 's25', code22),
+	('DATA', '.438', code23, 8, 1),
+	('DATA', '.439', code24, 0, 1),
+	('DATA', '.440', code25, 0, 1),
+	('EXPORT', 's26'),
+	('CODE', 's26', code26),
+	('DATA', '.469', code27, 0, 1),
+	('DATA', '.470', code28, 8, 1),
+	('EXPORT', 's4'),
+	('CODE', 's4', code29),
+	('BSS', '.500', code30, 2, 2),
+	('EXPORT', 'svtest'),
+	('CODE', 'svtest', code31),
+	('BSS', '.511', code32, 2, 2),
+	('EXPORT', 'zero'),
+	('CODE', 'zero', code33),
+	('EXPORT', 'testev'),
+	('CODE', 'testev', code34),
+	('DATA', '.516', code35, 0, 1),
+	('DATA', '.517', code36, 8, 1),
+	('DATA', '.518', code37, 0, 1),
+	('DATA', '.519', code38, 0, 1),
+	('DATA', '.520', code39, 0, 1),
+	('DATA', '.521', code40, 0, 1),
+	('DATA', '.522', code41, 0, 1),
+	('DATA', '.523', code42, 0, 1),
+	('EXPORT', 's61'),
+	('CODE', 's61', code43),
+	('DATA', '.558', code44, 0, 1),
+	('DATA', '.559', code45, 8, 1),
+	('EXPORT', 's626'),
+	('CODE', 's626', code46),
+	('DATA', '.685', code47, 0, 1),
+	('DATA', '.686', code48, 8, 1),
+	('DATA', '.687', code49, 1, 1),
+	('EXPORT', 's71'),
+	('CODE', 's71', code50),
+	('EXPORT', 'McCarthy'),
+	('CODE', 'McCarthy', code51),
+	('EXPORT', 'clobber'),
+	('CODE', 'clobber', code52),
+	('DATA', '.727', code53, 0, 1),
+	('DATA', '.728', code54, 8, 1),
+	('EXPORT', 's715'),
+	('CODE', 's715', code55),
+	('EXPORT', 's715f'),
+	('CODE', 's715f', code56),
+	('DATA', '.742', code57, 0, 1),
+	('DATA', '.743', code58, 8, 1),
+	('EXPORT', 's72'),
+	('CODE', 's72', code59),
+	('DATA', '.818', code60, 0, 1),
+	('DATA', '.819', code61, 8, 1),
+	('EXPORT', 's757'),
+	('CODE', 's757', code62),
+	('DATA', '.922', code63, 0, 1),
+	('DATA', '.923', code64, 0, 1),
+	('DATA', '.924', code65, 8, 1),
+	('EXPORT', 's7813'),
+	('CODE', 's7813', code66),
+	('DATA', '.1387', code67, 0, 1),
+	('DATA', '.1388', code68, 8, 1),
+	('DATA', '.1389', code69, 0, 1),
+	('DATA', '.1390', code70, 0, 1),
+	('EXPORT', 's81'),
+	('CODE', 's81', code71),
+	('EXPORT', 'regc'),
+	('CODE', 'regc', code72),
+	('EXPORT', 'regi'),
+	('CODE', 'regi', code73),
+	('EXPORT', 'regp'),
+	('CODE', 'regp', code74),
+	('BSS', '.1553', code75, 210, 2),
+	('DATA', '.1554', code76, 0, 1),
+	('DATA', '.1555', code77, 8, 1),
+	('EXPORT', 's84'),
+	('CODE', 's84', code78),
+	('EXPORT', 'array'),
+	('CODE', 'array', code79),
+	('BSS', '.1604', code80, 2, 2),
+	('EXPORT', 'fip'),
+	('CODE', 'fip', code81),
+	('EXPORT', 'glork'),
+	('CODE', 'glork', code82),
+	('DATA', '.1607', code83, 0, 1),
+	('DATA', '.1608', code84, 8, 1),
+	('DATA', '.1616', code85, 0, 2),
+	('DATA', '.1617', code86, 0, 1),
+	('EXPORT', 's85'),
+	('CODE', 's85', code87),
+	('DATA', '.1690', code88, 0, 1),
+	('DATA', '.1691', code89, 8, 1),
+	('DATA', '.1692', code90, 0, 2),
+	('DATA', '.1693', code91, 2, 2),
+	('BSS', '.1695', code92, 20, 2),
+	('DATA', '.1696', code93, 0, 1),
+	('DATA', '.1697', code94, 60, 1),
+	('DATA', '.1698', code95, 60, 1),
+	('DATA', '.1699', code96, 60, 1),
+	('EXPORT', 's86'),
+	('CODE', 's86', code97),
+	('EXPORT', 'one'),
+	('CODE', 'one', code98),
+	('DATA', '.1752', code99, 0, 1),
+	('DATA', '.1753', code100, 8, 1),
+	('EXPORT', 's88'),
+	('CODE', 's88', code101),
+	('DATA', '.1773', code102, 0, 1),
+	('DATA', '.1774', code103, 8, 1),
+	('EXPORT', 's9'),
+	('CODE', 's9', code104),
+	('EXPORT', 'setev'),
+	('CODE', 'setev', code105),
+	('IMPORT', 'printf'),
+	('COMMON', 'rfs', code106, 8, 1),
+	('COMMON', 'crc', code107, 2, 2),
+	('COMMON', 'rrc', code108, 2, 2),
+	('COMMON', 'flgl', code109, 2, 2),
+	('COMMON', 'flgd', code110, 2, 2),
+	('COMMON', 'flgm', code111, 2, 2),
+	('COMMON', 'flgs', code112, 2, 2),
+	('COMMON', 'dprec', code113, 5, 1),
+	('COMMON', 'fprec', code114, 5, 1),
+	('COMMON', 'dbits', code115, 2, 2),
+	('COMMON', 'fbits', code116, 2, 2),
+	('COMMON', 'ubits', code117, 2, 2),
+	('COMMON', 'lbits', code118, 2, 2),
+	('COMMON', 'metricp', code119, 2, 2),
+	('COMMON', 'extvar', code120, 2, 2),
+	('DATA', '.1668', code121, 0, 1),
+	('DATA', '.1661', code122, 0, 1),
+	('DATA', '.1654', code123, 0, 1),
+	('DATA', '.1577', code124, 0, 1),
+	('DATA', '.1424', code125, 0, 1),
+	('DATA', '.875', code126, 0, 1),
+	('DATA', '.765', code127, 0, 1),
+	('DATA', '.764', code128, 0, 1),
+	('DATA', '.763', code129, 0, 4),
+	('DATA', '.693', code130, 0, 1),
+	('DATA', '.679', code131, 0, 4),
+	('DATA', '.678', code132, 0, 1),
+	('DATA', '.677', code133, 0, 1),
+	('DATA', '.672', code134, 0, 1),
+	('DATA', '.576', code135, 0, 1),
+	('DATA', '.575', code136, 0, 1),
+	('DATA', '.574', code137, 0, 1),
+	('DATA', '.573', code138, 0, 4),
+	('DATA', '.572', code139, 0, 4),
+	('DATA', '.567', code140, 0, 1),
+	('DATA', '.550', code141, 0, 4),
+	('DATA', '.529', code142, 0, 4),
+	('DATA', '.467', code143, 0, 1),
+	('DATA', '.466', code144, 0, 1),
+	('DATA', '.465', code145, 0, 1),
+	('DATA', '.464', code146, 0, 1),
+	('DATA', '.463', code147, 0, 1),
+	('DATA', '.462', code148, 0, 1),
+	('DATA', '.461', code149, 0, 1),
+	('DATA', '.455', code150, 0, 1),
+	('DATA', '.454', code151, 0, 1),
+	('DATA', '.453', code152, 0, 1),
+	('DATA', '.452', code153, 0, 1),
+	('DATA', '.448', code154, 0, 1),
+	('DATA', '.447', code155, 0, 1),
+	('DATA', '.426', code156, 0, 1),
+	('DATA', '.415', code157, 0, 1),
+	('DATA', '.411', code158, 0, 1),
+	('DATA', '.398', code159, 0, 1),
+	('DATA', '.369', code160, 0, 1),
+	('DATA', '.235', code161, 0, 1),
+	('DATA', '.234', code162, 0, 1),
+	('DATA', '.212', code163, 0, 4),
+	('DATA', '.208', code164, 0, 4),
+	('DATA', '.204', code165, 0, 4),
+	('DATA', '.200', code166, 0, 4),
+	('DATA', '.196', code167, 0, 4),
+	('DATA', '.192', code168, 0, 4),
+	('DATA', '.188', code169, 0, 4),
+	('DATA', '.184', code170, 0, 4),
+	('DATA', '.180', code171, 0, 4),
+	('DATA', '.176', code172, 0, 4),
+	('DATA', '.172', code173, 0, 4),
+	('DATA', '.168', code174, 0, 4),
+	('DATA', '.164', code175, 0, 4),
+	('DATA', '.160', code176, 0, 4),
+	('DATA', '.156', code177, 0, 4),
+	('DATA', '.152', code178, 0, 4),
+	('DATA', '.148', code179, 0, 4),
+	('DATA', '.144', code180, 0, 4),
+	('DATA', '.140', code181, 0, 4),
+	('DATA', '.136', code182, 0, 4),
+	('DATA', '.132', code183, 0, 4),
+	('DATA', '.128', code184, 0, 4),
+	('DATA', '.124', code185, 0, 4),
+	('DATA', '.120', code186, 0, 4),
+	('DATA', '.116', code187, 0, 4),
+	('DATA', '.112', code188, 0, 4),
+	('DATA', '.108', code189, 0, 4),
+	('DATA', '.104', code190, 0, 4),
+	('DATA', '.100', code191, 0, 4),
+	('DATA', '.96', code192, 0, 4),
+	('DATA', '.92', code193, 0, 4),
+	('DATA', '.88', code194, 0, 4),
+	('DATA', '.84', code195, 0, 4),
+	('DATA', '.80', code196, 0, 4),
+	('DATA', '.75', code197, 0, 4),
+	('DATA', '.74', code198, 0, 4),
+	('DATA', '.27', code199, 0, 1),
+	('DATA', '.26', code200, 0, 1),
+	('DATA', '.20', code201, 0, 1) ]
+module(code=code, name='tst/cq1.c', cpu=7);
+
+# Local Variables:
+# mode: python
+# indent-tabs-mode: t
+# End:
