@@ -98,7 +98,7 @@ class FirmwareTests(unittest.TestCase):
         self.command("GOOD")
         self.assertEqual(self.m.stack(), [42])
 
-    def test_native_save_power_failure_and_volatile_data_ram(self):
+    def test_native_save_and_unsaved_power_cycle(self):
         self.command(": SQUARE DUP * ;")
         self.command(": FOURTH SQUARE SQUARE ;")
         # Write the last I-RAM byte through the firmware-visible bus ports. This
@@ -116,18 +116,39 @@ class FirmwareTests(unittest.TestCase):
         self.assertEqual(self.m.ram[0x6000], 0)
         self.command("3 FOURTH")
         self.assertEqual(self.m.stack(), [81]); self.command("DROP")
-        # Service power failure at a threaded token boundary, even in an
-        # otherwise infinite FORTH loop (not only while sitting at the prompt).
-        self.command(": PERSIST 77 ;")
-        self.command(": SPIN BEGIN AGAIN ;")
-        for char in "SPIN\n": self.m.character(char)
-        self.m.run(10000)
-        self.m.power_fail()
-        self.m.wait(lambda: self.m.byte("saved") == 1, 250000000)
-        updated = self.m.flash()
-        self.assertNotEqual(saved, updated)
-        self.m.reboot(); self.m.ready(); self.command("PERSIST")
+        # No implicit save on a power cycle: preserve committed words, lose new ones.
+        self.command(": VOLATILE 77 ;")
+        self.assertEqual(saved, self.m.flash())
+        self.m.reboot(); self.m.ready()
+        self.m.command("VOLATILE")
+        self.assertEqual(self.m.byte("error"), 5)
+        self.assertEqual(saved, self.m.flash())
+        self.command("3 FOURTH")
+        self.assertEqual(self.m.stack(), [81])
+
+    def test_unsaved_boots_from_original_flash(self):
+        original = self.m.flash()
+        self.command(": TEMP 77 ;")
+        self.command("TEMP 12345 24576 !")
         self.assertEqual(self.m.stack(), [77])
+        self.assertEqual(original, self.m.flash())
+        self.m.reboot(); self.m.ready()
+        self.assertEqual(original, self.m.flash())
+        self.assertEqual(self.m.stack(), [])
+        self.assertEqual(self.m.ram[0x6000], 0)
+        self.m.command("TEMP")
+        self.assertEqual(self.m.byte("error"), 5)
+
+    def test_both_shift_keys(self):
+        self.m.scan(0x12); self.m.scan(0x59)  # Both Shift keys held.
+        self.m.scan(0xf0); self.m.scan(0x12)  # Release left, keep right held.
+        self.m.scan(0x16)                    # Shift+1 -> !
+        self.m.wait(lambda: self.m.byte("inlen") == 1)
+        self.assertEqual(self.m.ram[0x500], ord("!"))
+        self.m.scan(0xf0); self.m.scan(0x59)  # Release right.
+        self.m.scan(0x16)
+        self.m.wait(lambda: self.m.byte("inlen") == 2)
+        self.assertEqual(self.m.ram[0x501], ord("1"))
 
     def test_gui_http_controls_and_ps2_pacing(self):
         app = Application(self.m, ticks=250000)

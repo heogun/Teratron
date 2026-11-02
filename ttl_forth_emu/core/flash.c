@@ -15,8 +15,9 @@ uint8_t flash_read(ttl_flash_t* f, uint32_t a) {
                (f->toggle ? 0x40 : 0) | ((~f->value) & 0x80));
     }
     if (f->id_mode) {
-        if ((a & 0xffff) == 0) return 0xbf;
-        if ((a & 0xffff) == 1) return 0xb7;
+        /* Product ID requires A18..A1 = 0 (datasheet table 4, note 5). */
+        if (a == 0) return 0xbf;
+        if (a == 1) return 0xb7;
         return 0xff;
     }
     return f->bytes[a];
@@ -36,6 +37,7 @@ void flash_write(ttl_flash_t* f, uint32_t a, uint8_t v) {
         f->length = 1;
         f->value = v;
         f->remaining = FLASH_PROGRAM_CYCLES;
+        f->toggle = false; /* First DQ6 polling read is high for every operation. */
         f->sequence = 0;
         return;
     }
@@ -72,6 +74,7 @@ void flash_write(ttl_flash_t* f, uint32_t a, uint8_t v) {
             f->value = 0xff;
             f->error = false;
             f->remaining = v == 0x30 ? FLASH_ERASE_CYCLES : FLASH_CHIP_ERASE_CYCLES;
+            f->toggle = false;
         }
         break;
     default: f->sequence = 0; break;
@@ -82,4 +85,5 @@ void flash_tick(ttl_flash_t* f) {
     if (!f->remaining || --f->remaining) return;
     if (f->length == 1) f->bytes[f->address] &= f->value;
     else memset(f->bytes + f->address, 0xff, f->length);
+    ++f->generation;
 }

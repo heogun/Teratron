@@ -17,7 +17,7 @@ TOKENS = ["EXIT", "LIT", "CALL", "DUP", "DROP", "SWAP", "OVER", "+", "-", "*",
           "AND", "OR", "XOR", "INVERT", "=", "0=", "U<", ".", "EMIT", "CR",
           "DEPTH", "C@", "C!", "@", "!", ":", ";", "WORDS", "SAVE", "EXECUTE",
           "BRANCH", "0BRANCH", "IF", "ELSE", "THEN", "BEGIN", "UNTIL", "AGAIN", "RECURSE",
-          "IC@", "IC!", "FC@", "FC!"]
+          "IC@", "IC!", "FC@"]
 TOKEN = {name: i + 1 for i, name in enumerate(TOKENS)}
 INTERNAL = {"EXIT", "LIT", "CALL", "BRANCH", "0BRANCH"}
 IMMEDIATE = {":", ";", "IF", "ELSE", "THEN", "BEGIN", "UNTIL", "AGAIN", "RECURSE"}
@@ -52,7 +52,7 @@ def build(output):
     a = Assembler()
     # Stable RAM ABI for debug tools. No host service reads/writes execution state.
     names = ["status", "error", "mode", "sp", "rp", "cx", "cy", "outptr:2", "inlen",
-             "parse", "tokstart", "toklen", "saved", "diag", "shift", "released", "extended",
+             "parse", "tokstart", "toklen", "reserved", "diag", "shift", "released", "extended",
              "head:2", "here:2", "pending:2", "oldhere:2", "ip:2", "found:2", "flags",
              "p:2", "bank", "target", "w", "ch", "v:2", "b:2", "tmp:2", "work:2",
              "entry:2", "link:2", "index", "count", "digit", "negative", "started",
@@ -126,7 +126,6 @@ def build(output):
 
     # Stage 1/2: real OUT-driven video, polled PS/2 and text rendering.
     a.label("idle"); put("status", 2)
-    a.call("service_power")
     mmread(4); a.and_(1); a.branch("ne", "key")
     a.call("video"); a.jump("idle")
     a.label("key")
@@ -137,14 +136,19 @@ def build(output):
     ld("digit"); a.sub(0xe0); a.branch("ne", "not_extended")
     put("extended", 1); a.jump("idle")
     a.label("not_extended")
-    ld("digit"); a.sub(0x12); a.branch("eq", "shift_key")
-    ld("digit"); a.sub(0x59); a.branch("eq", "shift_key")
+    ld("digit"); a.sub(0x12); a.branch("eq", "left_shift_key")
+    ld("digit"); a.sub(0x59); a.branch("eq", "right_shift_key")
     ld("released"); a.orm(v["extended"]); a.branch("eq", "normal_key")
     put("released", 0); put("extended", 0); a.jump("idle")
-    a.label("shift_key")
-    ld("released"); a.ins(0x60, 1); st("shift"); put("released", 0); a.jump("idle")
+    for label, mask in (("left_shift_key", 1), ("right_shift_key", 2)):
+        a.label(label)
+        pressed = a.unique()
+        ld("released"); a.branch("eq", pressed)
+        ld("shift"); a.and_(255 ^ mask); st("shift"); put("released", 0); a.jump("idle")
+        a.label(pressed); ld("shift"); a.ins(0x40, mask); st("shift"); a.jump("idle")
     a.label("normal_key")
-    cp("digit", "p"); ld("shift"); a.add(0x90); a.st(v["p"]+1)
+    cp("digit", "p"); ld("shift"); a.call("bool_nonzero")
+    ld("v"); a.and_(1); a.add(0x90); a.st(v["p"]+1)
     put("bank", 1); put("target", 1); a.call("memread"); st("ch")
     a.branch("eq", "idle")
     ld("ch"); a.sub(10); a.branch("eq", "enter")
@@ -213,7 +217,6 @@ def build(output):
 
     # Threaded code lives in I-RAM byte bank 2. CALL/EXIT use a target return stack.
     a.label("next")
-    a.call("service_power")
     a.call("fetch"); st("digit")
     for name in TOKENS:
         ld("digit"); a.sub(TOKEN[name]); a.branch("eq", token_label(name))
@@ -283,7 +286,7 @@ def build(output):
         a.jump("next")
     # Atomic port transactions: NEXT itself uses these latches, so assembling a
     # transaction from separate generic C! words would lose the port settings.
-    for name in ("IC@", "IC!", "FC@", "FC!"):
+    for name in ("IC@", "IC!", "FC@"):
         a.label(token_label(name))
         a.call("pop"); a.ld(v["v"]+1); a.branch("ne", "port_error")
         ld("v"); a.and_(0xf8); a.branch("ne", "port_error"); cp("v", "bank")
@@ -475,7 +478,7 @@ def build(output):
     cp("here", "w"); a.call("memwrite"); a.inc16(v["p"])
     a.copy(v["here"]+1, v["w"]); a.call("memwrite"); a.ret("patch")
 
-    # Native software flash driver: no ttl_checkpoint or host callback involved.
+    # Flash driver executed entirely as native CPU instructions.
     command = a.var("command")
     a.label("flash_command"); a.st(command)
     cp("savebank", "bank"); put("target", 2)
@@ -489,11 +492,6 @@ def build(output):
     # flash data port instead of relying on the emulator's debug BUSY register.
     a.call("memread"); a.st(poll); a.call("memread"); a.ins(0x61, poll)
     a.and_(0x40); a.branch("ne", "flash_wait"); a.ret("flash_wait")
-    a.label("service_power")
-    mmread(5); a.branch("eq", "power_serviced")
-    ld("saved"); a.branch("ne", "power_serviced")
-    a.call("save"); put("saved", 1)
-    a.label("power_serviced"); a.ret("service_power")
     a.label("save")
     put("status", 4); put("savebank", 0)
     a.imm(0x80); a.call("flash_command"); a.imm(0x10); a.call("flash_command")

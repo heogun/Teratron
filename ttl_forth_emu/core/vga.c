@@ -25,14 +25,6 @@ bool vga_init(vga_t* vga, gigatron_t* cpu) {
         return false;
     }
     
-    /* Initialize to black with full alpha */
-    for (size_t i = 0; i < fb_size; i += 4) {
-        vga->pixels[i + 0] = 0;     /* R */
-        vga->pixels[i + 1] = 0;     /* G */
-        vga->pixels[i + 2] = 0;     /* B */
-        vga->pixels[i + 3] = 255;   /* A */
-    }
-    
     /* Set timing boundaries */
     vga->min_row = VGA_V_BACK_PORCH;
     vga->max_row = VGA_V_BACK_PORCH + VGA_V_VISIBLE;
@@ -67,6 +59,12 @@ void vga_reset(vga_t* vga) {
     vga->pixel_index = 0;
     vga->prev_out = 0;
     vga->frame_complete = false;
+    vga->frame_count = 0;
+    if (vga->pixels) {
+        const size_t size = (size_t)vga->width * vga->height * 4;
+        memset(vga->pixels, 0, size);
+        for (size_t i = 3; i < size; i += 4) vga->pixels[i] = 255;
+    }
 }
 
 /**
@@ -111,11 +109,12 @@ void vga_tick(vga_t* vga) {
         
         /* Each Gigatron pixel is 4 VGA pixels wide */
         uint8_t* pixels = vga->pixels;
-        uint32_t idx = vga->pixel_index;
-        /* Malformed firmware sync must not write outside the framebuffer. */
-        if (idx + 16 > vga->width * vga->height * 4) return;
-        
-        for (int i = 0; i < 4; i++) {
+        const uint32_t x = vga->col - vga->min_col;
+        const uint32_t y = vga->row - vga->min_row;
+        /* Keep scanline position even when firmware emits a short/broken line. */
+        if (x >= vga->width || y >= vga->height) return;
+        uint32_t idx = (y * vga->width + x) * 4;
+        for (uint32_t i = 0; i < 4 && x + i < vga->width; i++) {
             pixels[idx++] = r;
             pixels[idx++] = g;
             pixels[idx++] = b;

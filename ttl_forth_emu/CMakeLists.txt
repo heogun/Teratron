@@ -17,9 +17,12 @@ target_link_libraries(ttl_forth_emu PRIVATE ttl_machine)
 enable_testing()
 add_executable(machine_tests tests/machine_tests.c)
 target_link_libraries(machine_tests PRIVATE ttl_machine)
-foreach(suite boot cpu flash ps2 checkpoint peripherals ports)
+foreach(suite boot cpu flash ps2 peripherals ports video configuration)
     add_test(NAME ${suite} COMMAND machine_tests ${suite})
 endforeach()
+add_executable(cpu_isa_tests tests/cpu_isa_tests.c)
+target_link_libraries(cpu_isa_tests PRIVATE ttl_machine)
+add_test(NAME cpu_isa COMMAND cpu_isa_tests)
 add_test(NAME cli_roundtrip COMMAND ${CMAKE_COMMAND}
     -DEMU=$<TARGET_FILE:ttl_forth_emu>
     -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/roundtrip.flash

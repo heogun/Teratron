@@ -1,4 +1,7 @@
 set(THIRD_PARTY "${PROJECT_SOURCE_DIR}/../gigatron_emu/3rd_party")
+if(NOT APPLE)
+    message(FATAL_ERROR "The native frontend supports macOS only. Configure -DTTL_BUILD_NATIVE_GUI=OFF for core-only builds.")
+endif()
 add_library(ttl_imgui STATIC
     "${THIRD_PARTY}/imgui/imgui.cpp"
     "${THIRD_PARTY}/imgui/imgui_draw.cpp"
@@ -17,26 +20,13 @@ target_include_directories(ttl_forth_sokol_imgui PRIVATE "${THIRD_PARTY}/sokol")
 target_link_libraries(ttl_forth_sokol_imgui PRIVATE ttl_frontend_controller ttl_imgui)
 target_compile_definitions(ttl_forth_sokol_imgui PRIVATE
     TTL_DEFAULT_FLASH="${PROJECT_BINARY_DIR}/firmware/forth.flash")
-if(APPLE)
-    enable_language(OBJCXX)
-    set_source_files_properties(main.cpp PROPERTIES LANGUAGE OBJCXX)
-    set_target_properties(ttl_forth_sokol_imgui PROPERTIES OBJCXX_STANDARD 20 OBJCXX_STANDARD_REQUIRED YES)
-    target_compile_options(ttl_forth_sokol_imgui PRIVATE -fobjc-arc)
-    target_link_libraries(ttl_forth_sokol_imgui PRIVATE
-        "-framework Cocoa" "-framework QuartzCore" "-framework Metal"
-        "-framework MetalKit" "-framework AudioToolbox")
-elseif(WIN32)
-    target_link_libraries(ttl_forth_sokol_imgui PRIVATE d3d11 dxgi user32 gdi32 shell32 ole32 winmm)
-else()
-    find_package(Threads REQUIRED)
-    find_package(X11 REQUIRED)
-    find_package(OpenGL REQUIRED)
-    find_package(ALSA REQUIRED)
-    target_include_directories(ttl_forth_sokol_imgui PRIVATE ${X11_INCLUDE_DIR} ${ALSA_INCLUDE_DIRS})
-    target_link_libraries(ttl_forth_sokol_imgui PRIVATE Threads::Threads
-        ${X11_LIBRARIES} ${X11_Xi_LIB} ${X11_Xcursor_LIB}
-        ${OPENGL_LIBRARIES} ${ALSA_LIBRARIES} dl m)
-endif()
+enable_language(OBJCXX)
+set_source_files_properties(main.cpp PROPERTIES LANGUAGE OBJCXX)
+set_target_properties(ttl_forth_sokol_imgui PROPERTIES OBJCXX_STANDARD 20 OBJCXX_STANDARD_REQUIRED YES)
+target_compile_options(ttl_forth_sokol_imgui PRIVATE -fobjc-arc)
+target_link_libraries(ttl_forth_sokol_imgui PRIVATE
+    "-framework Cocoa" "-framework QuartzCore" "-framework Metal"
+    "-framework MetalKit" "-framework AudioToolbox")
 add_custom_command(TARGET ttl_forth_sokol_imgui POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:ttl_forth_sokol_imgui>/firmware"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_BINARY_DIR}/firmware/forth.flash"

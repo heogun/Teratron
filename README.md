@@ -14,7 +14,7 @@ ctest --test-dir ttl_forth_emu/build --output-on-failure
 ttl_forth_emu/build/frontend/sokol_imgui/ttl_forth_sokol_imgui
 ```
 
-macOS에서 Metal/Sokol/ImGui 창 실행을 검증했습니다. 화면이 없는 환경은
+지원·검증 대상은 macOS입니다. Metal/Sokol/ImGui 창을 실제로 실행해 검증하며, 화면이 없는 실행은
 `-DTTL_BUILD_NATIVE_GUI=OFF`로 빌드할 수 있습니다.
 상세 사용법은 [`ttl_forth_emu/README.md`](ttl_forth_emu/README.md)에 있습니다.
 
@@ -26,7 +26,8 @@ SAVE
 
 FORTH 해석/컴파일, PS/2 입력, 화면 생성과 플래시 저장은 에뮬레이터의 네이티브 CPU에서 실행합니다.
 현재는 최소 token-threaded FORTH이며, 완전한 ANS FORTH나 연속 VGA 타이밍을 보장하는 실시간 펌웨어는 아닙니다.
-플래시 저장 전체가 끝날 때까지 전원이 유지되어야 합니다. [펌웨어 구조와 제약](ttl_forth_emu/firmware/README.md)을 참고하세요.
+플래시는 명시적 `SAVE`로만 변경합니다. 미저장 전원 차단은 이전 플래시로 부팅하며,
+SAVE 도중 비정상 전원 차단은 보장하지 않습니다. [에뮬레이션 범위](ttl_forth_emu/docs/emulation.md)를 참고하세요.
 
 ## 자료 구분
 

@@ -47,6 +47,11 @@ static void test_boot_and_banks(void) {
         m->cpu.pc = 0x100; m->cpu.next_pc = 0x101;
         ttl_tick(m); CHECK(m->cpu.ac == bank * 2 + 0x20);
     }
+    /* An unsaved power cycle restores the original flash, never live I-RAM. */
+    m->cpu.rom[0] = 0x0077;
+    CHECK(ttl_power_on(m)); boot(m);
+    CHECK(m->cpu.rom[0] == 0x0042 && m->cpu.ram[0x1234] == 0);
+    CHECK(m->flash.bytes[0] == 0 && m->flash.bytes[1] == 0x42);
     destroy(m);
 }
 
@@ -75,6 +80,9 @@ static void test_cpu_bus_and_self_modify(void) {
     m->cpu.rom[23] = 0x1c03; /* LD $03,OUT,[Y,X++], including immediate-bus X++. */
     ttl_tick(m); CHECK(m->cpu.x == 0x77 && m->cpu.ram[0x42] == 0x42);
     ttl_tick(m); CHECK(m->cpu.x == 0x78 && m->cpu.out == 3);
+    m->cpu.ac = 0; m->cpu.rom[24] = 0xe700; /* BGT IN: false, but IN bus is read. */
+    ttl_inject_scan(m, 0x5a); ttl_tick(m);
+    CHECK(!(m->key_status & TTL_KEY_READY) && m->cpu.next_pc == 26);
     destroy(m);
 }
 
@@ -83,14 +91,19 @@ static void test_flash(void) {
     flash_write(f, 0x100, 0); CHECK(f->bytes[0x100] == 0xff);
     unlock(f, 0xa0); flash_write(f, 0x100, 0x5a);
     CHECK(f->remaining == FLASH_PROGRAM_CYCLES && f->bytes[0x100] == 0xff);
+    flash_write(f, 0, 0xf0); /* Reset is ignored while an operation is busy. */
+    CHECK(f->remaining == FLASH_PROGRAM_CYCLES);
     uint8_t a = flash_read(f, 0x100), b = flash_read(f, 0x100);
-    CHECK(((a ^ b) & 0x40) && (a & 0x80));
+    CHECK((a & 0x40) && ((a ^ b) & 0x40) && (a & 0x80));
     for (unsigned i = 1; i < FLASH_PROGRAM_CYCLES; ++i) flash_tick(f);
     CHECK(f->bytes[0x100] == 0xff);
     flash_tick(f); CHECK(flash_read(f, 0x100) == 0x5a);
-    unlock(f, 0xa0); flash_write(f, 0x100, 0xff); finish(f);
+    unlock(f, 0xa0); flash_write(f, 0x100, 0xff);
+    CHECK(flash_read(f, 0x100) & 0x40); finish(f);
     CHECK(f->error && f->bytes[0x100] == 0x5a); /* No 0 -> 1 programming. */
-    unlock(f, 0xa0); flash_write(f, 0x200, 0xf0); finish(f);
+    /* Odd total poll history must not affect the next operation's first DQ6. */
+    unlock(f, 0xa0); flash_write(f, 0x200, 0xf0);
+    CHECK(flash_read(f, 0x200) & 0x40); finish(f);
     CHECK(f->bytes[0x200] == 0xf0);
     f->bytes[0x1000] = 0;
     unlock(f, 0x80); flash_write(f, 0x5555, 0xaa);
@@ -98,14 +111,17 @@ static void test_flash(void) {
     CHECK(f->remaining == FLASH_ERASE_CYCLES); finish(f);
     CHECK(f->bytes[0x100] == 0xff && f->bytes[0x1000] == 0);
     unlock(f, 0x90); CHECK(flash_read(f, 0) == 0xbf && flash_read(f, 1) == 0xb7);
+    CHECK(flash_read(f, 0x10000) == 0xff && flash_read(f, 0x10001) == 0xff);
     flash_write(f, 0, 0xf0); CHECK(flash_read(f, 0) == 0xff);
     unlock(f, 0x80); unlock(f, 0x10); finish(f);
     CHECK(f->bytes[0x1000] == 0xff);
     free(f);
 }
 
-static void test_ps2_and_power(void) {
+static void test_ps2(void) {
     ttl_machine_t* m = new_machine(); boot(m);
+    ttl_ps2_lines(m, true, true); ttl_ps2_lines(m, false, true);
+    ttl_ps2_lines(m, true, true); /* Ignore stray idle-high clocks. */
     ttl_inject_scan(m, 0xe0);
     CHECK(ttl_read(m, TTL_KEY_STATUS) == TTL_KEY_READY);
     ttl_inject_scan(m, 0x75);
@@ -121,28 +137,19 @@ static void test_ps2_and_power(void) {
     }
     CHECK(m->key_status & TTL_KEY_FRAME_ERROR);
     ttl_write(m, TTL_KEY_STATUS, TTL_KEY_FRAME_ERROR);
+    /* Valid start/stop, but even parity: reject it and recover for the next frame. */
+    for (unsigned i = 0; i < 11; ++i) {
+        bool bit = (0x400u >> i) & 1;
+        ttl_ps2_lines(m, true, bit); ttl_ps2_lines(m, false, bit);
+    }
+    ttl_ps2_lines(m, true, true);
+    CHECK((m->key_status & TTL_KEY_FRAME_ERROR) && !(m->key_status & TTL_KEY_READY));
+    ttl_write(m, TTL_KEY_STATUS, TTL_KEY_FRAME_ERROR);
+    ttl_inject_scan(m, 0x1c); CHECK(ttl_read(m, TTL_KEY_DATA) == 0x1c);
     ttl_ps2_lines(m, true, false); ttl_ps2_lines(m, false, false);
     ttl_run(m, 12500); CHECK(m->key_status & TTL_KEY_FRAME_ERROR);
-    ttl_power_fail(m); CHECK(ttl_read(m, TTL_POWER_STATUS) == 1);
-    ttl_write(m, TTL_POWER_STATUS, 0); CHECK(m->power_fail);
-    CHECK(ttl_power_on(m)); CHECK(!m->power_fail && !m->key_status);
-    destroy(m);
-}
-
-static void test_checkpoint(void) {
-    ttl_machine_t* m = new_machine(); boot(m);
-    m->cpu.rom[0] = 0x0042;
-    m->cpu.rom[TTL_MEMORY_SIZE / 2 - 1] = 0x1234;
-    m->cpu.ram[0] = 0xab; m->cpu.ram[TTL_DATA_SIZE - 1] = 0xcd;
-    uint64_t cycles = m->cpu.cycles;
-    CHECK(ttl_checkpoint(m)); CHECK(m->cpu.cycles == cycles);
-    CHECK(m->flash.bytes[0] == 0 && m->flash.bytes[1] == 0x42);
-    CHECK(m->flash.bytes[FLASH_SIZE - 1] == 0x34);
-    CHECK(ttl_power_on(m)); boot(m);
-    CHECK(m->cpu.rom[0] == 0x0042 && m->cpu.rom[TTL_MEMORY_SIZE / 2 - 1] == 0x1234);
-    CHECK(m->cpu.ram[0] == 0 && m->cpu.ram[TTL_DATA_SIZE - 1] == 0);
-    unlock(&m->flash, 0xa0); flash_write(&m->flash, 0, 0);
-    CHECK(!ttl_checkpoint(m) && !ttl_power_on(m));
+    ttl_write(m, TTL_RESERVED_FF05, 1); CHECK(ttl_read(m, TTL_RESERVED_FF05) == 0);
+    CHECK(ttl_power_on(m)); CHECK(!m->key_status);
     destroy(m);
 }
 
@@ -163,6 +170,39 @@ static void test_peripherals(void) {
     m->vga.pixel_index = m->vga.width * m->vga.height * 4;
     vga_tick(&m->vga); /* Malformed video must remain memory-safe. */
     destroy(m);
+}
+
+static void test_video(void) {
+    ttl_machine_t* m = new_machine(); boot(m);
+    vga_t* v = &m->vga;
+    v->row = v->min_row; v->col = v->min_col; v->prev_out = 0xc0;
+    m->cpu.out = 0xc3; vga_tick(v); /* First visible pixel group: red. */
+    CHECK(v->pixels[0] == 255 && v->pixels[1] == 0 && v->pixels[2] == 0);
+    m->cpu.out = 0x80; vga_tick(v); /* Short scanline: leave its other pixels alone. */
+    m->cpu.out = 0xcc;
+    for (unsigned i = 0; i < 13; ++i) vga_tick(v);
+    CHECK(v->pixels[4 * 4] == 0 && v->pixels[4 * 4 + 1] == 0);
+    CHECK(v->pixels[VGA_WIDTH * 4] == 0 && v->pixels[VGA_WIDTH * 4 + 1] == 255);
+    v->row = v->max_row - 1; v->col = v->max_col - 4; v->prev_out = m->cpu.out = 0xff;
+    vga_tick(v);
+    CHECK(v->pixels[VGA_WIDTH * VGA_HEIGHT * 4 - 4] == 255);
+    v->frame_count = 42;
+    CHECK(ttl_power_on(m));
+    CHECK(v->frame_count == 0 && v->pixel_index == 0 && !vga_frame_ready(v));
+    CHECK(v->pixels[0] == 0 && v->pixels[1] == 0 && v->pixels[3] == 255);
+    destroy(m);
+}
+
+static void test_cpu_configuration(void) {
+    gigatron_t cpu;
+    gigatron_config_t config = gigatron_default_config();
+    CHECK(config.ram_address_width == 16);
+    config.rom_address_width = 32; CHECK(!gigatron_init(&cpu, &config));
+    config.rom_address_width = 19; CHECK(!gigatron_init(&cpu, &config));
+    config.rom_address_width = 16; config.ram_address_width = 17;
+    CHECK(!gigatron_init(&cpu, &config));
+    CHECK(gigatron_init(&cpu, NULL)); CHECK(cpu.ram_size == TTL_DATA_SIZE);
+    gigatron_shutdown(&cpu);
 }
 
 static void port_address(ttl_machine_t* m, uint16_t address) {
@@ -200,10 +240,11 @@ int main(int argc, char** argv) {
     if (!strcmp(selected, "all") || !strcmp(selected, "boot")) test_boot_and_banks();
     if (!strcmp(selected, "all") || !strcmp(selected, "cpu")) test_cpu_bus_and_self_modify();
     if (!strcmp(selected, "all") || !strcmp(selected, "flash")) test_flash();
-    if (!strcmp(selected, "all") || !strcmp(selected, "ps2")) test_ps2_and_power();
-    if (!strcmp(selected, "all") || !strcmp(selected, "checkpoint")) test_checkpoint();
+    if (!strcmp(selected, "all") || !strcmp(selected, "ps2")) test_ps2();
     if (!strcmp(selected, "all") || !strcmp(selected, "peripherals")) test_peripherals();
     if (!strcmp(selected, "all") || !strcmp(selected, "ports")) test_ports();
+    if (!strcmp(selected, "all") || !strcmp(selected, "video")) test_video();
+    if (!strcmp(selected, "all") || !strcmp(selected, "configuration")) test_cpu_configuration();
     puts("All machine checks passed.");
     return 0;
 }

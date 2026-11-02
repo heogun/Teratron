@@ -21,7 +21,6 @@ API int ttl_load_image(ttl_machine_t* m, const uint8_t* data, size_t size) {
 }
 API void ttl_advance(ttl_machine_t* m, uint64_t cycles) { ttl_run(m, cycles); }
 API void ttl_scan(ttl_machine_t* m, uint8_t scan) { ttl_inject_scan(m, scan); }
-API void ttl_signal_power_fail(ttl_machine_t* m) { ttl_power_fail(m); }
 API int ttl_reboot(ttl_machine_t* m) { return ttl_power_on(m); }
 API const uint8_t* ttl_data(ttl_machine_t* m) { return m->cpu.ram; }
 API const uint8_t* ttl_image(ttl_machine_t* m) { return m->flash.bytes; }

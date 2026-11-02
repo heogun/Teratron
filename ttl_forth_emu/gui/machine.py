@@ -14,7 +14,6 @@ class Machine:
             "ttl_advance": (None, [C.c_void_p, C.c_uint64]),
             "ttl_scan": (None, [C.c_void_p, C.c_uint8]),
             "ttl_reboot": (C.c_int, [C.c_void_p]),
-            "ttl_signal_power_fail": (None, [C.c_void_p]),
             "ttl_data": (C.POINTER(C.c_uint8), [C.c_void_p]),
             "ttl_image": (C.POINTER(C.c_uint8), [C.c_void_p]),
             "ttl_pixels": (C.POINTER(C.c_uint8), [C.c_void_p]),
@@ -112,7 +111,6 @@ class Machine:
 
     def flash(self): return C.string_at(self.lib.ttl_image(self.handle), 524288)
     def pixels(self): return C.string_at(self.lib.ttl_pixels(self.handle), 640*480*4)
-    def power_fail(self): self.lib.ttl_signal_power_fail(self.handle)
     def reboot(self):
         if not self.lib.ttl_reboot(self.handle): raise RuntimeError("Flash is busy")
         self.run(524288)

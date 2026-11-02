@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <time.h>
 
 /* Instruction field extraction macros */
 #define INST_OP(ir)     (((ir) >> 13) & 0x07)
@@ -59,7 +58,7 @@ gigatron_config_t gigatron_default_config(void) {
     gigatron_config_t config = {
         .hz = GIGATRON_HZ,
         .rom_address_width = 16,
-        .ram_address_width = 15
+        .ram_address_width = 16
     };
     return config;
 }
@@ -71,12 +70,15 @@ bool gigatron_init(gigatron_t* cpu, const gigatron_config_t* config) {
     if (!cpu) return false;
     
     memset(cpu, 0, sizeof(gigatron_t));
+    const uint32_t rom_bits = config && config->rom_address_width ? config->rom_address_width : 16;
+    const uint32_t ram_bits = config && config->ram_address_width ? config->ram_address_width : 16;
+    if (rom_bits > 18 || ram_bits > 16) return false;
     
     /* Apply configuration */
     if (config) {
         cpu->hz = config->hz ? config->hz : GIGATRON_HZ;
-        cpu->rom_size = 1u << (config->rom_address_width ? config->rom_address_width : 16);
-        cpu->ram_size = 1u << (config->ram_address_width ? config->ram_address_width : 15);
+        cpu->rom_size = 1u << rom_bits;
+        cpu->ram_size = 1u << ram_bits;
     } else {
         cpu->hz = GIGATRON_HZ;
         cpu->rom_size = GIGATRON_ROM_SIZE;
@@ -93,18 +95,14 @@ bool gigatron_init(gigatron_t* cpu, const gigatron_config_t* config) {
     }
     
     /* Allocate RAM */
-    cpu->ram = (uint8_t*)malloc(cpu->ram_size);
+    cpu->ram = (uint8_t*)calloc(cpu->ram_size, 1);
     if (!cpu->ram) {
         free(cpu->rom);
         cpu->rom = NULL;
         return false;
     }
     
-    /* Randomize RAM (like real hardware) */
-    srand((unsigned int)time(NULL));
-    for (uint32_t i = 0; i < cpu->ram_size; i++) {
-        cpu->ram[i] = (uint8_t)(rand() & 0xFF);
-    }
+    /* Deterministic power-on policy; physical SRAM initial values are undefined. */
     
     /* Reset CPU state */
     gigatron_reset(cpu);
@@ -142,7 +140,7 @@ void gigatron_reset(gigatron_t* cpu) {
     cpu->y = 0;
     cpu->out = 0;
     cpu->outx = 0;
-    cpu->in_reg = 0xFF;     /* Active low - all buttons released */
+    cpu->in_reg = 0xFF;     /* Unconnected raw IN bus defaults high. */
     cpu->cycles = 0;
 }
 
@@ -324,6 +322,8 @@ static void exec_store_op(gigatron_t* cpu, uint8_t mode, uint8_t bus, uint8_t d)
  * Execute branch operation (OP 7)
  */
 static void exec_branch_op(gigatron_t* cpu, uint8_t mode, uint8_t bus, uint8_t d) {
+    /* Bus decoding is independent of the branch condition (including IN reads). */
+    const uint8_t offset = calc_offset(cpu, bus, d);
     const uint8_t ZERO = 0x80;
     bool condition;
     uint8_t ac = cpu->ac ^ ZERO;    /* Convert to signed comparison */
@@ -363,7 +363,6 @@ static void exec_branch_op(gigatron_t* cpu, uint8_t mode, uint8_t bus, uint8_t d
     
     /* Take branch if condition is true */
     if (condition) {
-        uint8_t offset = calc_offset(cpu, bus, d);
         cpu->next_pc = base | offset;
     }
 }

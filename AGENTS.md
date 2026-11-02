@@ -1,11 +1,12 @@
 # Workspace boundaries
 
 - There is no root build. `gigatron_emu/` is the stock C/C++ emulator; `ttl_forth_emu/` is the independent modified-machine hardware emulator (see its `AGENTS.md` and provisional interface in `README.md`). `gigatron_rom/` contains ROM assembly, applications, compilers, and independent contributed projects. Run commands in the indicated subtree.
-- `hardware_specification.md` specifies a **modified FORTH-native design**, not the stock machine implemented by the emulator/ROM sources. For hardware design, preserve its discrete 74HC/DIP-only constraint (no FPGA/PLD/MCU helpers), writable instruction RAM bootstrapped from flash, and pure-TTL PS/2 input instead of serial controller circuitry. Do not assume the reference schematics already implement these changes.
+- `hardware_specification.md` specifies a **modified FORTH-native design**, not the stock machine in `gigatron_emu/` and `gigatron_rom/`. For hardware design, preserve its discrete 74HC/DIP-only constraint (no FPGA/PLD/MCU helpers), writable instruction RAM bootstrapped from flash, and pure-TTL PS/2 input instead of serial controller circuitry. Do not assume the reference schematics already implement these changes.
 - `Gigatron Rev. 2012 OSH/` contains reference KiCad sources and fabrication outputs; the root PDFs are additional reference material.
 - The modified machine uses fixed **64KiB unbanked data RAM**; flash persists **I-RAM only**, not data RAM. These user-confirmed changes are reflected in `hardware_specification.md`.
+- Teratron's active implementation is `ttl_forth_emu/`; read its `AGENTS.md` first. It targets macOS only. Hardware/firmware saves only on explicit SAVE: no power-failure detector/auto-save; a power cut during SAVE is undefined. Preserve reference sources, circuits, and datasheets during cleanup.
 
-## Emulator
+## Stock Gigatron emulator (reference only)
 
 Commands below run from the workspace root:
 

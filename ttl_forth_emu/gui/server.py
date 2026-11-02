@@ -32,7 +32,7 @@ class Application:
     def state(self):
         state = self.machine.state()
         state.update(running=self.running, queued=len(self.queue), text=self.machine.transcript(),
-                     diag=self.machine.byte("diag"), saved=self.machine.byte("saved"))
+                     diag=self.machine.byte("diag"))
         # Downsample the actual VGA framebuffer, not the RAM text transcript.
         pixels = self.machine.pixels()
         small = bytearray()
@@ -51,7 +51,6 @@ class Application:
             self.running = False; self.machine.run(1)
         elif action == "reset":
             self.machine.reboot(); self.queue.clear()
-        elif action == "power": self.machine.power_fail()
         elif action == "input":
             text = request.get("text")
             if not isinstance(text, str) or len(text) > 126:

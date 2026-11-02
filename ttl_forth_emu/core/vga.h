@@ -43,7 +43,7 @@ typedef struct vga_t {
     /* Timing state */
     uint16_t row;           /* Current scanline */
     uint16_t col;           /* Current column (in Gigatron pixels, 4x horizontal) */
-    uint32_t pixel_index;   /* Current pixel index in framebuffer */
+    uint32_t pixel_index;   /* Byte position after the last coordinate-based pixel write */
     
     /* Previous OUT register value for edge detection */
     uint8_t prev_out;

@@ -9,6 +9,7 @@
 
 class FrontendController {
 public:
+    enum class CloseResult { Ready, Busy, Error };
     FrontendController();
     ~FrontendController();
     FrontendController(const FrontendController&) = delete;
@@ -16,6 +17,7 @@ public:
     bool load(const std::string& path);
     bool export_flash(const std::string& path);
     bool reset();
+    CloseResult prepare_close(const std::string& path, bool export_on_exit);
     bool text(const std::string& text, bool newline = false);
     void run(uint64_t ticks);
     void step();
@@ -29,6 +31,7 @@ public:
     uint16_t breakpoint_pc = 0;
     uint8_t breakpoint_bank = 0;
     size_t queued() const { return keys.size(); }
+    bool flash_dirty() const { return board->flash.generation != exported_generation; }
     std::string message;
     std::string console;
 private:
@@ -37,5 +40,6 @@ private:
     std::deque<uint8_t> keys;
     uint16_t observed = 0x4000;
     uint64_t next_key = 0;
+    uint64_t exported_generation = 0;
 };
 #endif

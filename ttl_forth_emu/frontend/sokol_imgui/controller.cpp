@@ -28,6 +28,7 @@ bool FrontendController::load(const std::string& path) {
     std::copy(data.begin(), data.end(), board->flash.bytes);
     loaded = true;
     if (!reset()) return false;
+    exported_generation = board->flash.generation;
     message = "Loaded " + path;
     return true;
 }
@@ -43,6 +44,7 @@ bool FrontendController::export_flash(const std::string& path) {
     if (std::fclose(f)) ok = false;
     if (ok && std::rename(temp.c_str(), path.c_str())) ok = false;
     if (!ok) std::remove(temp.c_str());
+    if (ok) exported_generation = board->flash.generation;
     message = ok ? "Exported current flash (run SAVE to persist I-RAM first): " + path
                  : "Flash export failed: " + path;
     return ok;
@@ -56,6 +58,11 @@ bool FrontendController::reset() {
     keys.clear(); console.clear(); observed = 0x4000; next_key = 0;
     message = "Power-on: flash -> I-RAM; data RAM cleared";
     return true;
+}
+FrontendController::CloseResult FrontendController::prepare_close(const std::string& path, bool export_on_exit) {
+    if (board->flash.remaining || (loaded && byte(TTL_FW_STATUS) == 4)) return CloseResult::Busy;
+    if (export_on_exit && flash_dirty() && !export_flash(path)) return CloseResult::Error;
+    return CloseResult::Ready;
 }
 bool FrontendController::text(const std::string& input, bool newline) {
     if (!loaded) { message = "Load an image first"; return false; }

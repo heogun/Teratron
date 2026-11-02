@@ -1,12 +1,6 @@
 /* Native desktop frontend. Rendering/input only: FORTH runs on ttl_machine. */
 #define SOKOL_IMPL
-#if defined(__APPLE__)
 #define SOKOL_METAL
-#elif defined(_WIN32)
-#define SOKOL_D3D11
-#else
-#define SOKOL_GLCORE
-#endif
 #include "sokol_app.h"
 #include "sokol_gfx.h"
 #include "sokol_audio.h"
@@ -23,6 +17,8 @@
 #include <cstring>
 #include <filesystem>
 #include <memory>
+#include <vector>
+#include <mach-o/dyld.h>
 
 static struct {
     std::unique_ptr<FrontendController> controller;
@@ -35,6 +31,8 @@ static struct {
     bool smoke = false;
     bool smoke_queued = false;
     bool smoke_ok = false;
+    bool export_on_exit = true;
+    bool quit_after_save = false;
     unsigned smoke_frames = 0;
     unsigned memory_address = 0;
     int memory_kind = 0;
@@ -51,8 +49,10 @@ static void draw_controls() {
     if (ImGui::Button(c.running ? "Pause (F5)" : "Run (F5)")) c.running = !c.running;
     ImGui::SameLine(); if (ImGui::Button("Step (F6)")) c.step();
     ImGui::SameLine(); if (ImGui::Button("Power on (F9)")) c.reset();
-    ImGui::SameLine(); if (ImGui::Button("Firmware SAVE")) c.text("SAVE", true);
-    ImGui::SameLine(); if (ImGui::Button("Power-fail signal (F10)")) ttl_power_fail(&m);
+    ImGui::SameLine();
+    ImGui::BeginDisabled(c.byte(TTL_FW_STATUS) != 2 || c.byte(TTL_FW_MODE) || c.byte(TTL_FW_INLEN) || c.queued());
+    if (ImGui::Button("Firmware SAVE")) c.text("SAVE", true);
+    ImGui::EndDisabled();
     ImGui::SameLine(); ImGui::Checkbox("Mute", &state.mute);
     ImGui::SetNextItemWidth(130); ImGui::SliderFloat("Speed", &state.speed, 0.25f, 8.0f, "%.2fx");
     ImGui::SameLine(); ImGui::Text("PS/2 queued: %zu | %s", c.queued(), m.booting ? "DMA boot" : "CPU executing");
@@ -62,6 +62,8 @@ static void draw_controls() {
     ImGui::SetNextItemWidth(std::max(180.0f, ImGui::GetContentRegionAvail().x - 105));
     ImGui::InputText("##export_path", state.export_path, sizeof(state.export_path));
     ImGui::SameLine(); if (ImGui::Button("Export flash")) c.export_flash(state.export_path);
+    ImGui::Checkbox("Export saved flash on normal exit", &state.export_on_exit);
+    ImGui::SameLine(); ImGui::TextDisabled("%s", c.flash_dirty() ? "Chip changed; image file needs update" : "Image file matches chip");
     ImGui::TextWrapped("%s", c.message.c_str());
     ImGui::TextDisabled("SAVE runs CPU firmware. Export downloads current flash only. Reset clears data RAM. Drop a .flash file to load.");
     if (c.loaded && c.byte(TTL_FW_STATUS) == 4)
@@ -105,7 +107,7 @@ static void draw_debugger() {
     const uint16_t ir = m.cpu.rom[(uint32_t)m.exec_bank * TTL_BANK_SIZE + m.cpu.pc];
     ImGui::Text("IR $%04X  OP %u MODE %u BUS %u D $%02X", ir, ir >> 13, (ir >> 10) & 7, (ir >> 8) & 3, ir & 255);
     ImGui::Text("Port bank %u address $%04X target %u", m.memory_bank, m.port_address, m.port_target);
-    ImGui::Text("PS/2 $%02X | Power-fail %u", m.key_status, (unsigned)m.power_fail);
+    ImGui::Text("PS/2 status $%02X", m.key_status);
     ImGui::Text("FW status %u error %u compile %u diag $%02X", c.byte(TTL_FW_STATUS), c.byte(TTL_FW_ERROR), c.byte(TTL_FW_MODE), c.byte(TTL_FW_DIAG));
     ImGui::Text("Dictionary head $%04X here $%04X", c.cell(TTL_FW_HEAD), c.cell(TTL_FW_HERE));
     ImGui::Separator();
@@ -184,6 +186,14 @@ static void frame() {
         state.fraction -= std::min<double>(state.fraction, (double)ticks);
         c.run(ticks);
     } else state.fraction = 0;
+    if (state.quit_after_save) {
+        const auto result = c.prepare_close(state.export_path, state.export_on_exit);
+        if (result != FrontendController::CloseResult::Busy) {
+            state.quit_after_save = false;
+            if (result == FrontendController::CloseResult::Ready) sapp_quit();
+            else c.running = false; /* Let the user correct the export path. */
+        }
+    }
     if (state.smoke) {
         ++state.smoke_frames;
         if (c.loaded && c.byte(TTL_FW_STATUS) == 2 && !state.smoke_queued) {
@@ -238,6 +248,16 @@ static void event(const sapp_event* ev) {
     simgui_handle_event(ev);
     if (!state.controller) return;
     auto& c = *state.controller;
+    if (ev->type == SAPP_EVENTTYPE_QUIT_REQUESTED && !state.smoke) {
+        const auto result = c.prepare_close(state.export_path, state.export_on_exit);
+        if (result == FrontendController::CloseResult::Busy) {
+            sapp_cancel_quit(); state.quit_after_save = true; c.running = true;
+            c.message = "Finishing explicit SAVE before closing (no automatic I-RAM save).";
+        } else if (result == FrontendController::CloseResult::Error) {
+            sapp_cancel_quit();
+        }
+        return;
+    }
     if (ev->type == SAPP_EVENTTYPE_FILES_DROPPED && sapp_get_num_dropped_files()) {
         const char* path = sapp_get_dropped_file_path(0);
         std::snprintf(state.image_path, sizeof(state.image_path), "%s", path); c.load(path);
@@ -247,7 +267,6 @@ static void event(const sapp_event* ev) {
         case SAPP_KEYCODE_F5: c.running = !c.running; return;
         case SAPP_KEYCODE_F6: c.step(); return;
         case SAPP_KEYCODE_F9: c.reset(); return;
-        case SAPP_KEYCODE_F10: ttl_power_fail(&c.machine()); return;
         default: break;
         }
     }
@@ -261,12 +280,27 @@ static void event(const sapp_event* ev) {
 }
 
 sapp_desc sokol_main(int argc, char** argv) {
-    std::filesystem::path image = std::filesystem::path(argv[0]).parent_path() / "firmware/forth.flash";
+    uint32_t size = 1024;
+    std::vector<char> executable(size);
+    if (_NSGetExecutablePath(executable.data(), &size)) {
+        executable.resize(size);
+        _NSGetExecutablePath(executable.data(), &size);
+    }
+    std::error_code error;
+    auto actual_path = std::filesystem::weakly_canonical(executable.data(), error);
+    if (error) actual_path = std::filesystem::absolute(argv[0]);
+    const auto directory = actual_path.parent_path();
+    const auto profile = directory / "machine.flash";
+    std::snprintf(state.export_path, sizeof(state.export_path), "%s", profile.string().c_str());
+    std::filesystem::path image = directory / "firmware/forth.flash";
     if (!std::filesystem::exists(image)) image = TTL_DEFAULT_FLASH;
+    bool explicit_image = false;
     for (int i = 1; i < argc; ++i) {
         if (!std::strcmp(argv[i], "--smoke-test")) state.smoke = true;
-        else image = argv[i];
+        else { image = argv[i]; explicit_image = true; }
     }
+    if (!state.smoke && !explicit_image && std::filesystem::exists(profile)) image = profile;
+    if (state.smoke) state.export_on_exit = false; /* Smoke tests must not touch a user profile. */
     std::snprintf(state.image_path, sizeof(state.image_path), "%s", image.string().c_str());
     sapp_desc desc = {}; desc.init_cb = init; desc.frame_cb = frame; desc.cleanup_cb = cleanup; desc.event_cb = event;
     desc.width = 1360; desc.height = 960; desc.window_title = "TTL FORTH - Native Emulator";

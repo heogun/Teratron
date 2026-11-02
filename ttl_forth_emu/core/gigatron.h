@@ -19,21 +19,11 @@ extern "C" {
 /* Default configuration */
 #define GIGATRON_HZ             6250000     /* 6.25 MHz clock */
 #define GIGATRON_ROM_SIZE       (1 << 16)   /* 64K x 16-bit ROM */
-#define GIGATRON_RAM_SIZE       (1 << 15)   /* 32K x 8-bit RAM */
+#define GIGATRON_RAM_SIZE       (1 << 16)   /* 64K x 8-bit data RAM */
 
 /* OUT register bit definitions */
 #define GIGATRON_OUT_HSYNC      0x40        /* Horizontal sync (active low) */
 #define GIGATRON_OUT_VSYNC      0x80        /* Vertical sync (active low) */
-
-/* Input button bit definitions (directly mapped to Famicom controller) */
-#define GIGATRON_BTN_RIGHT      0x01
-#define GIGATRON_BTN_LEFT       0x02
-#define GIGATRON_BTN_DOWN       0x04
-#define GIGATRON_BTN_UP         0x08
-#define GIGATRON_BTN_START      0x10
-#define GIGATRON_BTN_SELECT     0x20
-#define GIGATRON_BTN_B          0x40
-#define GIGATRON_BTN_A          0x80
 
 /**
  * Gigatron CPU state
@@ -60,7 +50,7 @@ typedef struct gigatron_t {
     uint8_t y;          /* Y register */
     uint8_t out;        /* Output register (active low HSYNC/VSYNC, 6-bit color) */
     uint8_t outx;       /* Extended output register (active low audio sample) */
-    uint8_t in_reg;     /* Input register (directly from controller, directly active low) */
+    uint8_t in_reg;     /* Raw fallback IN value; the board supplies a PS/2 read callback. */
     
     /* Cycle counter for timing */
     uint64_t cycles;
@@ -77,8 +67,8 @@ typedef struct gigatron_t {
  */
 typedef struct gigatron_config_t {
     uint32_t hz;                /* Clock frequency (default: 6250000) */
-    uint32_t rom_address_width; /* ROM address width in bits (default: 16) */
-    uint32_t ram_address_width; /* RAM address width in bits (default: 15) */
+    uint32_t rom_address_width; /* Instruction storage width (default: 16, maximum: 18) */
+    uint32_t ram_address_width; /* RAM address width in bits (default: 16, maximum: 16) */
 } gigatron_config_t;
 
 /**
@@ -100,7 +90,7 @@ void gigatron_shutdown(gigatron_t* cpu);
 
 /**
  * Reset CPU to power-on state.
- * Does not clear RAM (randomized on real hardware).
+ * Does not clear RAM (power-on contents on real hardware are undefined).
  */
 void gigatron_reset(gigatron_t* cpu);
 
@@ -128,7 +118,7 @@ size_t gigatron_load_rom(gigatron_t* cpu, const uint8_t* data, size_t size);
 bool gigatron_load_rom_file(gigatron_t* cpu, const char* filename);
 
 /**
- * Set input register value (directly, should be active low)
+ * Set fallback IN value; the board's read_input callback takes precedence.
  */
 static inline void gigatron_set_input(gigatron_t* cpu, uint8_t value) {
     cpu->in_reg = value;
@@ -164,7 +154,7 @@ static inline bool gigatron_vsync_active(gigatron_t* cpu) {
 
 /**
  * Get 6-bit color value from output register
- * Returns: RRGGBB (2 bits each)
+ * Returns: BBGGRR (2 bits each)
  */
 static inline uint8_t gigatron_get_color(gigatron_t* cpu) {
     return cpu->out & 0x3F;

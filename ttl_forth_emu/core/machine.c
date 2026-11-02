@@ -25,7 +25,7 @@ uint8_t ttl_read(ttl_machine_t* m, uint16_t a) {
     case TTL_WINDOW: return m->window;
     case TTL_KEY_DATA: return key_read(m);
     case TTL_KEY_STATUS: return m->key_status;
-    case TTL_POWER_STATUS: return m->power_fail;
+    case TTL_RESERVED_FF05: return 0;
     case TTL_FLASH_STATUS: return (m->flash.remaining ? 1 : 0) | (m->flash.error ? 2 : 0);
     case TTL_PORT_LO: return (uint8_t)m->port_address;
     case TTL_PORT_HI: return (uint8_t)(m->port_address >> 8);
@@ -52,7 +52,7 @@ void ttl_write(ttl_machine_t* m, uint16_t a, uint8_t v) {
     case TTL_KEY_STATUS:
         m->key_status &= (uint8_t)~(v & (TTL_KEY_FRAME_ERROR | TTL_KEY_OVERRUN));
         return;
-    case TTL_POWER_STATUS: return; /* Latched until the next power-on. */
+    case TTL_RESERVED_FF05: return;
     case TTL_FLASH_STATUS: if (v & 2) m->flash.error = false; return;
     case TTL_PORT_LO: m->port_address = (m->port_address & 0xff00) | v; return;
     case TTL_PORT_HI: m->port_address = (m->port_address & 0xff) | ((uint16_t)v << 8); return;
@@ -126,7 +126,6 @@ bool ttl_power_on(ttl_machine_t* m) {
     m->key_shift = 0;
     m->key_idle = 0;
     m->ps2_clock = true;
-    m->power_fail = false;
     m->flash.sequence = 0;
     m->flash.id_mode = false;
     m->flash.error = false;
@@ -162,6 +161,8 @@ void ttl_ps2_lines(ttl_machine_t* m, bool clock, bool data) {
     bool falling = m->ps2_clock && !clock;
     m->ps2_clock = clock;
     if (!falling) return;
+    /* Wait for an actual start bit; stray idle-high clocks must not desync us. */
+    if (!m->key_bits && data) return;
     m->key_idle = 0;
     if (!m->key_bits) m->key_shift = 0;
     m->key_shift |= (uint16_t)data << m->key_bits++;
@@ -189,35 +190,4 @@ void ttl_inject_scan(ttl_machine_t* m, uint8_t scan) {
         ttl_ps2_lines(m, false, bit);
     }
     ttl_ps2_lines(m, true, true);
-}
-
-void ttl_power_fail(ttl_machine_t* m) { m->power_fail = true; }
-
-static void unlock(ttl_flash_t* f, uint8_t command) {
-    flash_write(f, 0x5555, 0xaa);
-    flash_write(f, 0x2aaa, 0x55);
-    flash_write(f, 0x5555, command);
-}
-
-static void finish_flash(ttl_machine_t* m) {
-    while (m->flash.remaining) {
-        flash_tick(&m->flash);
-        ++m->ticks;
-    }
-}
-
-bool ttl_checkpoint(ttl_machine_t* m) {
-    if (m->booting || m->flash.remaining) return false;
-    flash_write(&m->flash, 0, 0xf0);
-    unlock(&m->flash, 0x80);
-    unlock(&m->flash, 0x10);
-    finish_flash(m);
-    for (uint32_t a = 0; a < TTL_MEMORY_SIZE; ++a) {
-        uint8_t v = iram_read(m, a);
-        if (v == 0xff) continue;
-        unlock(&m->flash, 0xa0);
-        flash_write(&m->flash, a, v);
-        finish_flash(m);
-    }
-    return !m->flash.error;
 }

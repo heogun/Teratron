@@ -18,6 +18,7 @@ typedef struct {
     bool id_mode, error, toggle;
     uint32_t remaining, address, length;
     uint8_t value;
+    uint64_t generation; /* Host persistence notification; not a hardware register. */
 } ttl_flash_t;
 void flash_init(ttl_flash_t* f);
 uint8_t flash_read(ttl_flash_t* f, uint32_t address);

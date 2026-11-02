@@ -10,7 +10,7 @@
 <nav>
 <button data-action="run">실행</button><button data-action="pause">일시정지</button>
 <button data-action="step">명령 1개</button><button data-action="reset">전원 재인가</button>
-<button id="save">펌웨어 SAVE</button><button data-action="power">전원 이상 신호</button>
+<button id="save">펌웨어 SAVE</button>
 <button id="export">플래시 내보내기</button>
 <label class="file">플래시 열기<input id="load" type="file" hidden></label>
 </nav>
@@ -39,6 +39,6 @@ $('command').onsubmit=e=>{e.preventDefault();let text=$('input').value;if(text){
 $('save').onclick=()=>action('input',{text:'SAVE'});
 $('export').onclick=async()=>{try{const r=await request('/api/flash');const url=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=url;a.download='forth.flash';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}catch(e){error(e)}};
 $('load').onchange=async()=>{try{const f=$('load').files[0];if(!f)return;if(f.size!==524288)throw Error('플래시는 정확히 512 KiB여야 합니다.');const bytes=new Uint8Array(await f.arrayBuffer());let raw='';for(let i=0;i<bytes.length;i+=16384)raw+=String.fromCharCode(...bytes.subarray(i,i+16384));await action('load',{image:btoa(raw)})}catch(e){error(e)}finally{$('load').value=''}};
-async function update(){try{const s=await(await request('/api/state')).json();$('state').textContent=`${s.running?'RUNNING':'PAUSED'}\nPC  $${s.pc.toString(16).padStart(4,'0')}    AC $${s.ac.toString(16).padStart(2,'0')}\nCPU cycles ${s.cycles.toLocaleString()}\nStatus ${s.status}   Error ${s.error}\nCompile mode ${s.mode}\nDiagnostics $${s.diag.toString(16)}\nPower-fail save ${s.saved?'done':'not triggered'}\nQueued PS/2 frames ${s.queued}`;$('stack').textContent=s.stack.map(x=>`${x} ($${x.toString(16).padStart(4,'0')})`).join('\n')||'(empty)';const t=$('terminal');if(t.textContent!==s.text){t.textContent=s.text;t.scrollTop=t.scrollHeight}const raw=atob(s.pixels),rgba=new Uint8ClampedArray(raw.length);for(let i=0;i<raw.length;i++)rgba[i]=raw.charCodeAt(i);context.putImageData(new ImageData(rgba,160,120),0,0);let memory='';for(let i=0;i<256;i+=16)memory+=i.toString(16).padStart(4,'0')+'  '+s.memory.slice(i*2,(i+16)*2).match(/../g).join(' ')+'\n';$('memory').textContent=memory}catch(e){error(e)}finally{setTimeout(update,100)}}
+async function update(){try{const s=await(await request('/api/state')).json();$('state').textContent=`${s.running?'RUNNING':'PAUSED'}\nPC  $${s.pc.toString(16).padStart(4,'0')}    AC $${s.ac.toString(16).padStart(2,'0')}\nCPU cycles ${s.cycles.toLocaleString()}\nStatus ${s.status}   Error ${s.error}\nCompile mode ${s.mode}\nDiagnostics $${s.diag.toString(16)}\nQueued PS/2 frames ${s.queued}`;$('stack').textContent=s.stack.map(x=>`${x} ($${x.toString(16).padStart(4,'0')})`).join('\n')||'(empty)';const t=$('terminal');if(t.textContent!==s.text){t.textContent=s.text;t.scrollTop=t.scrollHeight}const raw=atob(s.pixels),rgba=new Uint8ClampedArray(raw.length);for(let i=0;i<raw.length;i++)rgba[i]=raw.charCodeAt(i);context.putImageData(new ImageData(rgba,160,120),0,0);let memory='';for(let i=0;i<256;i+=16)memory+=i.toString(16).padStart(4,'0')+'  '+s.memory.slice(i*2,(i+16)*2).match(/../g).join(' ')+'\n';$('memory').textContent=memory}catch(e){error(e)}finally{setTimeout(update,100)}}
 update();
 </script></html>

@@ -51,16 +51,22 @@ Excluded Blocks: Serial controller ports and associated communication circuitry 
 
 ---
 
-4. Bootstrap & Power-Down Persistence Sequence
+4. Bootstrap & Explicit Persistence
 Boot-up (Load):
 
 Upon power-on, a hardware DMA/counter-based bootloader copies the contents of the SST39SF040 flash memory into the I-RAM.
 
 Once transferred, CPU reset is released, executing native FORTH code directly from I-RAM at full 6.25 MIPS speed.
 
-Power-down (Save):
+Explicit Save:
 
-Utilizes hold-up power capacitors or power-failure detection circuits to trigger a routine that backs up I-RAM, including runtime-compiled FORTH words, into the Flash memory storage, strictly observing the SST39SF040 Byte-Program algorithm and Software Data Protection (SDP) specs. Data RAM contents are discarded on power loss.
+Only the explicit FORTH `SAVE` command programs I-RAM, including runtime-compiled words, into Flash, observing the SST39SF040 erase, Byte-Program and Software Data Protection protocols. Data RAM is never saved.
+
+There is no power-failure detector, power-down interrupt, hold-up capacitor save circuit, or automatic shutdown save in the hardware/firmware. Without `SAVE`, sudden power loss leaves the previously stored Flash image unchanged; the next boot restores that image and discards volatile I-RAM/data RAM changes.
+
+Power loss during `SAVE` is **undefined and outside the supported contract**. Flash corruption, loss of the boot image, or physical device damage are not covered; no atomicity, recovery, or old-image preservation is guaranteed in that case.
+
+The simulator may write its already-programmed Flash array to a host image file at normal application exit. This is a host persistence feature, not automatic I-RAM-to-Flash programming and not a hardware requirement.
 
 ---
 
