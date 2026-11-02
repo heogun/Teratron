@@ -55,6 +55,8 @@ ttl_forth_emu/build/ttl_forth_emu --demo --cycles 20
 ## 문서
 
 - [에뮬레이션 범위·메모리맵·전원 모델·검증](docs/emulation.md): 코어 동작의 기준 문서.
+- [하드웨어 BOM 기준](docs/hardware_bom.md): Gigatron 재사용 범위, HC 구성과 부품 수량 배정.
+- [하드웨어 설계 상태](docs/hardware_design_status.md): 확정 결정, PS/2 보류, 남은 구조적 쟁점과 기능 모델의 차이.
 - [FORTH 펌웨어](firmware/README.md): 워드, 예제, RAM 배치, 컴파일 형식.
 - [네이티브 GUI](frontend/sokol_imgui/README.md): 단축키, 디버깅, 이미지 파일 관리.
 

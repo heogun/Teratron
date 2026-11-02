@@ -5,6 +5,8 @@
 - `Gigatron Rev. 2012 OSH/` contains reference KiCad sources and fabrication outputs; the root PDFs are additional reference material.
 - The modified machine uses fixed **64KiB unbanked data RAM**; flash persists **I-RAM only**, not data RAM. These user-confirmed changes are reflected in `hardware_specification.md`.
 - Teratron's active implementation is `ttl_forth_emu/`; read its `AGENTS.md` first. It targets macOS only. Hardware/firmware saves only on explicit SAVE: no power-failure detector/auto-save; a power cut during SAVE is undefined. Preserve reference sources, circuits, and datasheets during cleanup.
+- Hardware decisions are tracked in `ttl_forth_emu/docs/hardware_design_status.md` and `docs/hardware_bom.md` within that subtree. Hardware uses AS6C1008 data RAM (64KiB used), two AS6C4008 I-RAM chips and two SST39SF040 Flash chips (each pair 512K words x16 = 1MiB), and a shared 74HC161 bank register/counter with PC reuse at boot. The emulator still models 512KiB images; do not silently equate its provisional ports or DMA behavior with the finalized hardware decisions.
+- PS/2 component allocation is fixed but further discussion/model/passive-value selection is on hold: two 74HC595, one 74HC161, one shared 74HC14, existing glue gates, and two NPN transistors (inhibit/watchdog discharge). Distinguish chosen component budgets from unfinished electrical verification and remaining system architecture choices.
 
 ## Stock Gigatron emulator (reference only)
 
